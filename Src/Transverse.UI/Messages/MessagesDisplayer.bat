@@ -1,15 +1,8 @@
 @ECHO OFF
 
-
-REM Pour pouvoir utiliser les fonctions de ce source, 
-REM le code appelant(ou l'un ses appelants), devra avoir été encadré ainsi :
-REM  SETLOCAL ENABLEDELAYEDEXPANSION 
-REM     appels aux fonctionnalités du présent .bat ...
-REM  (ENDLOCAL
-REM  )
-REM 
-
 SET CURRENT_NAMESPACE=Transverse.UI.Messages
+SET CURRENT_SCRIPT_NAME_EXT=%~nx0
+
 
 
 
@@ -48,7 +41,7 @@ REM
         IF NOT DEFINED __TIMES__ SET __TIMES__=1
 		
 		REM ECHO.
-		REM ECHO ====== FUNC : WriteMessage - (%CURRENT_NAMESPACE%) ======
+		REM ECHO ====== FUNC : WriteMessage - '%CURRENT_SCRIPT_NAME_EXT%' - [ %CURRENT_NAMESPACE% ] ======
 		REM ECHO.
 		REM ECHO __MESSAGE__='%__MESSAGE__%'
         REM ECHO __TIMES__='%__TIMES__%'

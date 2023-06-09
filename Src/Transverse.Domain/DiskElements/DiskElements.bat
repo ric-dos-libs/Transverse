@@ -1,15 +1,8 @@
 @ECHO OFF
 
 
-REM Pour pouvoir utiliser les fonctions de ce source, 
-REM le code appelant(ou l'un ses appelants), devra avoir été encadré ainsi :
-REM  SETLOCAL ENABLEDELAYEDEXPANSION 
-REM     appels aux fonctionnalités du présent .bat ...
-REM  (ENDLOCAL
-REM  )
-REM 
-
 SET CURRENT_NAMESPACE=Transverse.Domain.DiskElements
+SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
 
 
 
@@ -46,6 +39,15 @@ REM
 				
 		SET __DISK_ELEMENT_FULLNAME_=%~1
 
+		
+		@REM ECHO.
+		@REM ECHO ====== FUNC : GetDiskElementExtension - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+		@REM ECHO __DISK_ELEMENT_FULLNAME_='%__DISK_ELEMENT_FULLNAME_%'
+		@REM ECHO.
+		@REM REM PAUSE
+		@REM ECHO. & ECHO.		
+
         @REM SET __DISK_ELEMENT_EXT_=%__DISK_ELEMENT_FULLNAME_:*.=%%
 		FOR %%F IN ("%__DISK_ELEMENT_FULLNAME_%") DO SET "__DISK_ELEMENT_EXT_=%%~xF"
 
@@ -53,18 +55,7 @@ REM
 		IF "%__DISK_ELEMENT_EXT_%x" NEQ "x" (
 			SET __DISK_ELEMENT_EXT_=%__DISK_ELEMENT_EXT_:.=%
 		)
-
-		
-		@REM ECHO.
-		@REM ECHO ====== FUNC : GetDiskElementExtension - (%CURRENT_NAMESPACE%) ======
-		@REM ECHO.
-		@REM ECHO __DISK_ELEMENT_FULLNAME_='%__DISK_ELEMENT_FULLNAME_%'
-		@REM ECHO.
-		@REM ECHO __DISK_ELEMENT_EXT_='%__DISK_ELEMENT_EXT_%'
-		@REM ECHO.
-		@REM REM PAUSE
-		@REM ECHO. & ECHO.
-		
+	
 		
 	(ENDLOCAL
 		SET %2=%__DISK_ELEMENT_EXT_%

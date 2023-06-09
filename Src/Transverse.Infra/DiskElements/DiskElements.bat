@@ -1,16 +1,9 @@
 @ECHO OFF
 
 
-REM Pour pouvoir utiliser les fonctions de ce source, 
-REM le code appelant(ou l'un ses appelants), devra avoir été encadré ainsi :
-REM  SETLOCAL ENABLEDELAYEDEXPANSION 
-REM     appels aux fonctionnalités du présent .bat ...
-REM  (ENDLOCAL
-REM  )
-REM 
-
 
 SET CURRENT_NAMESPACE=Transverse.Domain.Infra
+SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
 
 
 
@@ -240,7 +233,7 @@ GOTO :EOF
 @REM 			CALL :DeleteSymbolicLink "!__SYMBOLIC_LINK_TO_CREATE__!"
 
 @REM 			ECHO.
-@REM 			ECHO ====== FUNC : CreateSymbolicLinkToFolder - (%CURRENT_NAMESPACE%) ======
+@REM 			ECHO ====== FUNC : CreateSymbolicLinkToFolder - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
 @REM 			ECHO.
 @REM 			ECHO '__SYMBOLIC_LINK_TO_CREATE__'='%__SYMBOLIC_LINK_TO_CREATE__%'	
 @REM 			ECHO '__SYMBOLIC_LINK_POINTED_PATH__'='%__SYMBOLIC_LINK_POINTED_PATH__%'

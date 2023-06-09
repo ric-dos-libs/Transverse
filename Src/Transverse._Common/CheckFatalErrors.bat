@@ -1,15 +1,9 @@
 @ECHO OFF
 
 
-REM Pour pouvoir utiliser les fonctions de ce source, 
-REM le code appelant(ou l'un ses appelants), devra avoir été encadré ainsi :
-REM  SETLOCAL ENABLEDELAYEDEXPANSION 
-REM     appels aux fonctionnalités du présent .bat ...
-REM  (ENDLOCAL
-REM  )
-REM 
-
 SET CURRENT_NAMESPACE=Transverse._Common
+SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
+
 
 
 
@@ -45,7 +39,7 @@ REM
 		SET __VAR_NAME__=%~1
 
 		REM ECHO.
-		REM ECHO ====== FUNC : CheckVarExists - (%CURRENT_NAMESPACE%) ======
+		REM ECHO ====== FUNC : CheckVarExists - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
 		REM ECHO.
 		REM ECHO __VAR_NAME__='%__VAR_NAME__%'
 		REM ECHO.
@@ -76,7 +70,7 @@ REM
 		SET __ERROR_MESSAGE__=%~1
 
 		REM ECHO.
-		REM ECHO ====== FUNC : FatalError - (%CURRENT_NAMESPACE%) ======
+		REM ECHO ====== FUNC : FatalError - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
 		REM ECHO.
 		REM ECHO __ERROR_MESSAGE__='%__ERROR_MESSAGE__%'
 		REM ECHO.

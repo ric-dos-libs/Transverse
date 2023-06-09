@@ -1,18 +1,18 @@
 @ECHO OFF
 
 
-REM Pour pouvoir utiliser les fonctions de ce source, 
-REM le code appelant(ou l'un ses appelants), devra avoir été encadré ainsi :
-REM  SETLOCAL ENABLEDELAYEDEXPANSION 
-REM     appels aux fonctionnalités du présent .bat ...
-REM  (ENDLOCAL
-REM  )
-REM 
-
 SET CURRENT_NAMESPACE=Transverse.UI.Messages
+SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
 
 SET _CURRENT_SCRIPT_PATH_=%~dp0
-SET _MESSAGES_DISPLAYER_=%_CURRENT_SCRIPT_PATH_%MessagesDisplayer.bat
+
+
+SET TESTS_UI_COMMON_PATH=%_CURRENT_SCRIPT_PATH_%../_Common
+REM Recup. de SRC_UI_MESSAGES_PATH
+CALL "%TESTS_UI_COMMON_PATH%/_Pathes.bat"
+
+SET _MESSAGES_DISPLAYER_=%SRC_UI_MESSAGES_PATH%/MessagesDisplayer.bat
+
 
 
 REM ==================== FUNCTION CALL ====================================	
@@ -51,7 +51,7 @@ REM
 
 		
 		REM ECHO.
-		REM ECHO ====== FUNC : WriteEqualityResult - (%CURRENT_NAMESPACE%) ======
+		REM ECHO ====== FUNC : WriteEqualityResult - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
 		REM ECHO.
 		REM ECHO __VALUE__='%__VALUE__%'
         REM ECHO __EXPECTED_VALUE__='%__EXPECTED_VALUE__%'
@@ -60,8 +60,8 @@ REM
 		REM ECHO. & ECHO.
 
         
-        CALL "%_MESSAGES_DISPLAYER_%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
         CALL "%_MESSAGES_DISPLAYER_%" WriteMessage " Valeur attendue: '%__EXPECTED_VALUE__%'"
+        CALL "%_MESSAGES_DISPLAYER_%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
         CALL "%_MESSAGES_DISPLAYER_%" WriteMessage ""
 
         IF "%__VALUE__%." EQU "%__EXPECTED_VALUE__%." (
