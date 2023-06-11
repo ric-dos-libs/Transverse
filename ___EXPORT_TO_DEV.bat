@@ -1,0 +1,5 @@
+@ECHO OFF
+
+SET PACKAGE_TYPE=DEV
+
+CALL "./___EXPORT_TO.bat"

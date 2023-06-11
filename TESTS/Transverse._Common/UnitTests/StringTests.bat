@@ -63,6 +63,7 @@ REM
     CALL :RepeatString_WhenNbReplicateIs0_ShouldReturnAnEmptyString
     CALL :RepeatString_WhenNbReplicateIs1_ShouldReturnTheString
     CALL :RepeatString_WhenStringIsEmpty_ShouldReturnAnEmptyString
+    CALL :RepeatString_WhenStringIsSpace_ShouldReturnTheAppropriateString
 		
 	(ENDLOCAL
 	)
@@ -127,6 +128,22 @@ REM ======= RepeatString_WhenStringIsEmpty_ShouldReturnAnEmptyString =======
     SET SOURCE_STRING=
     SET EXPECTED_RESULT=
     SET NB_REPLICATE=10
+    CALL :RepeatString_Run_Test "%SOURCE_STRING%" "%NB_REPLICATE%" "%EXPECTED_RESULT%"
+
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+REM ======= RepeatString_WhenStringIsSpace_ShouldReturnTheAppropriateString =======
+:RepeatString_WhenStringIsSpace_ShouldReturnTheAppropriateString
+	SETLOCAL
+        
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- RepeatString_WhenStringIsSpace_ShouldReturnTheAppropriateString -"
+
+    SET SOURCE_STRING= 
+    SET EXPECTED_RESULT=    
+    SET NB_REPLICATE=4
     CALL :RepeatString_Run_Test "%SOURCE_STRING%" "%NB_REPLICATE%" "%EXPECTED_RESULT%"
 
 	(ENDLOCAL

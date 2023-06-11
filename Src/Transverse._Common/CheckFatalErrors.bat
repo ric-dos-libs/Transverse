@@ -11,6 +11,9 @@ REM ==================== FUNCTION CALL ====================================
 IF %1. EQU CheckVarExists. (
 	CALL :CheckVarExists %2
 	
+) ELSE IF %1. EQU FatalError. (
+	CALL :FatalError %2
+	
 )
 
 GOTO :EOF	
@@ -48,7 +51,7 @@ REM
 		REM ECHO. & ECHO.
 
 		IF NOT DEFINED %__VAR_NAME__% (
-        	ECHO.
+      ECHO.
 			CALL :FatalError "La var d'environnement %__VAR_NAME__% doit au prealable etre renseignee !"
 		)
 		

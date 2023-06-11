@@ -15,9 +15,6 @@ IF %1. EQU EmptyFolder. (
 ) ELSE IF %1. EQU DeleteFolder. (
 	CALL :DeleteFolder %2 %3
 	
-) ELSE IF %1. EQU DeleteFolderIfNotThisOne. (
-	CALL :DeleteFolderIfNotThisOne %2 %3 %4
-
 ) ELSE IF %1. EQU CopyFolder. (
 	CALL :CopyFolder %2 %3
 	
@@ -25,6 +22,11 @@ IF %1. EQU EmptyFolder. (
 	CALL :DeleteFile %2 %3 %4
 
 ) 
+
+@REM ELSE IF %1. EQU DeleteFolderIfNotThisOne. (
+@REM 	CALL :DeleteFolderIfNotThisOne %2 %3 %4
+@REM )
+
 @REM ELSE IF %1. EQU CreateSymbolicLinkToFolder. (
 @REM 	CALL :CreateSymbolicLinkToFolder %2 %3
 @REM )
@@ -103,47 +105,47 @@ GOTO :EOF
 
 
 
-REM ======= Fonction qui : =======
-REM   supprimera le dossier %2  si :  %1 <> %2. (Case sensitive)
-REM
-REM PARAM. %1 : chemin+nom du dossier a conserver
-REM PARAM. %2 : chemin+nom du dossier à comparer à %1
-REM PARAM. %3 : 0 si l'on ne souhaite pas de pause avec message d'avertissement, avant suppression, 1 sinon.
-REM
-:DeleteFolderIfNotThisOne
-	SETLOCAL
+@REM REM ======= Fonction qui : =======
+@REM REM   supprimera le dossier %2  si :  %1 <> %2. (Case sensitive)
+@REM REM
+@REM REM PARAM. %1 : chemin+nom du dossier a conserver
+@REM REM PARAM. %2 : chemin+nom du dossier à comparer à %1
+@REM REM PARAM. %3 : 0 si l'on ne souhaite pas de pause avec message d'avertissement, avant suppression, 1 sinon.
+@REM REM
+@REM :DeleteFolderIfNotThisOne
+@REM 	SETLOCAL
 	
-		SET __FOLDER_TO_KEEP__=%~1
-		SET __FOLDER_TO_DELETE_IF_DIFFERENT__=%~2
-		SET __PROMPT_BEFORE_DELETE__=%~3
+@REM 		SET __FOLDER_TO_KEEP__=%~1
+@REM 		SET __FOLDER_TO_DELETE_IF_DIFFERENT__=%~2
+@REM 		SET __PROMPT_BEFORE_DELETE__=%~3
 		
 		
-		SET __DELETE__=NO
-		IF "!__FOLDER_TO_KEEP__!" NEQ "!__FOLDER_TO_DELETE_IF_DIFFERENT__!" (
-			SET __DELETE__=YES
-		)
+@REM 		SET __DELETE__=NO
+@REM 		IF "!__FOLDER_TO_KEEP__!" NEQ "!__FOLDER_TO_DELETE_IF_DIFFERENT__!" (
+@REM 			SET __DELETE__=YES
+@REM 		)
 	
 		
-		ECHO. & ECHO.
-		ECHO ====== FUNC : DeleteFolderIfNotThisOne - (%CURRENT_NAMESPACE%) ======
-		ECHO.
-		ECHO __FOLDER_TO_KEEP__=%__FOLDER_TO_KEEP__%
-		ECHO __FOLDER_TO_DELETE_IF_DIFFERENT__=%__FOLDER_TO_DELETE_IF_DIFFERENT__%
-		ECHO __PROMPT_BEFORE_DELETE__=%__PROMPT_BEFORE_DELETE__%
-		ECHO.
-		ECHO __DELETE__=%__DELETE__%
-		ECHO. & ECHO.
-		REM PAUSE & ECHO. & ECHO.
+@REM 		ECHO. & ECHO.
+@REM 		ECHO ====== FUNC : DeleteFolderIfNotThisOne - (%CURRENT_NAMESPACE%) ======
+@REM 		ECHO.
+@REM 		ECHO __FOLDER_TO_KEEP__=%__FOLDER_TO_KEEP__%
+@REM 		ECHO __FOLDER_TO_DELETE_IF_DIFFERENT__=%__FOLDER_TO_DELETE_IF_DIFFERENT__%
+@REM 		ECHO __PROMPT_BEFORE_DELETE__=%__PROMPT_BEFORE_DELETE__%
+@REM 		ECHO.
+@REM 		ECHO __DELETE__=%__DELETE__%
+@REM 		ECHO. & ECHO.
+@REM 		REM PAUSE & ECHO. & ECHO.
 		
-		IF "!__DELETE__!" EQU "YES" (
-			CALL :DeleteFolder "!__FOLDER_TO_DELETE_IF_DIFFERENT__!" "!__PROMPT_BEFORE_DELETE__!"
-		)
+@REM 		IF "!__DELETE__!" EQU "YES" (
+@REM 			CALL :DeleteFolder "!__FOLDER_TO_DELETE_IF_DIFFERENT__!" "!__PROMPT_BEFORE_DELETE__!"
+@REM 		)
 
 	
-	(ENDLOCAL
+@REM 	(ENDLOCAL
 		
-	)
-GOTO :EOF
+@REM 	)
+@REM GOTO :EOF
 	
 	
 	
