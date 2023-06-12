@@ -3,15 +3,24 @@
 
 SET CURRENT_NAMESPACE=Transverse._Common
 SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
+SET _$_CURRENT_SCRIPT_PATH_$_=%~dp0
 
 
 @REM ATTENTION: certaines fonctions
 @REM             (comme : RepeatString),
 @REM            necessiteront que le present .bat soit invoque
 @REM            depuis un bloc :
-@REM            SETLOCAL ENABLEDELAYEDEXPANSION
-@REM              rem Appel ici...
-@REM            ENDLOCAL
+@REM              SETLOCAL ENABLEDELAYEDEXPANSION
+@REM                rem Appel ici...
+@REM              ENDLOCAL
+
+
+REM Pour Recup. : TRUE, FALSE.
+SET SRC_COMMON_PATH=%_$_CURRENT_SCRIPT_PATH_$_%
+SET SRC_COMMON_CONSTANTS_SCRIPT=%SRC_COMMON_PATH%/Constants.bat
+CALL "%SRC_COMMON_CONSTANTS_SCRIPT%"
+SET SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT=%SRC_COMMON_PATH%/CheckFatalErrors.bat
+
 
 
 
@@ -43,6 +52,12 @@ IF %1. EQU ReplaceSubString. (
 
 ) ELSE IF %1. EQU WithoutSpace. (
 	CALL :WithoutSpace %2 %3
+
+) ELSE IF %1. EQU ContainsSubString. (
+	CALL :ContainsSubString %2 %3 %4
+
+) ELSE IF %1. EQU EndsWith. (
+	CALL :EndsWith %2 %3 %4 %5
 
 )
 
@@ -209,19 +224,11 @@ REM ======= Fonction chargee de retourner une copie de la var %1  =======
 REM 		Mais dans laquelle : les eventuelles sous-chaines valant %2
 REM         seront remplacees par la chaine %3.
 REM
-REM  ATTENTION : . SI L'ON SOUHAITE RETIRER UNE SOUS-CHAINE, NE PAS UTILISER un %3 valant vide
+REM  ATTENTION : . SI L'ON SOUHAITE RETIRER UNE SOUS-CHAINE, NE PAS UTILISER un %3 valant vide ("")
 REM                MAIS, A LA PLACE UTILISER LA FONCTION RemoveSubString. Car ici, si %3 vaut vide
 REM                alors on retourne %1, c'est comme ça car %4 (donc qui doit suivre %3) est la valeur de retour.
 REM
 REM              . REMPLACEMENT INSENSIBLE A LA CASSE !
-REM
-REM              . NE POURRA PAS FONCTIONNER POUR TOUS LES TYPES DE CARACTERES, certains caracteres 
-REM                seront fort probablement des caracteres specifiques qui feront planter "la formule de remplacement".
-REM                Par exemple : 
-REM                              . le remplacement de GUILLEMETS, ou de POINT D'EXCLAM.
-REM                                   N'EST PAS GERE !!
-REM                              . le remplacement PAR des GUILLEMETS, ou POINT D'EXCLAM.
-REM                                   N'EST PAS GERE !!
 REM
 REM PARAM. %1 : chaine source
 REM PARAM. %2 : sous-chaine a remplacer
@@ -238,15 +245,15 @@ REM
     SET __REPLACING_STRING__=%~3
         
         
-		ECHO.
-		ECHO ====== FUNC : ReplaceSubString - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
-		ECHO.
-		ECHO __SOURCE_STRING__='%__SOURCE_STRING__%'
-    ECHO __SOURCE_SUBSTRING_TO_REPLACE__='%__SOURCE_SUBSTRING_TO_REPLACE__%'
-		ECHO __REPLACING_STRING__='%__REPLACING_STRING__%'
-		ECHO.
-		PAUSE
-		ECHO. & ECHO.
+		@REM ECHO.
+		@REM ECHO ====== FUNC : ReplaceSubString - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+		@REM ECHO __SOURCE_STRING__='%__SOURCE_STRING__%'
+    @REM ECHO __SOURCE_SUBSTRING_TO_REPLACE__='%__SOURCE_SUBSTRING_TO_REPLACE__%'
+		@REM ECHO __REPLACING_STRING__='%__REPLACING_STRING__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
 
     IF "%__SOURCE_STRING__%." EQU "." (
       SET __RESULT__=
@@ -268,8 +275,8 @@ REM
 
     :MY_FUNCTION_END
 
-    ECHO __RESULT__='%__RESULT__%'
-    ECHO.
+    @REM ECHO __RESULT__='%__RESULT__%'
+    @REM ECHO.
 
 	(ENDLOCAL
 		SET %4=%__RESULT__%
@@ -408,7 +415,17 @@ REM
       @REM PAUSE
       @REM ECHO. & ECHO.    
 
-      SET __RESULT__=!__SOURCE_STRING__:%__SUBSTRING_TO_REMOVE__%=!
+      IF "%__SUBSTRING_TO_REMOVE__%." EQU "." (
+        SET __RESULT__=%__SOURCE_STRING__%
+
+      ) ELSE (
+        IF "%__SOURCE_STRING__%." EQU "." (
+          SET __RESULT__=
+        ) ELSE (
+          SET __RESULT__=!__SOURCE_STRING__:%__SUBSTRING_TO_REMOVE__%=!
+        )
+
+      )
 
       @REM ECHO __RESULT__='%__RESULT__%'
       @REM ECHO.          
@@ -447,5 +464,130 @@ REM
 
     (ENDLOCAL
       SET %2=%__RESULT__%
+    )
+GOTO :EOF
+
+
+
+REM ======= Fonction chargee de retourner %TRUE% si la sous-chaine %2 est incluse dans la chaine %1, =======
+REM         sinon elle retourne %FALSE%.
+REM
+REM        ATTENTION: RECHERCHE INSENSIBLE A LA CASSE.
+REM
+REM PARAM. %1 : chaine
+REM PARAM. %2 : sous-chaine recherchee
+REM PARAM. %3 : resultat retourne par reference : %TRUE% ou %FALSE%
+REM
+REM RETURNS : par référence, le PARAM %3.
+REM
+:ContainsSubString
+    SETLOCAL ENABLEDELAYEDEXPANSION
+
+      SET __STRING__=%~1
+      SET __SUBSTRING__=%~2
+          
+      @REM ECHO.
+      @REM ECHO ====== FUNC : ContainsSubString - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+      @REM ECHO.
+      @REM ECHO __STRING__='%__STRING__%'
+      @REM ECHO __SUBSTRING__='%__SUBSTRING__%'
+      @REM ECHO.
+      @REM PAUSE
+      @REM ECHO. & ECHO.    
+
+      SET __RESULT__=%FALSE%
+
+      IF "%__STRING__%." EQU "." GOTO DONE
+      IF "%__SUBSTRING__%." EQU "." GOTO DONE
+      
+      SET __STRING_WITHOUT_SUBSTRING__=!__STRING__:%__SUBSTRING__%=!
+      IF "%__STRING__%" EQU "%__STRING_WITHOUT_SUBSTRING__%" (
+        SET __RESULT__=%FALSE%
+      ) ELSE (
+        SET __RESULT__=%TRUE%
+      )
+
+      :DONE
+      @REM ECHO __RESULT__='%__RESULT__%'
+      @REM ECHO.          
+
+    (ENDLOCAL
+      SET %3=%__RESULT__%
+    )
+GOTO :EOF
+
+
+REM ======= Fonction chargee de retourner une chaine a partir de %1 :
+REM         . Si %1 se termine par %2, et que %3 vaut %TRUE%, alors ok on retourne juste %1
+REM         . Si %1 ne se termine pas par %2, et que %3 vaut %TRUE%, alors on retourne %1%2
+REM         . Si %1 se termine par %2, et que %3 vaut %FALSE%, alors on retourne %1 sans sa terminaison %2
+REM         . Si %1 ne se termine pas par %2, et que %3 vaut %FALSE%, alors ok on retourne juste %1
+REM
+REM        ATTENTION: SENSIBLE A LA CASSE.
+REM
+REM PARAM. %1 : chaine
+REM PARAM. %2 : sous-chaine de terminaison
+REM PARAM. %3 : %TRUE% si l'on veut un resultat avec la terminaison %2
+REM             %FALSE% si l'on veut ne veut pas un resultat avec la terminaison %2
+REM PARAM. %4 : resultat retourne par reference
+REM
+REM RETURNS : par référence, le PARAM %4.
+REM
+:EndsWith
+    SETLOCAL ENABLEDELAYEDEXPANSION
+
+      SET __STRING__=%~1
+      SET __ENDING_SUBSTRING__=%~2
+      SET __WITH_ENDING_SUBSTRING__=%~3
+          
+      @REM ECHO.
+      @REM ECHO ====== FUNC : EndsWith - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+      @REM ECHO.
+      @REM ECHO __STRING__='%__STRING__%'
+      @REM ECHO __ENDING_SUBSTRING__='%__ENDING_SUBSTRING__%'
+      @REM ECHO __WITH_ENDING_SUBSTRING__='%__WITH_ENDING_SUBSTRING__%'
+      @REM ECHO.
+      @REM PAUSE
+      @REM ECHO. & ECHO.
+
+      CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckValueAmong "%__WITH_ENDING_SUBSTRING__%" "%TRUE%" "%FALSE%"
+      
+
+      SET __ENDING_SUBSTRING_LENGTH__=
+      CALL :GetStringLength "%__ENDING_SUBSTRING__%" __ENDING_SUBSTRING_LENGTH__
+      @REM ECHO __ENDING_SUBSTRING_LENGTH__=%__ENDING_SUBSTRING_LENGTH__%
+
+      REM Recup. des __ENDING_SUBSTRING_LENGTH__ derniers caracteres de : __STRING__
+      SET __STRING_ENDING__=!__STRING__:~-%__ENDING_SUBSTRING_LENGTH__%!
+      @REM ECHO __STRING_ENDING__='%__STRING_ENDING__%'
+
+
+      IF "%__STRING_ENDING__%" EQU "%__ENDING_SUBSTRING__%" (
+        IF "%__WITH_ENDING_SUBSTRING__%" EQU "%TRUE%" (
+          GOTO RETURN_STRING
+        ) ELSE (
+          SET __RESULT__=!__STRING__:~0,-%__ENDING_SUBSTRING_LENGTH__%!
+          GOTO DONE
+        )
+
+      ) ELSE (
+        IF "%__WITH_ENDING_SUBSTRING__%" EQU "%TRUE%" (
+          SET __RESULT__=%__STRING__%%__ENDING_SUBSTRING__%
+          GOTO DONE
+        ) ELSE (
+          GOTO RETURN_STRING  
+        )
+
+      )
+
+      :RETURN_STRING
+      SET __RESULT__=%__STRING__%
+
+      :DONE
+      @REM ECHO __RESULT__='%__RESULT__%'
+      @REM ECHO.          
+
+    (ENDLOCAL
+      SET %4=%__RESULT__%
     )
 GOTO :EOF

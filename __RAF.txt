@@ -2,4 +2,4 @@
 
 - Ecrire les TU de .\Src\Transverse.Infra\DiskElements\DiskElements.bat
   (s'inspirer GRANDEMENT de ceux écrits pour .\Src\Transverse.Domain\DiskElements.bat )
-  Ecrire ces TU avant que DiskElements.bat soit utilisé !
+  Ecrire ces TU avant que ces FUNCTIONS de DiskElements.bat soient utilisées !
