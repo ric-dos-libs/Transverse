@@ -1,36 +1,49 @@
 @ECHO OFF
 
+SET MESSAGES_DISPLAYER=%~1
+SET TESTING_LIB=%~2
+
+
 SET CURRENT_SCRIPT_PATH=%~dp0
 
+
+SET TESTS_COMMON_PATH=%CURRENT_SCRIPT_PATH%Transverse._Common
 SET TESTS_DOMAIN_PATH=%CURRENT_SCRIPT_PATH%Transverse.Domain
-SET TESTS_UI_PATH=%CURRENT_SCRIPT_PATH%Transverse.UI
-
-SET TESTS_UI_COMMON_PATH=%TESTS_UI_PATH%/_Common
-SET TESTS_UI_MESSAGES_PATH=%TESTS_UI_PATH%/Messages
-
-REM Recup. de SRC_UI_MESSAGES_PATH et TESTS_COMMON_PATH
-CALL "%TESTS_UI_COMMON_PATH%/_Pathes.bat"
-
-
-
-REM -------------- Choix des implementations pour l'affichage ----------------
-SET MESSAGES_DISPLAYER=%SRC_UI_MESSAGES_PATH%/MessagesDisplayer.bat
-
-SET TESTS_RESULT_DISPLAYER=%TESTS_UI_MESSAGES_PATH%/TestsResultDisplayer.bat
-SET MESSAGE_LABELS_SCRIPT=%TESTS_UI_MESSAGES_PATH%/MessagesLabel_FR.bat
-
-
-REM ------------ Init. vars d'env. pour les messages affichables --------------
-REM .
-CALL "%MESSAGE_LABELS_SCRIPT%"
+SET TESTS_INFRA_PATH=%CURRENT_SCRIPT_PATH%Transverse.Infra
 
 
 
 
-REM ============ RUN TESTS ==========================
+REM Recup. de SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT
+CALL "%TESTS_COMMON_PATH%/_Pathes.bat"
 
-CALL "%TESTS_COMMON_PATH%/_Run_UnitTests.bat"
-PAUSE
+REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_LIB% doivent avoir ete precises ! *****
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists MESSAGES_DISPLAYER
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists TESTING_LIB
 
-CALL "%TESTS_DOMAIN_PATH%/_Run_UnitTests.bat"
-PAUSE
+
+
+
+
+REM --------------------- Choix de l'afficheur de résultats de tests -------------------------
+REM                  Notre adaptateur fait en effet très bien l'affaire, 
+REM                vues les functions comme AssertAreEqual, qu'il expose.
+SET TESTING_TOOL=%TESTING_LIB%
+
+
+
+
+
+
+REM ============ RUN des TESTS ==========================
+
+  Rem ------ Unit TESTS ------
+  @REM CALL "%TESTS_COMMON_PATH%/_Run_UnitTests.bat"
+  @REM PAUSE
+
+  CALL "%TESTS_DOMAIN_PATH%/_Run_UnitTests.bat"
+  PAUSE
+
+  @REM CALL "%TESTS_INFRA_PATH%/_Run_UnitTests.bat"
+  @REM PAUSE
+

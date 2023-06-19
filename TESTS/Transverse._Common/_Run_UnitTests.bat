@@ -1,21 +1,19 @@
 @ECHO OFF
 
-SET CURRENT_SCRIPT_PATH=%~dp0
-SET TESTS_COMMON_PATH=%CURRENT_SCRIPT_PATH%
-
-SET UNIT_TESTS_SUBPATH=UnitTests
-SET STRING_UNIT_TESTS_PATH=%CURRENT_SCRIPT_PATH%/%UNIT_TESTS_SUBPATH%
+SET $_$CURRENT_SCRIPT_PATH$_$=%~dp0
+SET TESTS_COMMON_PATH=%$_$CURRENT_SCRIPT_PATH$_$%
 
 
 
-REM ------------------- VERIFS ----------------------------------------
 
-REM Recup. de SRC_COMMON_PATH
+REM ------------------------------------------------------------------------------------
+REM Recup. de UNIT_TESTS_SUBPATH
 CALL "%TESTS_COMMON_PATH%/_Pathes.bat"
 
-REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTS_RESULT_DISPLAYER% doivent avoir ete precises en amont ! *****
-CALL "%SRC_COMMON_PATH%/CheckFatalErrors.bat" CheckVarExists MESSAGES_DISPLAYER
-CALL "%SRC_COMMON_PATH%/CheckFatalErrors.bat" CheckVarExists TESTS_RESULT_DISPLAYER
+
+
+REM ----------------------------- CHEMINS où Tester --------------------------------------
+SET STRING_UNIT_TESTS_PATH=%$_$CURRENT_SCRIPT_PATH$_$%/%UNIT_TESTS_SUBPATH%
 
 
 

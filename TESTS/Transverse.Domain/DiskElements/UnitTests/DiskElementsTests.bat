@@ -7,12 +7,13 @@ SET TESTS_DOMAIN_COMMON_PATH=%CURRENT_SCRIPT_PATH%../../_Common
 
 REM ------------------- VERIFS ----------------------------------------
 
-REM Recup. de SRC_COMMON_PATH et SRC_DOMAIN_PATH
+REM Recup. de SRC_DOMAIN_PATH
+REM et SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT
 CALL "%TESTS_DOMAIN_COMMON_PATH%/_Pathes.bat"
 
-REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTS_RESULT_DISPLAYER% doivent avoir ete precises en amont ! *****
-CALL "%SRC_COMMON_PATH%/CheckFatalErrors.bat" CheckVarExists MESSAGES_DISPLAYER
-CALL "%SRC_COMMON_PATH%/CheckFatalErrors.bat" CheckVarExists TESTS_RESULT_DISPLAYER
+REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_TOOL% doivent avoir ete precises en amont ! *****
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists MESSAGES_DISPLAYER
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists TESTING_TOOL
 
 
 
@@ -147,7 +148,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" GetDiskElementExtension "%__DISK_ELEMENT_FULLNAME__%" __RESULT__
 
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 
   (ENDLOCAL
   )

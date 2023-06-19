@@ -5,19 +5,16 @@ SET CURRENT_SCRIPT_PATH=%~dp0
 SET TESTS_COMMON_PATH=%CURRENT_SCRIPT_PATH%..
 
 
-
-
-
 REM ------------------- VERIFS ----------------------------------------
 
-REM Recup. de SRC_COMMON_PATH
+REM Recup. de SRC_COMMON_PATH 
+REM et SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT, SRC_COMMON_CONSTANTS_SCRIPT
 CALL "%TESTS_COMMON_PATH%/_Pathes.bat"
 
-REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTS_RESULT_DISPLAYER% doivent avoir ete precises en amont ! *****
-CALL "%SRC_COMMON_PATH%/CheckFatalErrors.bat" CheckVarExists MESSAGES_DISPLAYER
-CALL "%SRC_COMMON_PATH%/CheckFatalErrors.bat" CheckVarExists TESTS_RESULT_DISPLAYER
+REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_TOOL% doivent avoir ete precises en amont ! *****
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists MESSAGES_DISPLAYER
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists TESTING_TOOL
 
-SET SRC_COMMON_CONSTANTS_SCRIPT=%SRC_COMMON_PATH%/Constants.bat
 CALL "%SRC_COMMON_CONSTANTS_SCRIPT%"
 
 
@@ -193,7 +190,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" RepeatString "%__SOURCE_STRING__%" "%__NB_REPLICATE__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -457,7 +454,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" ReplaceSubString "%__SOURCE_STRING__%" "%__SOURCE_SUBSTRING_TO_REPLACE__%" "%__REPLACING_STRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -544,7 +541,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" SlashToBackSlash "%__SOURCE_STRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -631,7 +628,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" BackSlashToSlash "%__SOURCE_STRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -717,7 +714,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" PointToSlash "%__SOURCE_STRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -853,7 +850,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" GetStringLength "%__STRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -1040,7 +1037,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" PadLeft "%__STRING__%" "%__FILL_CHAR__%" "%__FINAL_LENGTH__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -1182,7 +1179,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" RemoveSubString "%__STRING__%" "%__SUBSTRING_TO_REMOVE__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -1283,7 +1280,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" WithoutSpace "%__STRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -1427,7 +1424,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" ContainsSubString "%__STRING__%" "%__SUBSTRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)
@@ -1662,7 +1659,7 @@ REM
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" EndsWith "%__STRING__%" "%__ENDING_SUBSTRING__%" "%__WITH_ENDING_SUBSTRING__%" __RESULT__
     
-    CALL "%TESTS_RESULT_DISPLAYER%" WriteEqualityResult "%__RESULT__%" "%__EXPECTED_RESULT__%"
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 		
 	(ENDLOCAL
 	)

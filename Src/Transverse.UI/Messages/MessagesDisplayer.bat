@@ -36,9 +36,9 @@ REM
 	SETLOCAL
 				
 		SET __MESSAGE__=%~1
-        SET __TIMES__=%~2
+    SET __TIMES__=%~2
 
-        IF NOT DEFINED __TIMES__ SET __TIMES__=1
+    IF NOT DEFINED __TIMES__ SET __TIMES__=1
 		
 		REM ECHO.
 		REM ECHO ====== FUNC : WriteMessage - '%CURRENT_SCRIPT_NAME_EXT%' - [ %CURRENT_NAMESPACE% ] ======
@@ -49,19 +49,19 @@ REM
 		REM PAUSE
 		REM ECHO. & ECHO.
 
-        REM Boucle FOR :
-        SET iDeb=1
-        SET iFin=%__TIMES__%
-        SET iStep=1
-        FOR /l %%i IN (%iDeb%,%iStep%,%iFin%) DO (
+    REM Boucle FOR :
+    SET iDeb=1
+    SET iFin=%__TIMES__%
+    SET iStep=1
+    FOR /l %%i IN (%iDeb%,%iStep%,%iFin%) DO (
 
-            IF NOT DEFINED __MESSAGE__ (
-                ECHO.
-            ) ELSE (
-                ECHO %__MESSAGE__%
-            )
+        IF NOT DEFINED __MESSAGE__ (
+            ECHO.
+        ) ELSE (
+            ECHO %__MESSAGE__%
+        )
 
-        )        
+    )        
 
 	(ENDLOCAL
 	)

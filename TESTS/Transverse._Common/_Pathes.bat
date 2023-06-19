@@ -2,5 +2,16 @@
 
 SET CURRENT_SCRIPT_PATH=%~dp0
 
+SET UNIT_TESTS_SUBPATH=UnitTests
+
+
+
+
+REM ------------------------- SRC ----------------------------------
 SET SRC_PATH=%CURRENT_SCRIPT_PATH%../../Src
+
 SET SRC_COMMON_PATH=%SRC_PATH%/Transverse._Common
+
+
+SET SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT=%SRC_COMMON_PATH%/CheckFatalErrors.bat
+SET SRC_COMMON_CONSTANTS_SCRIPT=%SRC_COMMON_PATH%/Constants.bat
