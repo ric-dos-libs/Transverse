@@ -46,6 +46,15 @@ IF %1. EQU Equality. (
   Rem --- Appel du UseCase ---
   CALL "%TESTING_LIB_APPLICATION_USE_CASES_PATH%/IsBetweenAssertionResultDisplayUseCase.bat" "!__TESTING_LIB_DOMAIN_LANG_ID__!" %3 %4 %5
 
+
+) ELSE IF %1. EQU NoEquality. (
+  Rem %2 :  Lang. Id
+  Rem %3 et %4 : valeurs à comparer (%3: obtenu ; %4: non attendu)
+
+  Rem --- Appel du UseCase ---
+  CALL "%TESTING_LIB_APPLICATION_USE_CASES_PATH%/NoEqualityAssertionResultDisplayUseCase.bat" "!__TESTING_LIB_DOMAIN_LANG_ID__!" %3 %4
+
+
 )
 
 GOTO :EOF

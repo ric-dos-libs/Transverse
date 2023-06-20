@@ -29,6 +29,10 @@ IF %1. EQU EqualityAssertionResult. (
 	
 ) ELSE IF %1. EQU IsBetweenAssertionResult. (
   CALL :IsBetweenAssertionResult %2 %3 %4 %5 %6
+
+) ELSE IF %1. EQU NoEqualityAssertionResult. (
+	CALL :NoEqualityAssertionResult %2 %3 %4 %5
+	
 )
 
 GOTO :EOF	
@@ -125,6 +129,47 @@ REM
 	(ENDLOCAL
 	)
 GOTO :EOF
+
+
+REM ======= Fonction chargee d'afficher le résultat de l'assertion de non égalité entre %2 et %3  =======
+REM
+REM PARAM. %1 : Id du résultat de l'assertion
+REM PARAM. %2 : libellé du résultat de l'assertion
+REM PARAM. %3 : resultat obtenu
+REM PARAM. %4 : valeur non attendue
+REM
+:NoEqualityAssertionResult
+	SETLOCAL
+
+    SET __ASSERTION_RESULT_ID__=%~1
+    SET __ASSERTION_RESULT_LABEL__=%~2
+		SET __VALUE__=%~3
+    SET __NOT_EXPECTED_VALUE__=%~4
+
+		@REM ECHO.
+		@REM ECHO ====== FUNC : NoEqualityAssertionResult - '%$$$_CURRENT_SCRIPT_NAME_EXT_$$$%' - [ %$$$CURRENT_NAMESPACE$$$% ] ======
+    @REM ECHO.
+		@REM ECHO __ASSERTION_RESULT_ID__='%__ASSERTION_RESULT_ID__%'
+    @REM ECHO __ASSERTION_RESULT_LABEL__='%__ASSERTION_RESULT_LABEL__%'
+		@REM ECHO __VALUE__='%__VALUE__%'
+    @REM ECHO __NOT_EXPECTED_VALUE__='%__NOT_EXPECTED_VALUE__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Valeur NON attendue: '%__NOT_EXPECTED_VALUE__%'"
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+
+    CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
+
+		
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+
 
 
 REM ======= Fonction chargee d'afficher le résultat d'une assertion =======

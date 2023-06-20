@@ -26,6 +26,9 @@ IF %1. EQU GetEqualityAssertionResult. (
 ) ELSE IF %1. EQU GetIsBetweenAssertionResult. (
 	CALL :GetIsBetweenAssertionResult %2 %3 %4  %5
 	
+) ELSE IF %1. EQU GetNoEqualityAssertionResult. (
+	CALL :GetNoEqualityAssertionResult %2 %3 %4 %5
+	
 ) 
 
 GOTO :EOF	
@@ -120,5 +123,43 @@ REM
 		
 	(ENDLOCAL
     SET %4=%__ASSERTION_RESULT_ID__%
+	)
+GOTO :EOF
+
+
+
+REM ======= Fonction chargee de verifier la non egalite entre %1 et %2  =======
+REM ======= Si non égalité, alors on renvoie %TESTING_LIB_ASSERTION_RESULT_SUCCESS_ID%, 
+REM         sinon %TESTING_LIB_ASSERTION_RESULT_FAILURE_ID%
+REM
+REM PARAM. %1 : valeur obtenue
+REM PARAM. %2 : valeur non attendue
+REM PARAM. %3 : val. de retour par référence.
+REM
+:GetNoEqualityAssertionResult
+	SETLOCAL
+				
+		SET __VALUE__=%~1
+    SET __NOT_EXPECTED_VALUE__=%~2
+
+		
+		@REM ECHO.
+		@REM ECHO ====== FUNC : GetNoEqualityAssertionResult - '%$$$_CURRENT_SCRIPT_NAME_EXT_$$$%' - [ %$$_$CURRENT_NAMESPACE$$_$% ] ======
+		@REM ECHO.
+		@REM ECHO __VALUE__='%__VALUE__%'
+    @REM ECHO __NOT_EXPECTED_VALUE__='%__NOT_EXPECTED_VALUE__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+        
+    IF "%__VALUE__%." NEQ "%__NOT_EXPECTED_VALUE__%." (
+      SET __ASSERTION_RESULT_ID__=%TESTING_LIB_ASSERTION_RESULT_SUCCESS_ID%
+    ) ELSE (
+      SET __ASSERTION_RESULT_ID__=%TESTING_LIB_ASSERTION_RESULT_FAILURE_ID%
+    )
+		
+	(ENDLOCAL
+    SET %3=%__ASSERTION_RESULT_ID__%
 	)
 GOTO :EOF

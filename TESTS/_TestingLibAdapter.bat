@@ -49,6 +49,11 @@ IF %1. EQU AssertAreEqual. (
   Rem [%3, %4[ : plage des valeurs autorisées
   CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" AssertionResultDisplay IsBetween "%EXTERNAL_TESTING_LIB_LANG_ID%" %2 %3 %4
 
+) ELSE IF %1. EQU AssertAreNotEqual. (
+  Rem %2 : résultat obtenu
+  Rem %3 : résultat non attendu
+  CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" AssertionResultDisplay NoEquality "%EXTERNAL_TESTING_LIB_LANG_ID%" %2 %3
+
 )
 
 GOTO :EOF
