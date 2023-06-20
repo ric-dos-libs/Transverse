@@ -14,5 +14,4 @@ CALL "%TESTING_LIB_INFRA_COMMON_PATH%/_Pathes.bat"
 REM ------------------- "Injection" ---------------------
 REM        Met en fait en global des var. d'env.
 
-SET TESTING_LIB_SCRIPTS_REPOSITORY_SCRIPT=%TESTING_LIB_INFRA_RESPOSITORIES_PATH%/ScriptsRepository.bat
-@REM SET TESTING_LIB_
+SET TESTING_LIB_DISPLAY_SCRIPTS_REPOSITORY_SCRIPT=%TESTING_LIB_INFRA_RESPOSITORIES_PATH%/DisplayScriptsRepository.bat

@@ -17,18 +17,16 @@ SET TESTS_INFRA_PATH=%CURRENT_SCRIPT_PATH%Transverse.Infra
 REM Recup. de SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT
 CALL "%TESTS_COMMON_PATH%/_Pathes.bat"
 
-REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_LIB% doivent avoir ete precises ! *****
-CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists MESSAGES_DISPLAYER
-CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists TESTING_LIB
-
-
-
-
 
 REM --------------------- Choix de l'afficheur de résultats de tests -------------------------
 REM                  Notre adaptateur fait en effet très bien l'affaire, 
 REM                vues les functions comme AssertAreEqual, qu'il expose.
 SET TESTING_TOOL=%TESTING_LIB%
+
+
+REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_TOOL% doivent être des Scripts précisés en amont et existants ! *****
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%MESSAGES_DISPLAYER%"
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_TOOL%"
 
 
 

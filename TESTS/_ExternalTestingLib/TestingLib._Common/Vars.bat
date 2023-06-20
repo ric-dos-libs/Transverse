@@ -33,7 +33,7 @@ REM         %1%2
 REM 		
 REM PARAM. %1 : préfixe du nom de la var. d'environnement.
 REM PARAM. %2 : suffixe du nom de la var. d'environnement.
-REM PARAM. %3 : retour par référence, de la valeur de la var dite d'environnement.
+REM PARAM. %3 : retour par référence, de la valeur de la dite var d'environnement.
 REM  
 :GetVarValue
 SETLOCAL 

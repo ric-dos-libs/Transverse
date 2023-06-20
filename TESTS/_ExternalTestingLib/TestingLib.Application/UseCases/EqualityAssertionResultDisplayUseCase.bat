@@ -1,0 +1,36 @@
+@ECHO OFF
+
+
+@REM SET _$$$CURRENT_NAMESPACE$$$_=TestingLib.Application.UseCases
+SET _$$$_CURRENT_SCRIPT_PATH_$$$_=%~dp0
+
+
+SET TESTING_LIB_APPLICATION_COMMON_PATH=%_$$$_CURRENT_SCRIPT_PATH_$$$_%../_Common
+
+REM Recup. de TESTING_LIB_COMMON_CHECK_FATAL_ERRORS_SCRIPT et TESTING_LIB_DOMAIN_DISPLAY_SCRIPTS_ENUMS_PATH
+CALL "%TESTING_LIB_APPLICATION_COMMON_PATH%/_Pathes.bat"
+
+REM Recup. de TESTING_LIB_ASSERTION_RESULT_DISPLAY_SCRIPT_ID, etc...
+CALL "%TESTING_LIB_DOMAIN_DISPLAY_SCRIPTS_ENUMS_PATH%/DisplayScripts.bat"
+
+REM ---- Verif. si "Injection de dépendances" ok ----
+CALL "%TESTING_LIB_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_LIB_DISPLAY_SCRIPTS_REPOSITORY_SCRIPT%" 
+
+
+
+
+REM ===========================================================================	
+Rem %1 : Lang. Id
+Rem %2 : Messages Displayer
+Rem %3 et %4 : valeurs à comparer
+
+Rem Recup. de l'URL du DisplayScript
+SET __DISPLAY_SCRIPT_URL__=
+CALL "%TESTING_LIB_DISPLAY_SCRIPTS_REPOSITORY_SCRIPT%" GetURL "%TESTING_LIB_ASSERTION_RESULT_DISPLAY_SCRIPT_ID%" __DISPLAY_SCRIPT_URL__
+CALL "%TESTING_LIB_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "!__DISPLAY_SCRIPT_URL__!" 
+@REM ECHO __DISPLAY_SCRIPT_URL__=!__DISPLAY_SCRIPT_URL__!
+
+Rem Appel du DisplayScript
+@REM CALL "!__DISPLAY_SCRIPT_URL__!" %1 %2 EqualityAssertionResult %3 %4
+
+GOTO :EOF

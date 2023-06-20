@@ -27,8 +27,8 @@ CALL "%TESTING_LIB_COMMON_CONSTANTS_SCRIPT%"
 
 
 REM ==================== FUNCTION CALL ====================================	
-IF %1. EQU AssertAreEqual. (
-	CALL :AssertAreEqual %2 %3 %4 %5
+IF %1. EQU EqualityAssertionResult. (
+	CALL :EqualityAssertionResult %2 %3 %4 %5
 	
 ) 
 
@@ -54,7 +54,7 @@ REM
 REM PARAM. %1 : resultat obtenu
 REM PARAM. %2 : valeur attendue
 REM
-:AssertAreEqual
+:EqualityAssertionResult
 	SETLOCAL
 
     SET __LANG__=%~1
@@ -63,7 +63,7 @@ REM
     SET __EXPECTED_VALUE__=%~4
 
 		@REM ECHO.
-		@REM ECHO ====== FUNC : AssertAreEqual - '%$$$_CURRENT_SCRIPT_NAME_EXT_$$$%' - [ %$$$CURRENT_NAMESPACE$$$% ] ======
+		@REM ECHO ====== FUNC : EqualityAssertionResult - '%$$$_CURRENT_SCRIPT_NAME_EXT_$$$%' - [ %$$$CURRENT_NAMESPACE$$$% ] ======
     @REM ECHO.
 		@REM ECHO __LANG__='%__LANG__%'
     @REM ECHO __MESSAGES_DISPLAYER__='%__MESSAGES_DISPLAYER__%'

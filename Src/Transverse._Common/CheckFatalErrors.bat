@@ -11,6 +11,9 @@ REM ==================== FUNCTION CALL ====================================
 IF %1. EQU CheckVarExists. (
 	CALL :CheckVarExists %2
 
+) ELSE IF %1. EQU CheckDiskElementExists. (
+	CALL :CheckDiskElementExists %2
+
 ) ELSE IF %1. EQU CheckValueAmong. (
 	CALL :CheckValueAmong %2 %3 %4 %5 %6 %7 %8 %9
 	
@@ -61,6 +64,38 @@ REM
 	(ENDLOCAL
 	)
 GOTO :EOF
+
+
+
+REM ======= Regarde si le DiskElement %1 existe =======
+REM ======= Si il existe alors on ne fait rien, SINON on declenche une fatal error (fermera alors la fenetre de script).
+REM 		
+REM PARAM. %1 : URL du DiskElement.
+REM
+REM
+:CheckDiskElementExists
+	SETLOCAL
+				
+		SET __DISK_ELEMENT__=%~1
+
+		REM ECHO.
+		REM ECHO ====== FUNC : CheckDiskElementExists - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		REM ECHO.
+		REM ECHO __DISK_ELEMENT__='%__DISK_ELEMENT__%'
+		REM ECHO.
+		REM ECHO.
+		REM PAUSE
+		REM ECHO. & ECHO.
+
+		IF NOT EXIST "%__DISK_ELEMENT__%" (
+      ECHO.
+			CALL :FatalError "Le DiskElement '%__DISK_ELEMENT__%' est inexistant !"
+		)
+		
+	(ENDLOCAL
+	)
+GOTO :EOF
+
 
 
 REM ======= Regarde si la var %1 a pour valeur l'une des valeurs : %2 à %8
