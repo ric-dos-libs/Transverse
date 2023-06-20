@@ -28,18 +28,26 @@ Rem Recup. de TESTING_LIB_INFRA_API_ENUMS__LANG_US_ID, etc...
 CALL "%EXTERNAL_TESTING_LIB_INFRA_API_ENUMS_PATH%/Lang.bat"
 
 
-REM ------ Params fixes pour les appels qu'on effectera vers la librairie externe ------
-CALL "%EXTERNAL_TESTING_LIB_INFRA_PATH%/_Init.bat"
+REM ------ Init. de la librairie externe ------
+CALL "%EXTERNAL_TESTING_LIB_INFRA_PATH%/_Init.bat" "%MESSAGES_DISPLAYER%" 
 
-SET EXTERNAL_TESTING_LIB_MESSAGES_DISPLAYER=%MESSAGES_DISPLAYER%
+
+
+
 SET EXTERNAL_TESTING_LIB_LANG_ID=%TESTING_LIB_INFRA_API_ENUMS__LANG_US_ID%
 
-
-
 REM ==================== ACTIONS en fonction des params reçus ====================================	
+
 REM ---- Pour appel aux Functions utilitaires de la librairie externe ----
 IF %1. EQU AssertAreEqual. (
-    CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" AssertionResultDisplay Equality "%EXTERNAL_TESTING_LIB_LANG_ID%" "%EXTERNAL_TESTING_LIB_MESSAGES_DISPLAYER%" %2 %3
+  Rem %2 : résultat obtenu
+  Rem %3 : résultat attendu
+  CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" AssertionResultDisplay Equality "%EXTERNAL_TESTING_LIB_LANG_ID%" %2 %3
+
+) ELSE IF %1. EQU AssertIsBetween. (
+  Rem %2 : résultat obtenu
+  Rem [%3, %4[ : plage des valeurs autorisées
+  CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" AssertionResultDisplay IsBetween "%EXTERNAL_TESTING_LIB_LANG_ID%" %2 %3 %4
 
 )
 

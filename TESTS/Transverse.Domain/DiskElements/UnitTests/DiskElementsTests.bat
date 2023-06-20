@@ -60,7 +60,6 @@ REM
     CALL :GetDiskElementExtension_Nominal_ShouldReturnTheExtension
     CALL :GetDiskElementExtension_WhenWithoutExtension_ShouldReturnAnEmptyValue
     CALL :GetDiskElementExtension_WhenWithoutName_ShouldReturnTheExtension
-
 		
   (ENDLOCAL
   )
@@ -147,6 +146,7 @@ REM
 
     SET __RESULT__=
     CALL "%SRC_UNDER_TEST%" GetDiskElementExtension "%__DISK_ELEMENT_FULLNAME__%" __RESULT__
+    @REM ECHO __RESULT__=%__RESULT__%
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
 
@@ -154,5 +154,6 @@ REM
   )
 
 GOTO :EOF
+
 
 REM====================================================================================================================
