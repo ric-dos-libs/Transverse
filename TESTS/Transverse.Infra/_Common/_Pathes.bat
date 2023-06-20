@@ -6,6 +6,6 @@ SET TESTS_COMMON_PATH=%CURRENT_SCRIPT_PATH%../../Transverse._Common
 REM Recup. de SRC_PATH
 CALL "%TESTS_COMMON_PATH%/_Pathes.bat"
 
-
+SET SRC_COMMON_PATH=%SRC_PATH%/Transverse._Common
 SET SRC_INFRA_PATH=%SRC_PATH%/Transverse.Infra
 

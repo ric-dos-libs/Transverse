@@ -29,9 +29,6 @@ IF %1. EQU GetDate. (
 ) ELSE IF %1. EQU GetHour. (
 	CALL :GetHour %2 %3
 
-) ELSE IF %1. EQU GetHour. (
-	CALL :GetHour %2 %3
-
 ) ELSE IF %1. EQU GetMinutes. (
 	CALL :GetMinutes %2 %3
 
