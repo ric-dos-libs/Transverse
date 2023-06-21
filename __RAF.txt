@@ -3,3 +3,14 @@
 - Ecrire les TU de .\Src\Transverse.Infra\DiskElements\DiskElements.bat
   (s'inspirer GRANDEMENT de ceux écrits pour .\Src\Transverse.Domain\DiskElements.bat )
   Ecrire ces TU avant que ces FUNCTIONS de DiskElements.bat soient utilisées !
+
+- Ajout dans .\Src\Transverse.Infra\DiskElements\DiskElements.bat
+  .d'une fonction de CleanUp du FullName d'un DiskElement (retait (autant que possible (DOS)) des caractères interdits ))
+   + TESTS bien sûr.
+
+- Ajout dans .\Src\Transverse.Infra\DateTime.Bat  
+  .d'une fonction d'ajout de nombre de jours à une date donnée
+  .d'une fonction d'ajout de nombre de mois à une date donnée
+  .d'une fonction d'ajout de nombre d'années à une date donnée
+
+  + leurs TESTS (c'est du boulot !)
