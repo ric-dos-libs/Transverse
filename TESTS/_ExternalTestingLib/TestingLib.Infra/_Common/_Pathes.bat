@@ -1,40 +1,37 @@
 @ECHO OFF
 
-SET µµ_CURRENT_SCRIPT_PATH_µµ=%~dp0
+SET __ii__CURRENT_SCRIPT_PATH__ii__=%~dp0
 
 
-REM -------------------------------------------------------------------------------------
-SET TESTING_LIB_INFRA_PATH=%µµ_CURRENT_SCRIPT_PATH_µµ%..
+SET TESTING_LIB_INFRA_COMMON_PATH=%__ii__CURRENT_SCRIPT_PATH__ii__%
+SET TESTING_LIB_INFRA_PATH=%TESTING_LIB_INFRA_COMMON_PATH%..
 
-REM -------------------------------------------------------------------------------------
-SET TESTING_LIB_COMMON_PATH=%TESTING_LIB_INFRA_PATH%/../TestingLib._Common
-CALL "%TESTING_LIB_COMMON_PATH%/_Pathes.bat"
-
-REM -------------------------------------------------------------------------------------
-SET TESTING_LIB_DOMAIN_PATH=%TESTING_LIB_INFRA_PATH%/../TestingLib.Domain
-SET TESTING_LIB_DOMAIN_COMMON_PATH=%TESTING_LIB_DOMAIN_PATH%/_Common
-SET TESTING_LIB_DOMAIN_COMMON_ENUMS_PATH=%TESTING_LIB_DOMAIN_COMMON_PATH%/Enums
-
-
-REM -------------------------------------------------------------------------------------
 SET TESTING_LIB_APPLICATION_PATH=%TESTING_LIB_INFRA_PATH%/../TestingLib.Application
-SET TESTING_LIB_APPLICATION_USE_CASES_PATH=%TESTING_LIB_APPLICATION_PATH%/UseCases
+SET TESTING_LIB_APPLICATION_COMMON_PATH=%TESTING_LIB_APPLICATION_PATH%/_Common
+
+CALL "%TESTING_LIB_APPLICATION_COMMON_PATH%/_Pathes.bat"
 
 
-REM -------------------------------------------------------------------------------------
+
+
+
+REM -------------------- Chemins (et scripts) dans TestingLib.Infra --------------------------------------
+
+SET TESTING_LIB_INFRA_INIT_SCRIPT=%TESTING_LIB_INFRA_PATH%/_Init.bat
+
 SET TESTING_LIB_INFRA_RESPOSITORIES_PATH=%TESTING_LIB_INFRA_PATH%/Repositories
 
-
-REM -------------------------------------------------------------------------------------
 SET TESTING_LIB_INFRA_DATASETS_PATH=%TESTING_LIB_INFRA_PATH%/DataSets
 SET TESTING_LIB_INFRA_DATASETS_IN_MEMORY_PATH=%TESTING_LIB_INFRA_DATASETS_PATH%/InMemory
 
-
-REM -------------------------------------------------------------------------------------
 SET TESTING_LIB_INFRA_API_PATH=%TESTING_LIB_INFRA_PATH%/API
+SET TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT=%TESTING_LIB_INFRA_API_PATH%/_FrontController.bat
 SET TESTING_LIB_INFRA_API_ENUMS_PATH=%TESTING_LIB_INFRA_API_PATH%/Enums
 
-
-REM -------------------------------------------------------------------------------------
 SET TESTING_LIB_INFRA_DI_PATH=%TESTING_LIB_INFRA_PATH%/DI
 
+
+
+REM -------------------------------------------------------------------------------------------------------
+
+SET FLAG_TESTING_LIB_INFRA_COMMON_PATHES_EXECUTED=yes

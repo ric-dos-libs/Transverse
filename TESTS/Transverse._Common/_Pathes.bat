@@ -1,17 +1,22 @@
 @ECHO OFF
 
-SET CURRENT_SCRIPT_PATH=%~dp0
+SET _tc_CURRENT_SCRIPT_PATH_tc_=%~dp0
 
-SET UNIT_TESTS_SUBPATH=UnitTests
+SET TESTS_COMMON_PATH=%_tc_CURRENT_SCRIPT_PATH_tc_%
 
-
-
-
-REM ------------------------- SRC ----------------------------------
-SET SRC_PATH=%CURRENT_SCRIPT_PATH%../../Src
-
+SET SRC_PATH=%TESTS_COMMON_PATH%../../Src
 SET SRC_COMMON_PATH=%SRC_PATH%/Transverse._Common
 
+CALL "%SRC_COMMON_PATH%/_Pathes.bat"
 
-SET SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT=%SRC_COMMON_PATH%/CheckFatalErrors.bat
-SET SRC_COMMON_CONSTANTS_SCRIPT=%SRC_COMMON_PATH%/Constants.bat
+
+
+
+REM ----------------------------------------------------------------------
+
+SET TESTS_UNIT_TESTS_SUBPATH=UnitTests
+
+
+REM ----------------------------------------------------------------------
+
+SEt FLAG_TESTS_COMMON_PATHES_EXECUTED=yes

@@ -9,18 +9,19 @@ REM -----------------------------------------------------------------
 
 SET CURRENT_NAMESPACE=Transverse.Infra
 SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
+
 SET _CURRENT_SCRIPT_PATH_=%~dp0
 
 
 
 
 REM -----------------------------------------------------------------
-REM Recup. de SRC_COMMON_PATH
-CALL "%_CURRENT_SCRIPT_PATH_%_Common/_Pathes.bat"
+REM Recup. de 
+REM  SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT et SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT
+SET SRC_INFRA_COMMON_PATH=%_CURRENT_SCRIPT_PATH_%_Common
+CALL "%SRC_INFRA_COMMON_PATH%/_Pathes.bat"
 
-SET SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT=%SRC_COMMON_PATH%/CheckFatalErrors.bat
 
-SET COMMON_CHECK_FATAL_ERRORS_SCRIPT=%_CURRENT_SCRIPT_PATH_%/CheckFatalErrors.bat
 
 
 
@@ -75,7 +76,7 @@ REM
 
     CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_FILE__"
 
-    CALL "%COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__DISK_ELEMENT_To_ADD__%"
+    CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__DISK_ELEMENT_To_ADD__%"
 
     SET __ZIP_FILE__=%__ZIP_FILE__%.%ZIP_EXTENSION%
     CALL "%ZIPPER%" a "%__ZIP_FILE__%" "%__DISK_ELEMENT_To_ADD__%"
@@ -115,8 +116,8 @@ REM
 
     SET __ZIP_FILE__=%__ZIP_FILE__%.%ZIP_EXTENSION%
 
-    CALL "%COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__TARGET_FOLDER__%"
-    CALL "%COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
+    CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__TARGET_FOLDER__%"
+    CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
 
     PUSHD "%CD%"
       CD /D "%__TARGET_FOLDER__%"
@@ -154,7 +155,7 @@ REM
 
     IF "%__TO_BE_REMOVED__%." NEQ "." (
 
-      CALL "%COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
+      CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
     
       CALL "%ZIPPER%" d -r "%__ZIP_FILE__%" "%__TO_BE_REMOVED__%"
     )

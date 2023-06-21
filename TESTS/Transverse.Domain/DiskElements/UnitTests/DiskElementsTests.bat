@@ -7,19 +7,24 @@ SET TESTS_DOMAIN_COMMON_PATH=%CURRENT_SCRIPT_PATH%../../_Common
 
 REM ------------------- VERIFS ----------------------------------------
 
-REM Recup. de SRC_DOMAIN_PATH
-REM et SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT
-CALL "%TESTS_DOMAIN_COMMON_PATH%/_Pathes.bat"
+IF NOT DEFINED FLAG_TESTS_DOMAIN_COMMON_PATHES_EXECUTED (
+  REM Recup. de SRC_DOMAIN_PATH
+  REM et SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT
+  CALL "%TESTS_DOMAIN_COMMON_PATH%/_Pathes.bat"
+)
 
-REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_TOOL% doivent être des Scripts précisés en amont et existants ! *****
-CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%MESSAGES_DISPLAYER%"
-CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_TOOL%"
+
+REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_TOOL% doivent avoir été précisés en amont ! *****
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "MESSAGES_DISPLAYER"
+CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "TESTING_TOOL"
+
 
 
 
 REM ---------------------------------------------------------------------
+
 SETLOCAL ENABLEDELAYEDEXPANSION 
-  SET _CURRENT_NAMESPACE_=Transverse.Domain.DiskElements.UnitTests
+  SET _CURRENT_NAMESPACE_=Transverse.Domain.DiskElements.%TESTS_UNIT_TESTS_SUBPATH%
   SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
 
   SET SRC_UNDER_TEST_NAME=DiskElements.bat

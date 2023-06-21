@@ -1,15 +1,18 @@
 @ECHO OFF
 
 
-SET CURRENT_NAMESPACE=Transverse.Infra
+SET CURRENT_NAMESPACE=Transverse.Infra._Common
 SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
+
 SET __CURRENT_SCRIPT_PATH__=%~dp0
 
-REM -----------------------------------------------------------------
-REM Recup. de SRC_COMMON_PATH
-CALL "%__CURRENT_SCRIPT_PATH__%_Common/_Pathes.bat"
 
-SET SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT=%SRC_COMMON_PATH%/CheckFatalErrors.bat
+
+REM -----------------------------------------------------------------
+REM Recup. de SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT
+SET SRC_INFRA_COMMON_PATH=%__CURRENT_SCRIPT_PATH__%
+CALL "%SRC_INFRA_COMMON_PATH%_Pathes.bat"
+
 
 
 
@@ -56,7 +59,7 @@ REM
 
 		IF NOT EXIST "%__DISK_ELEMENT__%" (
       ECHO.
-      CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" FatalError "'%__DISK_ELEMENT__%' inexistant !"
+      CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" FatalError "DiskElement '%__DISK_ELEMENT__%' inexistant !"
 		)
 		
 	(ENDLOCAL
