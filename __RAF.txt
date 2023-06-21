@@ -1,13 +1,42 @@
 
+================= PRIO 02 =======================
+- Ajout d'un .\Src\Transverse._Common\Number.bat
+  .contenant une fonction IsInt    pour savoir si le param. reçu est un entier
+  .contenant une fonction IsPositiveInt pour savoir si le param. reçu est un entier positif
+  .contenant une fonction IsNegativeInt pour savoir si le param. reçu est un entier négatif
+  .contenant une fonction IsZero        pour savoir si le param. reçu est un entier valant zéro
+  .contenant une fonction IsNDigitsPositiveInt pour savoir si le param. reçu est un entier positif à N digits
+  +Ecrire leurs TU. 
 
+- Ajouter au _TestingLibAdapter.bat, le traitement d'Assertions du type ci-dessus :
+   IsInt ... à ... IsNDigitsPositiveInt (et MAJ de la TestingLib--->(cf. _RAF_TestingLib.txt))
+
+- dans DateTimeTests.bat, ajouter les TU pour la fonction GetTime de ./Src/Transverse.Infra/DateTime.bat
+
+
+================= PRIO 03 =======================
+. Ajout à .\Src\Transverse._Common\String.bat
+  .d'une fonction IsEndedBy
+
+  + TU bien sûr
+
+. Mettre à jour DateTimeTests.bat de sorte à exploiter les nouvelles assertions (IsInt, ... IsNDigitsPositiveInt, ...)
+  dispos dans la TestingLib.
+
+
+================= PRIO 04 =======================
 - Ecrire les TU de .\Src\Transverse.Infra\DiskElements\DiskElements.bat
   (s'inspirer GRANDEMENT de ceux écrits pour .\Src\Transverse.Domain\DiskElements.bat )
   Ecrire ces TU avant que ces FUNCTIONS de DiskElements.bat soient utilisées !
 
+
+================= PRIO 07 =======================
 - Ajout dans .\Src\Transverse.Infra\DiskElements\DiskElements.bat
   .d'une fonction de CleanUp du FullName d'un DiskElement (retait (autant que possible (DOS)) des caractères interdits ))
    + TESTS bien sûr.
 
+
+================= PRIO 15 =======================
 - Ajout dans .\Src\Transverse.Infra\DateTime.Bat  
   .d'une fonction d'ajout de nombre de jours à une date donnée
   .d'une fonction d'ajout de nombre de mois à une date donnée

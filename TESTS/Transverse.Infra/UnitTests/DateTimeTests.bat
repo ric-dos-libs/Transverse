@@ -49,7 +49,8 @@ SETLOCAL ENABLEDELAYEDEXPANSION
     CALL :GetHour_Run_TESTS
     CALL :GetMinutes_Run_TESTS
     CALL :GetSeconds_Run_TESTS
-
+    CALL :GetHourMinutes_Run_TESTS
+    @REM CALL :GetTime_Run_TESTS //@Todo
 
 
 (ENDLOCAL
@@ -534,8 +535,7 @@ REM
 
     CALL :GetHour_WithSuffixMentionned_ShouldReturnTheHourWithTheMentionnedSuffix
     CALL :GetHour_WithoutSuffixMentionned_ShouldReturnTheHourWithTheDefaultSuffix
-    CALL :GetHour_Nominal_ShouldReturnA2DigitsHour
-    CALL :GetHour_Nominal_ShouldReturnAValidHour
+    CALL :GetHour_Nominal_ShouldReturnA2DigitsValidHour
 
 	(ENDLOCAL
 	)
@@ -586,46 +586,49 @@ REM ======= GetHour_WithoutSuffixMentionned_ShouldReturnTheHourWithTheDefaultSuf
 GOTO :EOF
 
 
-REM ======= GetHour_Nominal_ShouldReturnA2DigitsHour =======
-:GetHour_Nominal_ShouldReturnA2DigitsHour
+REM ======= GetHour_Nominal_ShouldReturnA2DigitsValidHour =======
+:GetHour_Nominal_ShouldReturnA2DigitsValidHour
 	SETLOCAL
 
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHour_Nominal_ShouldReturnA2DigitsHour -"
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHour_Nominal_ShouldReturnA2DigitsValidHour -"
 
-    SET __HOUR_SUFFIX__=H
+    Rem -------------- Avec Suffixe heures -------------------------------------
+    SET __HOUR_SUFFIX__=Hrs
 
     SET __RESULT__=
     CALL :GetHour_Run_Test __RESULT__ "%__HOUR_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
 
+    SET /A __RESULT_HOUR__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_HOUR__%" "0" "25"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"
+
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__     
+    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
-    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "3"
-    
-	(ENDLOCAL
-	)
-GOTO :EOF
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "5"     
 
 
-REM ======= GetHour_Nominal_ShouldReturnAValidHour =======
-:GetHour_Nominal_ShouldReturnAValidHour
-	SETLOCAL
-
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHour_Nominal_ShouldReturnAValidHour -"
-
+    Rem -------------- Sans Suffixe heures -------------------------------------
     SET __HOUR_SUFFIX__=
 
     SET __RESULT__=
     CALL :GetHour_Run_Test __RESULT__ "%__HOUR_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
 
-    SET __HOUR_WITHOUT_ENDING__=%__RESULT__:~0,2%
-    SET /A __HOUR__=%__HOUR_WITHOUT_ENDING__% /1
+    SET /A __RESULT_HOUR__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_HOUR__%" "0" "25"
 
-    CALL "%TESTING_TOOL%" AssertIsBetween "%__HOUR__%" "0" "25"
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+
+    SET __RESULT_LENGTH__=
+    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "3"    
     
 	(ENDLOCAL
 	)
@@ -679,8 +682,7 @@ REM
 
     CALL :GetMinutes_WithSuffixMentionned_ShouldReturnTheMinutesWithTheMentionnedSuffix
     CALL :GetMinutes_WithoutSuffixMentionned_ShouldReturnTheMinutesWithoutSuffix
-    CALL :GetMinutes_Nominal_ShouldReturnA2DigitsMinutesValue
-    CALL :GetMinutes_Nominal_ShouldReturnAValidMinutesValue
+    CALL :GetMinutes_Nominal_ShouldReturnA2DigitsValidMinutesValue
 
 	(ENDLOCAL
 	)
@@ -722,28 +724,8 @@ REM ======= GetMinutes_WithoutSuffixMentionned_ShouldReturnTheMinutesWithoutSuff
     CALL :GetMinutes_Run_Test __RESULT__ "%__MINUTES_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
 
-    SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__    
-
-    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "2"
-    
-	(ENDLOCAL
-	)
-GOTO :EOF
-
-
-REM ======= GetMinutes_Nominal_ShouldReturnA2DigitsMinutesValue =======
-:GetMinutes_Nominal_ShouldReturnA2DigitsMinutesValue
-	SETLOCAL
-
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetMinutes_Nominal_ShouldReturnA2DigitsMinutesValue -"
-
-    SET __MINUTES_SUFFIX__=
-
-    SET __RESULT__=
-    CALL :GetMinutes_Run_Test __RESULT__ "%__MINUTES_SUFFIX__%"
-    @REM ECHO __RESULT__='%__RESULT__%'
+    SET /A __RESULT_MINUTES__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_MINUTES__%" "0" "60"    
 
     SET __RESULT_LENGTH__=
     CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__    
@@ -755,23 +737,48 @@ REM ======= GetMinutes_Nominal_ShouldReturnA2DigitsMinutesValue =======
 GOTO :EOF
 
 
-REM ======= GetMinutes_Nominal_ShouldReturnAValidMinutesValue =======
-:GetMinutes_Nominal_ShouldReturnAValidMinutesValue
+REM ======= GetMinutes_Nominal_ShouldReturnA2DigitsValidMinutesValue =======
+:GetMinutes_Nominal_ShouldReturnA2DigitsValidMinutesValue
 	SETLOCAL
 
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetMinutes_Nominal_ShouldReturnAValidMinutesValue -"
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetMinutes_Nominal_ShouldReturnA2DigitsValidMinutesValue -"
 
+
+    Rem -------------- Avec Suffixe minutes -------------------------------------
+    SET __MINUTES_SUFFIX__=mn
+
+    SET __RESULT__=
+    CALL :GetMinutes_Run_Test __RESULT__ "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_MINUTES__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_MINUTES__%" "0" "60"
+
+    SET __RESULT_MINUTES_SUFFIX__=%__RESULT__:~2,2%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_MINUTES_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+
+    SET __RESULT_LENGTH__=
+    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "4"   
+
+
+
+    Rem -------------- Sans Suffixe minutes -------------------------------------
     SET __MINUTES_SUFFIX__=
 
     SET __RESULT__=
     CALL :GetMinutes_Run_Test __RESULT__ "%__MINUTES_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
 
-    SET __MINUTES_WITHOUT_ENDING__=%__RESULT__:~0,2%
-    SET /A __MINUTES__=%__MINUTES_WITHOUT_ENDING__% /1
+    SET /A __RESULT_MINUTES__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_MINUTES__%" "0" "60"
 
-    CALL "%TESTING_TOOL%" AssertIsBetween "%__MINUTES__%" "0" "59"
+    SET __RESULT_LENGTH__=
+    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "2"
     
 	(ENDLOCAL
 	)
@@ -824,8 +831,7 @@ REM
 
     CALL :GetSeconds_WithSuffixMentionned_ShouldReturnTheSecondsWithTheMentionnedSuffix
     CALL :GetSeconds_WithoutSuffixMentionned_ShouldReturnTheSecondsWithoutSuffix
-    CALL :GetSeconds_Nominal_ShouldReturnA2DigitsSecondsValue
-    CALL :GetSeconds_Nominal_ShouldReturnAValidSecondsValue
+    CALL :GetSeconds_Nominal_ShouldReturnA2DigitsValidSecondsValue
 
 	(ENDLOCAL
 	)
@@ -867,6 +873,9 @@ REM ======= GetSeconds_WithoutSuffixMentionned_ShouldReturnTheSecondsWithoutSuff
     CALL :GetSeconds_Run_Test __RESULT__ "%__SECONDS_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
 
+    SET /A __RESULT_SECONDS__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_SECONDS__%" "0" "60"
+
     SET __RESULT_LENGTH__=
     CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__    
 
@@ -877,46 +886,49 @@ REM ======= GetSeconds_WithoutSuffixMentionned_ShouldReturnTheSecondsWithoutSuff
 GOTO :EOF
 
 
-REM ======= GetSeconds_Nominal_ShouldReturnA2DigitsSecondsValue =======
-:GetSeconds_Nominal_ShouldReturnA2DigitsSecondsValue
+REM ======= GetSeconds_Nominal_ShouldReturnA2DigitsValidSecondsValue =======
+:GetSeconds_Nominal_ShouldReturnA2DigitsValidSecondsValue
 	SETLOCAL
 
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetSeconds_Nominal_ShouldReturnA2DigitsSecondsValue -"
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetSeconds_Nominal_ShouldReturnA2DigitsValidSecondsValue -"
 
+
+    Rem -------------- Avec Suffixe secondes -------------------------------------
+    SET __SECONDS_SUFFIX__=sec
+
+    SET __RESULT__=
+    CALL :GetSeconds_Run_Test __RESULT__ "%__SECONDS_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_SECONDS__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_SECONDS__%" "0" "60"
+
+    SET __RESULT_SECONDS_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_SECONDS_SUFFIX__%" "%__SECONDS_SUFFIX__%"
+
+    SET __RESULT_LENGTH__=
+    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "5"   
+
+
+
+    Rem -------------- Sans Suffixe secondes -------------------------------------
     SET __SECONDS_SUFFIX__=
 
     SET __RESULT__=
     CALL :GetSeconds_Run_Test __RESULT__ "%__SECONDS_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
 
-    SET __SECONDS_WITHOUT_ENDING__=%__RESULT__:~0,2%
-    SET /A __SECONDS__=%__SECONDS_WITHOUT_ENDING__% /1
+    SET /A __RESULT_SECONDS__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_SECONDS__%" "0" "60"
 
-    CALL "%TESTING_TOOL%" AssertIsBetween "%__SECONDS__%" "0" "59"
-    
-	(ENDLOCAL
-	)
-GOTO :EOF
+    SET __RESULT_LENGTH__=
+    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "2"
 
-REM ======= GetSeconds_Nominal_ShouldReturnAValidSecondsValue =======
-:GetSeconds_Nominal_ShouldReturnAValidSecondsValue
-	SETLOCAL
-
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetSeconds_Nominal_ShouldReturnAValidSecondsValue -"
-
-    SET __SECONDS_SUFFIX__=
-
-    SET __RESULT__=
-    CALL :GetSeconds_Run_Test __RESULT__ "%__SECONDS_SUFFIX__%"
-    @REM ECHO __RESULT__='%__RESULT__%'
-
-    SET __SECONDS_WITHOUT_ENDING__=%__RESULT__:~0,2%
-    SET /A __SECONDS__=%__SECONDS_WITHOUT_ENDING__% /1
-
-    CALL "%TESTING_TOOL%" AssertIsBetween "%__SECONDS__%" "0" "59"
     
 	(ENDLOCAL
 	)
@@ -959,3 +971,365 @@ REM=============================================================================
 
 
 
+REM====================================================================================================================
+REM ======= Lancement de tous les Tests pour la fonction GetHourMinutes =======
+REM
+:GetHourMinutes_Run_TESTS
+	SETLOCAL
+				
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage ""	        
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "   ****** TEST de GetHourMinutes ******"
+
+    CALL :GetHourMinutes_WithHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourSuffixMentionned
+    CALL :GetHourMinutes_WithoutHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourDefaultSuffix
+
+    CALL :GetHourMinutes_WithMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithTheMinutesSuffixMentionned
+    CALL :GetHourMinutes_WithoutMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithoutMinutesSuffix
+
+    CALL :GetHourMinutes_Nominal_ShouldContainA2DigitsValidHour
+    CALL :GetHourMinutes_Nominal_ShouldContainA2DigitsValidMinutesValue
+
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= GetHourMinutes_WithHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourSuffixMentionned =======
+:GetHourMinutes_WithHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourSuffixMentionned
+	SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHourMinutes_WithHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourSuffixMentionned -"
+
+    SET __HOUR_SUFFIX__=Hrs
+    
+    Rem -------------- Avec Suffixe minutes --------------------------------------------------
+    SET __MINUTES_SUFFIX__=mn
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"
+
+
+    Rem -------------- Sans Suffixe minutes --------------------------------------------------
+    SET __MINUTES_SUFFIX__=
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"    
+    
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= GetHourMinutes_WithoutHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourDefaultSuffix =======
+:GetHourMinutes_WithoutHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourDefaultSuffix
+	SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHourMinutes_WithoutHourSuffixMentionned_ShouldReturnTheHourMinutesWithTheHourDefaultSuffix -"
+
+    SET __HOUR_SUFFIX__=
+    
+    Rem -------------- Avec Suffixe minutes --------------------------------------------------
+    SET __MINUTES_SUFFIX__=mn
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+
+
+    Rem -------------- Sans Suffixe minutes --------------------------------------------------
+    SET __MINUTES_SUFFIX__=
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET __RESULT___RESULT_HOUR_SUFFIX__ENDING__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= GetHourMinutes_WithMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithTheMinutesSuffixMentionned =======
+:GetHourMinutes_WithMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithTheMinutesSuffixMentionned
+	SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHourMinutes_WithMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithTheMinutesSuffixMentionned -"
+
+    SET __MINUTES_SUFFIX__=mn
+    
+    Rem -------------- Avec Suffixe heures --------------------------------------------------
+    SET __HOUR_SUFFIX__=Hrs
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET __RESULT_ENDING__=%__RESULT__:~-2%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_ENDING__%" "%__MINUTES_SUFFIX__%"
+
+
+    Rem -------------- Sans Suffixe heures --------------------------------------------------
+    SET __HOUR_SUFFIX__=
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET __RESULT_ENDING__=%__RESULT__:~-2%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_ENDING__%" "%__MINUTES_SUFFIX__%" 
+    
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= GetHourMinutes_WithoutMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithoutMinutesSuffix =======
+:GetHourMinutes_WithoutMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithoutMinutesSuffix
+	SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHourMinutes_WithoutMinutesSuffixMentionned_ShouldReturnTheHourMinutesWithoutMinutesSuffix -"
+
+    SET __MINUTES_SUFFIX__=
+    
+    Rem -------------- Avec Suffixe heures --------------------------------------------------
+    SET __HOUR_SUFFIX__=Hrs
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_ENDING__=%__RESULT__:~-2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_ENDING__%" "0" "60"
+
+    SET /A __RESULT_MINUTES__=%__RESULT__:~5,2% /1
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_ENDING__%" "%__RESULT_MINUTES__%"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"    
+
+
+    Rem -------------- Sans Suffixe heures --------------------------------------------------
+    SET __HOUR_SUFFIX__=
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_ENDING__=%__RESULT__:~-2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_ENDING__%" "0" "60"
+
+    SET /A __RESULT_MINUTES__=%__RESULT__:~3,2% /1
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_ENDING__%" "%__RESULT_MINUTES__%"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+    
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= GetHourMinutes_Nominal_ShouldContainA2DigitsValidHour =======
+:GetHourMinutes_Nominal_ShouldContainA2DigitsValidHour
+	SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHourMinutes_Nominal_ShouldContainA2DigitsValidHour -"
+
+   
+    Rem -------------- Avec Suffixe heures et avec suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=Hrs
+    SET __MINUTES_SUFFIX__=mn
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_HOUR__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_HOUR__%" "0" "25"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"
+
+
+    Rem -------------- Sans Suffixe heures et avec suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=
+    SET __MINUTES_SUFFIX__=mn
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_HOUR__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_HOUR__%" "0" "25"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+
+
+
+    Rem -------------- Avec Suffixe heures et sans suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=Hrs
+    SET __MINUTES_SUFFIX__=
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_HOUR__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_HOUR__%" "0" "25"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"
+
+
+
+    Rem -------------- Sans Suffixe heures et sans suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=
+    SET __MINUTES_SUFFIX__=
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_HOUR__=%__RESULT__:~0,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_HOUR__%" "0" "25"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+
+    
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+REM ======= GetHourMinutes_Nominal_ShouldContainA2DigitsValidMinutesValue =======
+:GetHourMinutes_Nominal_ShouldContainA2DigitsValidMinutesValue
+	SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- GetHourMinutes_Nominal_ShouldContainA2DigitsValidMinutesValue -"
+
+   
+    Rem -------------- Avec Suffixe heures et avec suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=Hrs
+    SET __MINUTES_SUFFIX__=mn
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_MINUTES__=%__RESULT__:~5,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_MINUTES__%" "0" "60"
+
+    SET __RESULT_MINUTES_SUFFIX__=%__RESULT__:~7,2%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_MINUTES_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"
+
+
+    Rem -------------- Sans Suffixe heures et avec suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=
+    SET __MINUTES_SUFFIX__=mn
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_MINUTES__=%__RESULT__:~3,2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_MINUTES__%" "0" "60"
+
+    SET __RESULT_MINUTES_SUFFIX__=%__RESULT__:~5,2%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_MINUTES_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+
+
+    Rem -------------- Avec Suffixe heures et sans suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=Hrs
+    SET __MINUTES_SUFFIX__=
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_ENDING__=%__RESULT__:~-2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_ENDING__%" "0" "60"
+
+    SET /A __RESULT_MINUTES__=%__RESULT__:~5,2% /1
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_ENDING__%" "%__RESULT_MINUTES__%"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,3%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"
+
+
+    Rem -------------- Sans Suffixe heures et sans suffixe minutes -------------------------------------
+    SET __HOUR_SUFFIX__=
+    SET __MINUTES_SUFFIX__=
+
+    SET __RESULT__=
+    CALL :GetHourMinutes_Run_Test __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+
+    SET /A __RESULT_ENDING__=%__RESULT__:~-2% /1
+    CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_ENDING__%" "0" "60"
+
+    SET /A __RESULT_MINUTES__=%__RESULT__:~3,2% /1
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_ENDING__%" "%__RESULT_MINUTES__%"
+
+    SET __RESULT_HOUR_SUFFIX__=%__RESULT__:~2,1%
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
+
+    
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+
+REM ======= Appel à la fonction GetHourMinutes =======
+REM 		
+REM PARAM. %1 : resultat retourne par reference
+REM PARAM. %2 : suffixe des heures
+REM PARAM. %3 : suffixe des minutes
+REM
+REM RETURNS : par référence, le PARAM %1.
+REM
+:GetHourMinutes_Run_Test
+	SETLOCAL
+				
+    SET __HOUR_SUFFIX__=%~2
+    SET __MINUTES_SUFFIX__=%~3
+
+		@REM ECHO.
+		@REM ECHO ====== FUNC : GetHourMinutes_Run_Test ======
+    @REM ECHO.
+    @REM ECHO __HOUR_SUFFIX__='%__HOUR_SUFFIX__%'
+    @REM ECHO __MINUTES_SUFFIX__='%__MINUTES_SUFFIX__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage " Avec HOUR_SUFFIX='%__HOUR_SUFFIX__%' et MINUTES_SUFFIX='%__MINUTES_SUFFIX__%'"
+
+    SET __RESULT__=
+    CALL "%SRC_UNDER_TEST%" GetHourMinutes __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    @REM ECHO __RESULT__='%__RESULT__%'
+    
+	(ENDLOCAL
+    SET %1=%__RESULT__%
+	)
+GOTO :EOF
+
+REM====================================================================================================================

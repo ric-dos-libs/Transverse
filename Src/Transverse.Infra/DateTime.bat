@@ -241,7 +241,7 @@ REM
 		@REM ECHO. & ECHO.
 
     SET __RESULTAT__=%TIME:~3,2%
-    REM Il semblerait qu'à 0 minute, on est sur 1 digit au lieu de 2 (à vérifier, mais dans le doute) :
+    REM Il semblerait qu'à 0 minute, on soit sur 1 digit au lieu de 2 (à vérifier, mais dans le doute) :
     CALL "%SRC_COMMON_STRING_SCRIPT%" WithoutSpace "%__RESULTAT__%" __RESULTAT__
     CALL "%SRC_COMMON_STRING_SCRIPT%" PadLeft "%__RESULTAT__%" "0" "2" __RESULTAT__
     
