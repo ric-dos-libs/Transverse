@@ -63,6 +63,17 @@ IF %1. EQU AssertAreEqual. (
   Rem %3 : résultat non attendu
   CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" AssertionResultDisplay NoEquality "%EXTERNAL_TESTING_LIB_LANG_ID%" %2 %3
 
+) ELSE IF %1. EQU AssertDiskElementExists. (
+  Rem %2 : DiskElement
+  CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" DiskElements Exists "%EXTERNAL_TESTING_LIB_LANG_ID%" %2
+
+) ELSE IF %1. EQU AssertDiskElementDoesntExist. (
+  Rem %2 : DiskElement
+  CALL "%EXTERNAL_TESTING_LIB_INFRA_API_FRONT_CONTROLLER_SCRIPT%" DiskElements DoesntExist "%EXTERNAL_TESTING_LIB_LANG_ID%" %2
+
 )
+
+
+
 
 GOTO :EOF

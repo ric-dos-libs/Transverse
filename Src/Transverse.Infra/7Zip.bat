@@ -66,13 +66,13 @@ REM
     SET __ZIP_FILE__=%~1
     SET __DISK_ELEMENT_To_ADD__=%~2
 				
-		ECHO.
-		ECHO ====== FUNC : AddToZip - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
-		ECHO.
-    ECHO __ZIP_FILE__='%__ZIP_FILE__%'
-    ECHO __DISK_ELEMENT_To_ADD__='%__DISK_ELEMENT_To_ADD__%'
+		@REM ECHO.
+		@REM ECHO ====== FUNC : AddToZip - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+    @REM ECHO __ZIP_FILE__='%__ZIP_FILE__%'
+    @REM ECHO __DISK_ELEMENT_To_ADD__='%__DISK_ELEMENT_To_ADD__%'
 		@REM PAUSE
-		ECHO. & ECHO.
+		@REM ECHO. & ECHO.
 
     CALL "%SRC_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_FILE__"
 
@@ -89,7 +89,7 @@ GOTO :EOF
 REM ======= Fonction chargee de dezipper le fichier compresse de chemin+nom %1 =======
 REM         vers le repertoire %2.
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
-REM         Si le repertoire %2 alors il est cree.
+REM         Si le repertoire %2 n'existe pas, alors il est cree.
 REM 
 REM PARAM. %1 : chemin+nom du fichier compresse (SANS extension) !!!!! <<<<
 REM PARAM. %2 : repertoire vers lequel dezipper. Val. par defaut : "." (repertoire courant)
@@ -100,13 +100,13 @@ REM
     SET __ZIP_FILE__=%~1
     SET __TARGET_FOLDER__=%~2
 				
-		ECHO.
-		ECHO ====== FUNC : UnZipIt - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
-		ECHO.
-    ECHO __ZIP_FILE__='%__ZIP_FILE__%'
-    ECHO __TARGET_FOLDER__='%__TARGET_FOLDER__%'
+		@REM ECHO.
+		@REM ECHO ====== FUNC : UnZipIt - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+    @REM ECHO __ZIP_FILE__='%__ZIP_FILE__%'
+    @REM ECHO __TARGET_FOLDER__='%__TARGET_FOLDER__%'
 		@REM PAUSE
-		ECHO. & ECHO.
+		@REM ECHO. & ECHO.
 
     IF "%__TARGET_FOLDER__%." EQU "." SET __TARGET_FOLDER__=.
 
@@ -143,13 +143,13 @@ REM
     SET __ZIP_FILE__=%~1
     SET __TO_BE_REMOVED__=%~2
 				
-		ECHO.
-		ECHO ====== FUNC : RemoveAllOccurencesFromZip - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
-		ECHO.
-    ECHO __ZIP_FILE__='%__ZIP_FILE__%'
-    ECHO __TO_BE_REMOVED__='%__TO_BE_REMOVED__%'
+		@REM ECHO.
+		@REM ECHO ====== FUNC : RemoveAllOccurencesFromZip - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+    @REM ECHO __ZIP_FILE__='%__ZIP_FILE__%'
+    @REM ECHO __TO_BE_REMOVED__='%__TO_BE_REMOVED__%'
 		@REM PAUSE
-		ECHO. & ECHO.
+		@REM ECHO. & ECHO.
 
     SET __ZIP_FILE__=%__ZIP_FILE__%.%ZIP_EXTENSION%
 

@@ -32,8 +32,16 @@ IF %1. EQU EqualityAssertionResult. (
 
 ) ELSE IF %1. EQU NoEqualityAssertionResult. (
 	CALL :NoEqualityAssertionResult %2 %3 %4 %5
+
+) ELSE IF %1. EQU DiskElementExistsAssertionResult. (
+	CALL :DiskElementExistsAssertionResult %2 %3 %4
+	
+) ELSE IF %1. EQU DiskElementDoesntExistAssertionResult. (
+	CALL :DiskElementDoesntExistAssertionResult %2 %3 %4
 	
 )
+
+
 
 GOTO :EOF	
 
@@ -169,6 +177,76 @@ REM
 GOTO :EOF
 
 
+REM ======= Fonction chargee d'afficher le résultat de l'assertion de NON existence  =======
+REM         du DiskElement : %3.
+REM
+REM PARAM. %1 : Id du résultat de l'assertion
+REM PARAM. %2 : libellé du résultat de l'assertion
+REM PARAM. %3 : DiskElement
+REM
+:DiskElementDoesntExistAssertionResult
+	SETLOCAL
+
+    SET __ASSERTION_RESULT_ID__=%~1
+    SET __ASSERTION_RESULT_LABEL__=%~2
+		SET __DISK_ELEMENT__=%~3
+
+		@REM ECHO.
+		@REM ECHO ====== FUNC : DiskElementDoesntExistAssertionResult - '%$$$_CURRENT_SCRIPT_NAME_EXT_$$$%' - [ %$$$CURRENT_NAMESPACE$$$% ] ======
+    @REM ECHO.
+		@REM ECHO __ASSERTION_RESULT_ID__='%__ASSERTION_RESULT_ID__%'
+    @REM ECHO __ASSERTION_RESULT_LABEL__='%__ASSERTION_RESULT_LABEL__%'
+		@REM ECHO __DISK_ELEMENT__='%__DISK_ELEMENT__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Assertion de Non existence du DiskElement :"
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "   '%3'"
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+
+    CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
+
+		
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= Fonction chargee d'afficher le résultat de l'assertion d'Existence  =======
+REM         du DiskElement : %3.
+REM
+REM PARAM. %1 : Id du résultat de l'assertion
+REM PARAM. %2 : libellé du résultat de l'assertion
+REM PARAM. %3 : DiskElement
+REM
+:DiskElementExistsAssertionResult
+	SETLOCAL
+
+    SET __ASSERTION_RESULT_ID__=%~1
+    SET __ASSERTION_RESULT_LABEL__=%~2
+		SET __DISK_ELEMENT__=%~3
+
+		@REM ECHO.
+		@REM ECHO ====== FUNC : DiskElementExistsAssertionResult - '%$$$_CURRENT_SCRIPT_NAME_EXT_$$$%' - [ %$$$CURRENT_NAMESPACE$$$% ] ======
+    @REM ECHO.
+		@REM ECHO __ASSERTION_RESULT_ID__='%__ASSERTION_RESULT_ID__%'
+    @REM ECHO __ASSERTION_RESULT_LABEL__='%__ASSERTION_RESULT_LABEL__%'
+		@REM ECHO __DISK_ELEMENT__='%__DISK_ELEMENT__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Assertion d'Existence du DiskElement :"
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "   '%3'"
+    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+
+    CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
+
+		
+	(ENDLOCAL
+	)
+GOTO :EOF
 
 
 
