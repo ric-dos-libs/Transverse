@@ -1,5 +1,11 @@
 @ECHO OFF
 
+REM ==================== LE POINT D'ENTREE ===================================
+REM        - pour initialiser les éléments nécessaires pour les TESTS
+REM        - puis lancer tous les TESTS
+REM ==========================================================================
+
+
 SET _tmr_CURRENT_SCRIPT_PATH_tmr_=%~dp0
 
 SET SRC_PATH=%_tmr_CURRENT_SCRIPT_PATH_tmr_%../Src
