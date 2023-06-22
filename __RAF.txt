@@ -1,5 +1,19 @@
 
+================= PRIO 00 =======================
+ - Ajouter les TU de Vars.bat
+ - Ajouter les TU de 7Zip.bat
+
+
+================= PRIO 01 =======================
+
+
+
+
 ================= PRIO 02 =======================
+- Optimiser les appels aux divers _Pathes.bat de l'arbo. Src/,
+  en appelant un _Pathes.bat que s'il n'a pas encore été appelé.
+  (se baser sur quelques exemples en place dans TESTS/ (par ex. flag : FLAG_TESTS_INFRA_COMMON_PATHES_EXECUTED) )
+
 - Ajout d'un .\Src\Transverse._Common\Number.bat
   .contenant une fonction IsInt    pour savoir si le param. reçu est un entier
   .contenant une fonction IsPositiveInt pour savoir si le param. reçu est un entier positif
