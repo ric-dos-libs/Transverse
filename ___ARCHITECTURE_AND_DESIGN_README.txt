@@ -32,8 +32,15 @@ d'une toute autre "librairie" "ZZZ" !
             - un appel à SRC/Transverse.Application/_Common/_Pathes.bat
             - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.Infra elle-même.
 
+          * Le fichier SRC/Transverse.API/_Common/_Pathes.bat contient : 
+            - un appel à SRC/Transverse.Application/_Common/_Pathes.bat
+            - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.API elle-même.
+            >>>>> ON PEUT EN PLUS, considérer que pour certains besoins, la couche API, puisse dépendre 
+                  de la couche Infra. ! 
+                  Un appel à SRC/Transverse.Infra/_Common/_Pathes.bat n'est donc pas exclus.
+
           * Le fichier SRC/Transverse.UI/_Common/_Pathes.bat contient : 
-            - un appel à SRC/Transverse.Infra/_Common/_Pathes.bat
+            - un appel à SRC/Transverse.API/_Common/_Pathes.bat
             - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.UI elle-même.
 
 

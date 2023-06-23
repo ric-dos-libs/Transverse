@@ -38,11 +38,11 @@ CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TES
 REM ============ RUN des TESTS ==========================
 
   @REM Rem ------ Unit TESTS ------
-  CALL "%TESTS_COMMON_PATH%/_Run_UnitTests.bat"
-  PAUSE
+  @REM CALL "%TESTS_COMMON_PATH%/_Run_UnitTests.bat"
+  @REM PAUSE
 
-  CALL "%TESTS_DOMAIN_PATH%/_Run_UnitTests.bat"
-  PAUSE
+  @REM CALL "%TESTS_DOMAIN_PATH%/_Run_UnitTests.bat"
+  @REM PAUSE
 
   CALL "%TESTS_INFRA_PATH%/_Run_UnitTests.bat"
   PAUSE

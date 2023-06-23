@@ -5,10 +5,14 @@ SET __xx__CURRENT_SCRIPT_PATH__xx__=%~dp0
 SET SRC_UI_COMMON_PATH=%__xx__CURRENT_SCRIPT_PATH__xx__%
 SET SRC_UI_PATH=%SRC_UI_COMMON_PATH%..
 
-SET SRC_INFRA_PATH=%SRC_UI_PATH%/../Transverse.Infra
-SET SRC_INFRA_COMMON_PATH=%SRC_INFRA_PATH%/_Common
 
-CALL "%SRC_INFRA_COMMON_PATH%/_Pathes.bat"
+REM ------------- Dépendance vis-à-vis de la couche API --------------------
+SET SRC_API_PATH=%SRC_UI_PATH%/../Transverse.API
+SET SRC_API_COMMON_PATH=%SRC_API_PATH%/_Common
+
+CALL "%SRC_API_COMMON_PATH%/_Pathes.bat"
+
+
 
 
 

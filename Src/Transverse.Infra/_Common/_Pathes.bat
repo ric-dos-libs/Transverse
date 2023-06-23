@@ -6,6 +6,8 @@ SET __i__CURRENT_SCRIPT_PATH__i__=%~dp0
 SET SRC_INFRA_COMMON_PATH=%__i__CURRENT_SCRIPT_PATH__i__%
 SET SRC_INFRA_PATH=%SRC_INFRA_COMMON_PATH%..
 
+
+REM ------------- Dépendance vis-à-vis de la couche APPLICATION --------------------
 SET SRC_APPLICATION_PATH=%SRC_INFRA_PATH%/../Transverse.Application
 SET SRC_APPLICATION_COMMON_PATH=%SRC_APPLICATION_PATH%/_Common
 
