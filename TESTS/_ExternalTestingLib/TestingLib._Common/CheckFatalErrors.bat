@@ -14,9 +14,6 @@ IF %1. EQU CheckVarExists. (
 ) ELSE IF %1. EQU CheckDiskElementExists. (
 	CALL :CheckDiskElementExists %2
 
-) ELSE IF %1. EQU FatalError. (
-	CALL :FatalError %2
-	
 )
 
 GOTO :EOF	
@@ -55,7 +52,7 @@ REM
 
 		IF NOT DEFINED %__VAR_NAME__% (
       ECHO.
-			CALL :FatalError "La var d'environnement %__VAR_NAME__% doit au prealable etre renseignee !"
+			CALL :RaiseFatalError "La var d'environnement %__VAR_NAME__% doit au prealable etre renseignee !"
 		)
 		
 	(ENDLOCAL
@@ -85,43 +82,8 @@ REM
 
 		IF NOT EXIST "%__DISK_ELEMENT__%" (
       ECHO.
-			CALL :FatalError "Le DiskElement '%__DISK_ELEMENT__%' est inexistant !"
+			CALL :RaiseFatalError "Le DiskElement '%__DISK_ELEMENT__%' est inexistant !"
 		)
-		
-	(ENDLOCAL
-	)
-GOTO :EOF
-
-
-
-REM ======= Affiche dans la console le message d'erreur %1 =======
-REM ======= puis feme la fenetre de script.
-REM 		
-REM PARAM. %1 : message d'erreur a afficher dans la console.
-REM
-REM
-:FatalError
-	SETLOCAL
-				
-		SET __ERROR_MESSAGE__=%~1
-
-		REM ECHO.
-		REM ECHO ====== FUNC : FatalError - '%$$_CURRENT_SCRIPT_NAME_EXT_$$%' - [ %$$CURRENT_NAMESPACE$$% ] ======
-		REM ECHO.
-		REM ECHO __ERROR_MESSAGE__='%__ERROR_MESSAGE__%'
-		REM ECHO.
-		REM ECHO.
-		REM PAUSE
-		REM ECHO. & ECHO.
-
-		ECHO.
-		ECHO Fatal Error : 
-		ECHO %__ERROR_MESSAGE__%
-		ECHO.
-		ECHO La fenetre de script va etre fermee.
-		ECHO.
-		PAUSE
-		EXIT
 		
 	(ENDLOCAL
 	)

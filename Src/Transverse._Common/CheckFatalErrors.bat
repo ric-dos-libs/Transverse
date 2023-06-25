@@ -14,9 +14,6 @@ IF %1. EQU CheckVarExists. (
 ) ELSE IF %1. EQU CheckValueAmong. (
 	CALL :CheckValueAmong %2 %3 %4 %5 %6 %7 %8 %9
 	
-) ELSE IF %1. EQU FatalError. (
-	CALL :FatalError %2
-	
 )
 
 GOTO :EOF	
@@ -55,7 +52,7 @@ REM
 
 		IF NOT DEFINED %__VAR_NAME__% (
       ECHO.
-			CALL :FatalError "La var d'environnement %__VAR_NAME__% doit au prealable etre renseignee !"
+			CALL "%TRANSVERSE_COMMON_ERRORS_HANDLER%" RaiseFatalError "La var d'environnement %__VAR_NAME__% doit au prealable etre renseignee !"
 		)
 		
 	(ENDLOCAL
@@ -146,10 +143,10 @@ REM
       )                              
 
 
-      :FATAL_ERROR
+      :RAISE_FATAL_ERROR
         ECHO.
 
-        CALL :FatalError "La var a la valeur '%__VAR__%', or sa valeur n'est autorisee a etre que l'une des suivantes : %__POSSIBLES_VALUES__%"
+        CALL "%TRANSVERSE_COMMON_ERRORS_HANDLER%" RaiseFatalError "La var a la valeur '%__VAR__%', or sa valeur n'est autorisee a etre que l'une des suivantes : %__POSSIBLES_VALUES__%"
 
 
     ) ELSE (
@@ -157,42 +154,6 @@ REM
     )
 
     :OK
-		
-	(ENDLOCAL
-	)
-GOTO :EOF
-
-
-	
-
-REM ======= Affiche dans la console le message d'erreur %1 =======
-REM ======= puis feme la fenetre de script.
-REM 		
-REM PARAM. %1 : message d'erreur a afficher dans la console.
-REM
-REM
-:FatalError
-	SETLOCAL
-				
-		SET __ERROR_MESSAGE__=%~1
-
-		REM ECHO.
-		REM ECHO ====== FUNC : FatalError - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
-		REM ECHO.
-		REM ECHO __ERROR_MESSAGE__='%__ERROR_MESSAGE__%'
-		REM ECHO.
-		REM ECHO.
-		REM PAUSE
-		REM ECHO. & ECHO.
-
-		ECHO.
-		ECHO Fatal Error : 
-		ECHO %__ERROR_MESSAGE__%
-		ECHO.
-		ECHO La fenetre de script va etre fermee.
-		ECHO.
-		PAUSE
-		EXIT
 		
 	(ENDLOCAL
 	)

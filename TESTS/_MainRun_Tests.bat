@@ -8,16 +8,17 @@ REM ==========================================================================
 
 SET _tmr_CURRENT_SCRIPT_PATH_tmr_=%~dp0
 
-SET SRC_PATH=%_tmr_CURRENT_SCRIPT_PATH_tmr_%../Src
-SET SRC_UI_PATH=%SRC_PATH%/Transverse.UI
-SET SRC_UI_COMMON_PATH=%SRC_UI_PATH%/_Common
+SET TRANSVERSE_PATH=%_tmr_CURRENT_SCRIPT_PATH_tmr_%../Src
+SET TRANSVERSE_UI_PATH=%TRANSVERSE_PATH%/Transverse.UI
+SET TRANSVERSE_UI_COMMON_PATH=%TRANSVERSE_UI_PATH%/_Common
 
-CALL "%SRC_UI_COMMON_PATH%/_Pathes.bat"
+CALL "%TRANSVERSE_UI_COMMON_PATH%/_Pathes.bat"
 
 
 
 REM ----------- Choix des implementations pour les affichages de base ----------------
-SET MESSAGES_DISPLAYER_SCRIPT=%SRC_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%
+SET MESSAGES_DISPLAYER_SCRIPT=%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%
+
 
 
 REM -------- Désignation de l'adaptateur qui permettra le lien ---------

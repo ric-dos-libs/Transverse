@@ -5,13 +5,13 @@ SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
 
 SET __CURRENT_SCRIPT_PATH__=%~dp0
 
-SET SRC_INFRA_PATH=%__CURRENT_SCRIPT_PATH__%
-SET SRC_INFRA_COMMON_PATH=%SRC_INFRA_PATH%_Common
+SET TRANSVERSE_INFRA_PATH=%__CURRENT_SCRIPT_PATH__%
+SET TRANSVERSE_INFRA_COMMON_PATH=%TRANSVERSE_INFRA_PATH%_Common
 
 
 REM -----------------------------------------------------------------
-REM Recup. de SRC_COMMON_STRING_SCRIPT
-CALL "%SRC_INFRA_COMMON_PATH%/_Pathes.bat"
+REM Recup. de TRANSVERSE_COMMON_STRING_SCRIPT
+CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
 
 
 
@@ -205,8 +205,8 @@ REM
     SET __RESULTAT__=%TIME:~0,2%
     @REM ECHO __RESULTAT__='%__RESULTAT__%'
     REM Car entre 0 et 9h, l'HEURE sous DOS, est sur 1 digit precedee par 1 espace.
-    CALL "%SRC_COMMON_STRING_SCRIPT%" WithoutSpace "%__RESULTAT__%" __RESULTAT__
-    CALL "%SRC_COMMON_STRING_SCRIPT%" PadLeft "%__RESULTAT__%" "0" "2" __RESULTAT__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" WithoutSpace "%__RESULTAT__%" __RESULTAT__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" PadLeft "%__RESULTAT__%" "0" "2" __RESULTAT__
 
     SET __RESULTAT__=%__RESULTAT__%%__SUFFIX__%
     
@@ -242,8 +242,8 @@ REM
 
     SET __RESULTAT__=%TIME:~3,2%
     REM Il semblerait qu'à 0 minute, on soit sur 1 digit au lieu de 2 (à vérifier, mais dans le doute) :
-    CALL "%SRC_COMMON_STRING_SCRIPT%" WithoutSpace "%__RESULTAT__%" __RESULTAT__
-    CALL "%SRC_COMMON_STRING_SCRIPT%" PadLeft "%__RESULTAT__%" "0" "2" __RESULTAT__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" WithoutSpace "%__RESULTAT__%" __RESULTAT__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" PadLeft "%__RESULTAT__%" "0" "2" __RESULTAT__
     
     SET __RESULTAT__=%__RESULTAT__%%__SUFFIX_MINUTES__%
 

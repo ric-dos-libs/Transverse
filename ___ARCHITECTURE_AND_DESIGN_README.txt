@@ -2,6 +2,13 @@ Ci-dessous, je parle de la "librairie" "Transverse", mais peu importe, il pourra
 d'une toute autre "librairie" "ZZZ", "TestingLib", etc... !
 
 
+================================ ATTENTION =======================================
+
+>>>>> AVANT de pouvoir utiliser une Lib,
+      IL FAUDRA LANCER une fois (au moins), le _Init.bat situé à sa racine.
+
+
+
 ============= Concernant le répertoire SRC/ =====================================================================
 
   - Transverse._Common : sources communs/dispos pour toutes les couches (Application, Domain, API, UI, Infra).

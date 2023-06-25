@@ -2,20 +2,19 @@
 @REM CLS
 
 SET CURRENT_SCRIPT_PATH=%~dp0
-SET TESTS_INFRA_COMMON_PATH=%CURRENT_SCRIPT_PATH%../_Common
+SET TRANSVERSE_TESTS_INFRA_COMMON_PATH=%CURRENT_SCRIPT_PATH%../_Common
 
 
 REM ------------------- VERIFS ----------------------------------------
 
-IF NOT DEFINED FLAG_TESTS_INFRA_COMMON_PATHES_EXECUTED (
-  REM Recup. de SRC_INFRA_PATH
-  REM et SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT, SRC_COMMON_STRING_SCRIPT
-  CALL "%TESTS_INFRA_COMMON_PATH%/_Pathes.bat"
-)  
+REM Recup. de TRANSVERSE_INFRA_PATH
+REM et TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT, TRANSVERSE_COMMON_STRING_SCRIPT
+CALL "%TRANSVERSE_TESTS_INFRA_COMMON_PATH%/_Pathes.bat"
+
 
 REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_TOOL% doivent être des Scripts précisés en amont et existants ! *****
-CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%MESSAGES_DISPLAYER%"
-CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_TOOL%"
+CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%MESSAGES_DISPLAYER%"
+CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_TOOL%"
 
 
 
@@ -23,12 +22,12 @@ CALL "%SRC_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TES
 REM ---------------------------------------------------------------------
 
 SETLOCAL ENABLEDELAYEDEXPANSION 
-    SET _CURRENT_NAMESPACE_=Transverse.Infra.%TESTS_UNIT_TESTS_SUBPATH%
+    SET _CURRENT_NAMESPACE_=Transverse.Infra.%TRANSVERSE_TESTS_UNIT_TESTS_SUBPATH%
     SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
 
-    SET SRC_UNDER_TEST_NAME=DateTime.bat
-    SET SRC_UNDER_TEST_PATH=%SRC_INFRA_PATH%
-    SET SRC_UNDER_TEST=%SRC_UNDER_TEST_PATH%/%SRC_UNDER_TEST_NAME%
+    SET TRANSVERSE_UNDER_TEST_NAME=DateTime.bat
+    SET TRANSVERSE_UNDER_TEST_PATH=%TRANSVERSE_INFRA_PATH%
+    SET TRANSVERSE_UNDER_TEST=%TRANSVERSE_UNDER_TEST_PATH%/%TRANSVERSE_UNDER_TEST_NAME%
 
 
     REM -------------------------------------------------------------------------------------------------------------
@@ -36,7 +35,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 5
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "########### TESTS - RUNNING : '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %_CURRENT_NAMESPACE_% ] ########### "
 
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "             SCRIPT UNDER TEST : '%SRC_UNDER_TEST_NAME%'"
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "             SCRIPT UNDER TEST : '%TRANSVERSE_UNDER_TEST_NAME%'"
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
 
 
@@ -121,7 +120,7 @@ REM ======= GetDate_NominalWithSeparator_ShouldHaveALengthOf10 =======
     @REM ECHO __RESULT__='%__RESULT__%'
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "10"
 
@@ -143,7 +142,7 @@ REM ======= GetDate_NominalWithSeparatorThatHas2Chars_ShouldHaveALengthOf12 ====
     @REM ECHO __RESULT__='%__RESULT__%'
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "12"
 
@@ -166,7 +165,7 @@ REM ======= GetDate_NominalWithoutSeparator_ShouldHaveALengthOf8 =======
     @REM ECHO __RESULT__='%__RESULT__%'
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "8"
 
@@ -243,7 +242,7 @@ REM ======= GetDate_Nominal_MonthShouldBeValid =======
     )
     @REM ECHO __RESULT_NEXT_MONTH2_YEAR__=%__RESULT_NEXT_MONTH2_YEAR__%
 
-    CALL "%SRC_COMMON_STRING_SCRIPT%" PadLeft "%__RESULT_NEXT_MONTH2__%" "0" "2" __RESULT_NEXT_MONTH2__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" PadLeft "%__RESULT_NEXT_MONTH2__%" "0" "2" __RESULT_NEXT_MONTH2__
     @REM ECHO __RESULT_NEXT_MONTH2__='%__RESULT_NEXT_MONTH2__%'
 
     REM ----------------------------------------------
@@ -297,7 +296,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage " Avec SEPARATOR='%__SEPARATOR__%'"
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetDate __RESULT__ "%__SEPARATOR__%"
+    CALL "%TRANSVERSE_UNDER_TEST%" GetDate __RESULT__ "%__SEPARATOR__%"
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL
@@ -373,7 +372,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetCurrentYear __RESULT__
+    CALL "%TRANSVERSE_UNDER_TEST%" GetCurrentYear __RESULT__
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL
@@ -441,7 +440,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetCurrentMonthNumber __RESULT__
+    CALL "%TRANSVERSE_UNDER_TEST%" GetCurrentMonthNumber __RESULT__
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL
@@ -509,7 +508,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetCurrentDayNumber __RESULT__
+    CALL "%TRANSVERSE_UNDER_TEST%" GetCurrentDayNumber __RESULT__
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL
@@ -607,7 +606,7 @@ REM ======= GetHour_Nominal_ShouldReturnA2DigitsValidHour =======
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "%__HOUR_SUFFIX__%"
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "5"     
 
@@ -626,7 +625,7 @@ REM ======= GetHour_Nominal_ShouldReturnA2DigitsValidHour =======
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_HOUR_SUFFIX__%" "h"
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "3"    
     
@@ -656,7 +655,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage " Avec HOUR_SUFFIX='%__HOUR_SUFFIX__%'"
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetHour __RESULT__ "%__HOUR_SUFFIX__%"
+    CALL "%TRANSVERSE_UNDER_TEST%" GetHour __RESULT__ "%__HOUR_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL
@@ -728,7 +727,7 @@ REM ======= GetMinutes_WithoutSuffixMentionned_ShouldReturnTheMinutesWithoutSuff
     CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_MINUTES__%" "0" "60"    
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__    
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__    
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "2"
     
@@ -759,7 +758,7 @@ REM ======= GetMinutes_Nominal_ShouldReturnA2DigitsValidMinutesValue =======
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_MINUTES_SUFFIX__%" "%__MINUTES_SUFFIX__%"
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "4"   
 
@@ -776,7 +775,7 @@ REM ======= GetMinutes_Nominal_ShouldReturnA2DigitsValidMinutesValue =======
     CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_MINUTES__%" "0" "60"
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "2"
     
@@ -806,7 +805,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage " Avec MINUTES_SUFFIX='%__MINUTES_SUFFIX__%'"
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetMinutes __RESULT__ "%__MINUTES_SUFFIX__%"
+    CALL "%TRANSVERSE_UNDER_TEST%" GetMinutes __RESULT__ "%__MINUTES_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL
@@ -877,7 +876,7 @@ REM ======= GetSeconds_WithoutSuffixMentionned_ShouldReturnTheSecondsWithoutSuff
     CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_SECONDS__%" "0" "60"
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__    
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__    
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "2"
     
@@ -908,7 +907,7 @@ REM ======= GetSeconds_Nominal_ShouldReturnA2DigitsValidSecondsValue =======
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_SECONDS_SUFFIX__%" "%__SECONDS_SUFFIX__%"
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "5"   
 
@@ -925,7 +924,7 @@ REM ======= GetSeconds_Nominal_ShouldReturnA2DigitsValidSecondsValue =======
     CALL "%TESTING_TOOL%" AssertIsBetween "%__RESULT_SECONDS__%" "0" "60"
 
     SET __RESULT_LENGTH__=
-    CALL "%SRC_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" GetStringLength "%__RESULT__%" __RESULT_LENGTH__
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT_LENGTH__%" "2"
 
@@ -956,7 +955,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage " Avec SECONDS_SUFFIX='%__SECONDS_SUFFIX__%'"
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetSeconds __RESULT__ "%__SECONDS_SUFFIX__%"
+    CALL "%TRANSVERSE_UNDER_TEST%" GetSeconds __RESULT__ "%__SECONDS_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL
@@ -1324,7 +1323,7 @@ REM
     CALL "%MESSAGES_DISPLAYER%" WriteMessage " Avec HOUR_SUFFIX='%__HOUR_SUFFIX__%' et MINUTES_SUFFIX='%__MINUTES_SUFFIX__%'"
 
     SET __RESULT__=
-    CALL "%SRC_UNDER_TEST%" GetHourMinutes __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
+    CALL "%TRANSVERSE_UNDER_TEST%" GetHourMinutes __RESULT__ "%__HOUR_SUFFIX__%" "%__MINUTES_SUFFIX__%"
     @REM ECHO __RESULT__='%__RESULT__%'
     
 	(ENDLOCAL

@@ -8,11 +8,6 @@
 
 
 ================= PRIO 02 =======================
-- Optimiser les appels aux divers _Pathes.bat de l'arbo. Src/,
-  en appelant un _Pathes.bat que s'il n'a pas encore été appelé.
-  (se baser sur quelques exemples en place dans TESTS/ (par ex. flag : FLAG_TESTS_INFRA_COMMON_PATHES_EXECUTED) )
-  + Optimiser aussi pour d'autres appels de ce genre (Injection dépendances, ou autres) pouvant
-    peut-être être limité pour optimisation à 1 seul appel une bonne fois pour toute donc.
 
 - Ajout d'un .\Src\Transverse._Common\Number.bat
   .contenant une fonction IsInt    pour savoir si le param. reçu est un entier
