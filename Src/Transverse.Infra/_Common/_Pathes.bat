@@ -19,8 +19,6 @@ CALL "%TRANSVERSE_APPLICATION_COMMON_PATH%/_Pathes.bat"
 
 
 
-
-
 REM -------------------- Chemins (et scripts) dans Transverse.Infra --------------------------------------
 
 
@@ -28,6 +26,8 @@ SET TRANSVERSE_INFRA_DI_PATH=%TRANSVERSE_INFRA_PATH%/DI
 SET TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT=%TRANSVERSE_INFRA_COMMON_PATH%CheckFatalErrors.bat
 
 SET TRANSVERSE_INFRA_DISK_ELEMENTS_PATH=%TRANSVERSE_INFRA_PATH%/DiskElements
+
+
 
 
 

@@ -17,8 +17,8 @@
   .contenant une fonction IsNDigitsPositiveInt pour savoir si le param. reçu est un entier positif à N digits
   +Ecrire leurs TU. 
 
-- Ajouter au _TestingLibAdapter.bat, le traitement d'Assertions du type ci-dessus :
-   IsInt ... à ... IsNDigitsPositiveInt (et MAJ de la TestingLib--->(cf. _RAF_TestingLib.txt))
+- Ajouter au _TestingAdapter.bat, le traitement d'Assertions du type ci-dessus :
+   IsInt ... à ... IsNDigitsPositiveInt (et MAJ de la Testing Lib--->(cf. D:\__LIBS\Testing\zzDOS\_RAF.txt))
 
 - dans DateTimeTests.bat, ajouter les TU pour la fonction GetTime de ./Src/Transverse.Infra/DateTime.bat
 
@@ -30,7 +30,7 @@
   + TU bien sûr
 
 . Mettre à jour DateTimeTests.bat de sorte à exploiter les nouvelles assertions (IsInt, ... IsNDigitsPositiveInt, ...)
-  dispos dans la TestingLib.
+  dispos dans la Testing Lib(cf. PRIO 02).
 
 
 ================= PRIO 04 =======================

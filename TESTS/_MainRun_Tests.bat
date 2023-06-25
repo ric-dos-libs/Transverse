@@ -23,10 +23,10 @@ SET MESSAGES_DISPLAYER_SCRIPT=%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%
 
 REM -------- Désignation de l'adaptateur qui permettra le lien ---------
 REM   entre la présente Archi. (partie TESTS) et une librairie (externe) de Testing
-SET TESTING_LIB_ADAPTER_SCRIPT=%_tmr_CURRENT_SCRIPT_PATH_tmr_%_TestingLibAdapter.bat
+SET TESTING_ADAPTER_SCRIPT=%_tmr_CURRENT_SCRIPT_PATH_tmr_%_TestingAdapter.bat
 
 
 
 
 REM ------- Paramétrage et Lancement des tests --------
-CALL "%_tmr_CURRENT_SCRIPT_PATH_tmr_%_Run_Tests.bat" "%MESSAGES_DISPLAYER_SCRIPT%" "%TESTING_LIB_ADAPTER_SCRIPT%"
+CALL "%_tmr_CURRENT_SCRIPT_PATH_tmr_%_Run_Tests.bat" "%MESSAGES_DISPLAYER_SCRIPT%" "%TESTING_ADAPTER_SCRIPT%"

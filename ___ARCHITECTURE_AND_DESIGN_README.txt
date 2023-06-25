@@ -1,11 +1,8 @@
-Ci-dessous, je parle de la "librairie" "Transverse", mais peu importe, il pourrait s'agir 
-d'une toute autre "librairie" "ZZZ", "TestingLib", etc... !
-
 
 ================================ ATTENTION =======================================
 
->>>>> AVANT de pouvoir utiliser une Lib,
-      IL FAUDRA LANCER une fois (au moins), le _Init.bat situé à sa racine.
+>>>>> AVANT de pouvoir utiliser la présente architecture :
+        IL FAUDRA LANCER une fois (au moins), le _Init.bat situé à sa racine.
 
 
 
@@ -77,20 +74,3 @@ d'une toute autre "librairie" "ZZZ", "TestingLib", etc... !
            - un appel à TESTS/Transverse._Common/_Pathes.bat et à SRC/Transverse.Infra/_Common/_Pathes.bat
            - et sous forme de vars d'env., des chemins pointant dans la couche TESTS/Transverse.Infra elle-même.
 
-
-
-
-
-
-================================ SIMULATION de D.I. et D'INTERFACES POUR DECOUPLAGE =============================
-
-On trouvera un exemple dans ma "librairie" TestingLib.
-Qui comporte un fichier TestingLib.Infra\_Init.bat (équivalent Startup.cs :) disons),
-dans lequel on pratique une pseudo Injection de Dépendances, en y appelant
-des bats comme : TestingLib.Infra\DI\DomainDependenciesInjection.bat ou ApplicationDependenciesInjection.bat,
-chargés de fixer une valeur globale dans une var d'env., pour préciser
-par exemple, une implémentation de Repository (script), dans une var d'env. 
-qui sera alors exploitable par les scripts attendant cette var nommée.
-Mais évidemment cette var (ce script) précisé donc en amont,
-devra pour que ça fonctionne, posséder les functions attendues 
-par le code l'utilisant (respectant par là un contrat, une interface comme attendue).

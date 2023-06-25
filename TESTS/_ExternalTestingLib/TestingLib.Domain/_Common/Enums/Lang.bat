@@ -1,4 +1,0 @@
-@ECHO OFF
-
-REM --- ID des langues ---
-SET TESTING_LIB_LANG_US_ID=US
