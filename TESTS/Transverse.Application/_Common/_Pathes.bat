@@ -12,6 +12,7 @@ CALL "%TESTS_COMMON_PATH%/_Pathes.bat"
 
 
 
+
 REM ---------------------------------------------------------------------
 SET SRC_APPLICATION_PATH=%SRC_PATH%/Transverse.Application
 SET SRC_APPLICATION_COMMON_PATH=%SRC_APPLICATION_PATH%/_Common

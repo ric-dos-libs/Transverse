@@ -1,24 +1,25 @@
 @ECHO OFF
 
 
-SET $$$CURRENT_NAMESPACE$$$=TestingLib.UI.Messages
+SET $$$CURRENT_NAMESPACE$$$=TestingLib.UI.Views
 SET $$$_CURRENT_SCRIPT_NAME_EXT_$$$=%~nx0
 
 SET $$$_CURRENT_SCRIPT_PATH_$$$=%~dp0
 
-SET TESTING_LIB_DOMAIN_COMMON_PATH=%$$$_CURRENT_SCRIPT_PATH_$$$%..
+SET TESTING_LIB_UI_PATH=%$$$_CURRENT_SCRIPT_PATH_$$$%..
+SET TESTING_LIB_UI_COMMON_PATH=%TESTING_LIB_UI_PATH%/_Common
 
 
 
-REM Recup. de TESTING_LIB_COMMON_CHECK_FATAL_ERRORS_SCRIPT et TESTING_LIB_DOMAIN_COMMON_ENUMS_PATH
-CALL "%TESTING_LIB_DOMAIN_COMMON_PATH%/_Pathes.bat"
+CALL "%TESTING_LIB_UI_COMMON_PATH%/_Pathes.bat"
 
 
-REM Chargement des Id de résultat d'assertion.
-CALL "%TESTING_LIB_DOMAIN_COMMON_ENUMS_PATH%/AssertionResult.bat"
+REM Recup. de TESTING_LIB_APPLICATION_ENUMS_ASSERTION_RESULT_SUCCESS_ID, ...
+CALL "%TESTING_LIB_APPLICATION_ENUMS_ASSERTION_RESULT_SCRIPT%"
+
 
 REM ---- Verif. si "Injection de dépendances" ok ----
-CALL "%TESTING_LIB_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%"
+@REM CALL "%TESTING_LIB_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_LIB_UI_MESSAGES_DISPLAYER%"
 
 
 
@@ -27,11 +28,13 @@ REM ==================== FUNCTION CALL ====================================
 IF %1. EQU EqualityAssertionResult. (
 	CALL :EqualityAssertionResult %2 %3 %4 %5
 	
+) ELSE IF %1. EQU NoEqualityAssertionResult. (
+	CALL :NoEqualityAssertionResult %2 %3 %4 %5
+
+
 ) ELSE IF %1. EQU IsBetweenAssertionResult. (
   CALL :IsBetweenAssertionResult %2 %3 %4 %5 %6
 
-) ELSE IF %1. EQU NoEqualityAssertionResult. (
-	CALL :NoEqualityAssertionResult %2 %3 %4 %5
 
 ) ELSE IF %1. EQU DiskElementExistsAssertionResult. (
 	CALL :DiskElementExistsAssertionResult %2 %3 %4
@@ -84,9 +87,9 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Valeur attendue: '%__EXPECTED_VALUE__%'"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Valeur attendue: '%__EXPECTED_VALUE__%'"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage ""
 
     CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
 
@@ -127,9 +130,9 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Plage de valeurs autorisees : ['%__LOW_LIMIT_VALUE__%' , '%__HIGH_LIMIT_VALUE__%'["
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Plage de valeurs autorisees : ['%__LOW_LIMIT_VALUE__%' , '%__HIGH_LIMIT_VALUE__%'["
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage ""
 
     CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
 
@@ -165,9 +168,9 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Valeur NON attendue: '%__NOT_EXPECTED_VALUE__%'"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Valeur NON attendue: '%__NOT_EXPECTED_VALUE__%'"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Valeur obtenue : '%__VALUE__%'"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage ""
 
     CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
 
@@ -201,9 +204,9 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Assertion de Non existence du DiskElement :"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "   '%3'"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Assertion de Non existence du DiskElement :"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage "   '%3'"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage ""
 
     CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
 
@@ -237,9 +240,9 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage " Assertion d'Existence du DiskElement :"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "   '%3'"
-    CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage " Assertion d'Existence du DiskElement :"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage "   '%3'"
+    CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage ""
 
     CALL :DisplayAssertionResult "%__ASSERTION_RESULT_ID__%" "%__ASSERTION_RESULT_LABEL__%"
 
@@ -270,13 +273,13 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    IF "%__ASSERTION_RESULT_ID__%" EQU "%TESTING_LIB_ASSERTION_RESULT_SUCCESS_ID%" (
-        CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "   - %__ASSERTION_RESULT_LABEL__% -"
-        CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+    IF "%__ASSERTION_RESULT_ID__%" EQU "%TESTING_LIB_APPLICATION_ENUMS_ASSERTION_RESULT_SUCCESS_ID%" (
+        CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage "   - %__ASSERTION_RESULT_LABEL__% -"
+        CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage "" 2
         
     ) ELSE (
-        CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "   **********- %__ASSERTION_RESULT_LABEL__% -********** "
-        CALL "%TESTING_LIB_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+        CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage "   **********- %__ASSERTION_RESULT_LABEL__% -********** "
+        CALL "%TESTING_LIB_UI_MESSAGES_DISPLAYER%" WriteMessage "" 2
         PAUSE
     )
 		

@@ -1,21 +1,22 @@
 @ECHO OFF
 
 
-@REM SET _$$$CURRENT_NAMESPACE$$$_=TestingLib.Application.UseCases
 SET _$$$_CURRENT_SCRIPT_PATH_$$$_=%~dp0
 
 
 SET TESTING_LIB_APPLICATION_COMMON_PATH=%_$$$_CURRENT_SCRIPT_PATH_$$$_%../_Common
 
 REM Recup. de
-REM TESTING_LIB_APPLICATION_COMMON_SERVICES_PATH
+REM TESTING_LIB_DOMAIN_COMMON_SERVICES_PATH
+REM TESTING_LIB_APPLICATION_USE_CASES_MAPPERS_DOMAIN_TO_EXTERNAL_WORLD_SCRIPT
 CALL "%TESTING_LIB_APPLICATION_COMMON_PATH%/_Pathes.bat"
 
 
 
 
 REM ===========================================================================	
-Rem %1 : Lang. Id
+Rem %1 : retour par référence de l'assertion result ID (du Domain) mais converti pour 
+Rem      le monde extérieur à la couche Application.
 Rem %2 et %3 : valeurs à comparer (%2: obtenu ; %3: attendu)
 
 Rem Récup. du résultat de l'assertion.
@@ -23,12 +24,11 @@ SET __ASSERTION_RESULT_ID__=
 CALL "%TESTING_LIB_DOMAIN_COMMON_SERVICES_PATH%/AssertionsResultEvaluatorService.bat" GetEqualityAssertionResult %2 %3 __ASSERTION_RESULT_ID__
 @REM ECHO __ASSERTION_RESULT_ID__='!__ASSERTION_RESULT_ID__!'  for  %2 == %3
 
-Rem Conversion du résultat de l'assertion, en libellé de la langue d'Id %1.
-SET __ASSERTION_RESULT_LABEL__=
-CALL "%TESTING_LIB_APPLICATION_COMMON_SERVICES_PATH%/MessagesLabelService.bat" GetMessageLabel "!__ASSERTION_RESULT_ID__!" %1 __ASSERTION_RESULT_LABEL__
-@REM ECHO __ASSERTION_RESULT_LABEL__='!__ASSERTION_RESULT_LABEL__!'  for  %2 == %3
+SET __CONVERTED_ASSERTION_RESULT_ID__=
+CALL "%TESTING_LIB_APPLICATION_USE_CASES_MAPPERS_DOMAIN_TO_EXTERNAL_WORLD_SCRIPT%" ConvertAssertionResultEnum "!__ASSERTION_RESULT_ID__!" __CONVERTED_ASSERTION_RESULT_ID__
+@REM ECHO __CONVERTED_ASSERTION_RESULT_ID__='!__CONVERTED_ASSERTION_RESULT_ID__!'  for  %2 == %3
 
-Rem Invocation du service d'affichage de résultat d'Assertion.
-CALL "%TESTING_LIB_DOMAIN_COMMON_SERVICES_PATH%/AssertionResultDisplayerService.bat" EqualityAssertionResult "!__ASSERTION_RESULT_ID__!" "!__ASSERTION_RESULT_LABEL__!"  %2 %3
+
+SET %1=!__CONVERTED_ASSERTION_RESULT_ID__!
 
 GOTO :EOF

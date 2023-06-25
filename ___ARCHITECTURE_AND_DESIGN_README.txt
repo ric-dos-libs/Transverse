@@ -1,47 +1,52 @@
 Ci-dessous, je parle de la "librairie" "Transverse", mais peu importe, il pourrait s'agir 
-d'une toute autre "librairie" "ZZZ" !
+d'une toute autre "librairie" "ZZZ", "TestingLib", etc... !
 
 
 ============= Concernant le répertoire SRC/ =====================================================================
 
-  Transverse._Common : sources communs/dispos pour toutes les couches (Application, Domain, Infra, UI).
-                      ATTENTION : afin de bien rester en phase avec la philosophie envisagée,
-                                  la dépendance DOIT toujours être des couches VERS Transverse._Common, 
-                                  jamais l'inverse !! 
-  Aussi, on gardera comme cap : CLEAN ARCHITECTURE (avec dépendances des couches respectées et mono-directionnelle).
+  - Transverse._Common : sources communs/dispos pour toutes les couches (Application, Domain, API, UI, Infra).
+                       ATTENTION : afin de bien rester en phase avec la philosophie envisagée,
+                                   la dépendance DOIT toujours être des couches VERS Transverse._Common, 
+                                   jamais l'inverse !! 
+
+  - Aussi, on gardera comme cap : CLEAN ARCHITECTURE (avec dépendances des couches respectées et mono-directionnelle).
+     Les couches .API(Controllers (pour requêtes JSON)), 
+                 .UI(Views,ViewModels, Controllers(pour requêtes de Views)) 
+                 .Infra (Implém. de Repositories, Divers services bas niveau, etc...)
+     dépendent de la couche Application, et donc se plient à ses Interfaces et DTOs, etc...
 
 
+  - Un peu plus détail :
+    SRC/Transverse._Common, contient notamment à sa racine, un fichier _Pathes.bat,
+      -(qui contient sous forme de vars d'env., des chemins pointant UNIQUEMENT dans la couche SRC/Transverse._Common)-
+    et ce SRC/Transverse._Common/_Pathes.bat ne DEVRA être invoqué DIRECTEMENT QUE comme suit :
+        - soit par n'importe quel source de la couche SRC/Transverse._Common elle-même.
+        - soit par le source _Pathes.bat du répertoire racine _Common de la couche Domain,
+          c-à-d par : SRC/Transverse.Domain/_Common/_Pathes.bat
 
-  SRC/Transverse._Common, contient notamment à sa racine, un fichier _Pathes.bat,
-    -(qui contient sous forme de vars d'env., des chemins pointant UNIQUEMENT dans la couche SRC/Transverse._Common)-
-  et ce SRC/Transverse._Common/_Pathes.bat ne DEVRA être invoqué DIRECTEMENT QUE comme suit :
-      - soit par n'importe quel source de la couche SRC/Transverse._Common elle-même.
-      - soit par le source _Pathes.bat du répertoire racine _Common de la couche Domain,
-        c-à-d par : SRC/Transverse.Domain/_Common/_Pathes.bat
+          Plus précisément :
+            * Le fichier SRC/Transverse.Domain/_Common/_Pathes.bat contient :
+              - un appel à SRC/Transverse._Common/_Pathes.bat
+              - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.Domain elle-même.
+            
+            * Le fichier SRC/Transverse.Application/_Common/_Pathes.bat contient : 
+              - un appel à SRC/Transverse.Domain/_Common/_Pathes.bat
+              - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.Application elle-même.
 
-        Plus précisément :
-          * Le fichier SRC/Transverse.Domain/_Common/_Pathes.bat contient :
-            - un appel à SRC/Transverse._Common/_Pathes.bat
-            - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.Domain elle-même.
-          
-          * Le fichier SRC/Transverse.Application/_Common/_Pathes.bat contient : 
-            - un appel à SRC/Transverse.Domain/_Common/_Pathes.bat
-            - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.Application elle-même.
 
-          * Le fichier SRC/Transverse.Infra/_Common/_Pathes.bat contient : 
-            - un appel à SRC/Transverse.Application/_Common/_Pathes.bat
-            - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.Infra elle-même.
+            * Le fichier SRC/Transverse.Infra/_Common/_Pathes.bat contient : 
+              - un appel à SRC/Transverse.Application/_Common/_Pathes.bat
+              - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.Infra elle-même.
 
-          * Le fichier SRC/Transverse.API/_Common/_Pathes.bat contient : 
-            - un appel à SRC/Transverse.Application/_Common/_Pathes.bat
-            - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.API elle-même.
-            >>>>> ON PEUT EN PLUS, considérer que pour certains besoins, la couche API, puisse dépendre 
-                  de la couche Infra. ! 
-                  Un appel à SRC/Transverse.Infra/_Common/_Pathes.bat n'est donc pas exclus.
+            * Le fichier SRC/Transverse.API/_Common/_Pathes.bat contient : 
+              - un appel à SRC/Transverse.Application/_Common/_Pathes.bat
+              - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.API elle-même.
 
-          * Le fichier SRC/Transverse.UI/_Common/_Pathes.bat contient : 
-            - un appel à SRC/Transverse.API/_Common/_Pathes.bat
-            - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.UI elle-même.
+            * Le fichier SRC/Transverse.UI/_Common/_Pathes.bat contient : 
+              - un appel à SRC/Transverse.Application/_Common/_Pathes.bat
+              - et sous forme de vars d'env., des chemins pointant dans la couche SRC/Transverse.UI elle-même.
+
+
 
 
 
@@ -60,9 +65,11 @@ d'une toute autre "librairie" "ZZZ" !
            - un appel à TESTS/Transverse._Common/_Pathes.bat et à SRC/Transverse.Application/_Common/_Pathes.bat
            - et sous forme de vars d'env., des chemins pointant dans la couche TESTS/Transverse.Application elle-même.
 
+
         * Le fichier TESTS/Transverse.Infra/_Common/_Pathes.bat contient :
            - un appel à TESTS/Transverse._Common/_Pathes.bat et à SRC/Transverse.Infra/_Common/_Pathes.bat
            - et sous forme de vars d'env., des chemins pointant dans la couche TESTS/Transverse.Infra elle-même.
+
 
 
 
