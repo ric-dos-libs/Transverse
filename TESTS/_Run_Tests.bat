@@ -1,16 +1,18 @@
 @ECHO OFF
 
-SET MESSAGES_DISPLAYER=%~1
-SET TESTING=%~2
+SET __TESTING_LIB_ADAPTER__=%~1
 
 
 SET _tr_CURRENT_SCRIPT_PATH_tr_=%~dp0
+SET __TRANSVERSE_TESTS_PATH__=%_tr_CURRENT_SCRIPT_PATH_tr_%
+SET __TRANSVERSE_PATH__=%__TRANSVERSE_TESTS_PATH__%../Src
 
 
 REM ------------------------------------------------------------------------------------------
-SET TRANSVERSE_TESTS_COMMON_PATH=%_tr_CURRENT_SCRIPT_PATH_tr_%Transverse._Common
-SET TRANSVERSE_TESTS_DOMAIN_PATH=%_tr_CURRENT_SCRIPT_PATH_tr_%Transverse.Domain
-SET TRANSVERSE_TESTS_INFRA_PATH=%_tr_CURRENT_SCRIPT_PATH_tr_%Transverse.Infra
+SET TRANSVERSE_TESTS_COMMON_PATH=%__TRANSVERSE_TESTS_PATH__%/Transverse._Common
+SET TRANSVERSE_TESTS_DOMAIN_PATH=%__TRANSVERSE_TESTS_PATH__%Transverse.Domain
+SET TRANSVERSE_TESTS_INFRA_PATH=%__TRANSVERSE_TESTS_PATH__%Transverse.Infra
+
 
 
 REM ------------------------------------------------------------------------------------------
@@ -19,15 +21,19 @@ SET TRANSVERSE_TESTS_INFRA_COMMON_PATH=%TRANSVERSE_TESTS_INFRA_PATH%/_Common
 CALL "%TRANSVERSE_TESTS_INFRA_COMMON_PATH%/_Pathes.bat"
 
 
+REM --------------------- Choix de l'afficheur de messages -----------------------------------
+REM       (Ce Displayer devra posséder une function WriteMessage(message, nbFoisAffiche))
+SET TRANSVERSE_UI_PATH=%__TRANSVERSE_PATH__%/Transverse.UI
+SET TRANSVERSE_UI_COMMON_PATH=%TRANSVERSE_UI_PATH%/_Common
+CALL "%TRANSVERSE_UI_COMMON_PATH%/_Pathes.bat"
+SET MESSAGES_DISPLAYER=%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%
 
-REM --------------------- Choix de l'afficheur de résultats de tests -------------------------
-REM                  Notre adaptateur fait en effet très bien l'affaire, 
-REM                vues les functions comme AssertAreEqual, qu'il expose.
-SET TESTING_TOOL=%TESTING%
 
+REM --------------------- Choix de l'adaptateur entre nos TESTS/ -----------------------------
+REM                       et une librairie d'outils de Testing
+SET TESTING_TOOL=%__TESTING_LIB_ADAPTER__%
 
-REM ***** ATTENTION %MESSAGES_DISPLAYER% et %TESTING_TOOL% doivent être des Scripts précisés en amont et existants ! *****
-CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%MESSAGES_DISPLAYER%"
+REM ***** ATTENTION %TESTING_TOOL% doit être un Scripts précisé en amont et existant ! *****
 CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_TOOL%"
 
 

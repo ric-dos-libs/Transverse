@@ -8,25 +8,16 @@ REM ==========================================================================
 
 SET _tmr_CURRENT_SCRIPT_PATH_tmr_=%~dp0
 
-SET TRANSVERSE_PATH=%_tmr_CURRENT_SCRIPT_PATH_tmr_%../Src
-SET TRANSVERSE_UI_PATH=%TRANSVERSE_PATH%/Transverse.UI
-SET TRANSVERSE_UI_COMMON_PATH=%TRANSVERSE_UI_PATH%/_Common
+SET __TRANSVERSE_TESTS_PATH__=%_tmr_CURRENT_SCRIPT_PATH_tmr_%
 
-CALL "%TRANSVERSE_UI_COMMON_PATH%/_Pathes.bat"
-
-
-
-REM ----------- Choix des implementations pour les affichages de base ----------------
-SET MESSAGES_DISPLAYER_SCRIPT=%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%
 
 
 
 REM -------- Désignation de l'adaptateur qui permettra le lien ---------
-REM   entre la présente Archi. (partie TESTS) et une librairie (externe) de Testing
-SET TESTING_ADAPTER_SCRIPT=%_tmr_CURRENT_SCRIPT_PATH_tmr_%_TestingAdapter.bat
-
+REM   entre la présente Archi.(partie TESTS) et la librairie de Testing
+SET __TESTING_LIB_ADAPTER_SCRIPT__=%__TRANSVERSE_TESTS_PATH__%_TestingLibAdapter.bat
 
 
 
 REM ------- Paramétrage et Lancement des tests --------
-CALL "%_tmr_CURRENT_SCRIPT_PATH_tmr_%_Run_Tests.bat" "%MESSAGES_DISPLAYER_SCRIPT%" "%TESTING_ADAPTER_SCRIPT%"
+CALL "%__TRANSVERSE_TESTS_PATH__%_Run_Tests.bat" "%__TESTING_LIB_ADAPTER_SCRIPT__%"

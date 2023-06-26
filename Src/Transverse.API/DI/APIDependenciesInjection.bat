@@ -1,7 +1,7 @@
 @ECHO OFF
 Rem Must be called by _DependenciesInjection.bat
 
-Rem %1 : errors handler
+Rem %1 : errors handler (script devant posséder une function : RaiseFatalError(errorMsg))
 
 
 

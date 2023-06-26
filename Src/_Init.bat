@@ -12,6 +12,6 @@ CALL "%__TRANSVERSE_UI_COMMON_PATH__%/_Pathes.bat"
 SET __ERRORS_HANDLER__=%TRANSVERSE_UI_COMMON_ERRORS_HANDLER_SCRIPT%
 
 
-CALL "%__TRANSVERSE_PATH__%Transverse.API/_Init.bat" "%__ERRORS_HANDLER__%"   %1 %2 %3 %4 %5 %6 %7 %8
-CALL "%__TRANSVERSE_PATH__%Transverse.UI/_Init.bat" "%__ERRORS_HANDLER__%"    %1 %2 %3 %4 %5 %6 %7 %8
-CALL "%__TRANSVERSE_PATH__%Transverse.Infra/_Init.bat" "%__ERRORS_HANDLER__%" %1 %2 %3 %4 %5 %6 %7 %8
+CALL "%__TRANSVERSE_PATH__%Transverse.API/_Init.bat" "%__ERRORS_HANDLER__%"
+CALL "%__TRANSVERSE_PATH__%Transverse.UI/_Init.bat" "%__ERRORS_HANDLER__%"
+CALL "%__TRANSVERSE_PATH__%Transverse.Infra/_Init.bat" "%__ERRORS_HANDLER__%"

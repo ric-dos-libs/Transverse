@@ -2,8 +2,19 @@
 
 
 
-SET CURRENT_NAMESPACE=Transverse.Domain.Infra
+SET CURRENT_NAMESPACE=Transverse.Infra.Services
 SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
+
+SET de_CURRENT_SCRIPT_PATH_de=%~dp0
+
+
+
+
+REM -----------------------------------------------------------------
+REM Recup. de constantes
+SET TRANSVERSE_INFRA_COMMON_PATH=%de_CURRENT_SCRIPT_PATH_de%_Common
+CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
+
 
 
 
@@ -21,7 +32,14 @@ IF %1. EQU EmptyFolder. (
 ) ELSE IF %1. EQU DeleteFile. (
 	CALL :DeleteFile %2 %3 %4
 
+) ELSE IF %1. EQU Exists. (
+	CALL :Exists %2 %3
+
+) ELSE IF %1. EQU DoesntExist. (
+	CALL :DoesntExist %2 %3
+
 ) 
+
 
 @REM ELSE IF %1. EQU DeleteFolderIfNotThisOne. (
 @REM 	CALL :DeleteFolderIfNotThisOne %2 %3 %4
@@ -377,5 +395,73 @@ REM
 
 		
 	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= Fonction chargee de renvoyer si le DiskElement %1 existe  =======
+REM         Renvoi %TRUE% si existe, sinon %FALSE%.
+REM
+REM PARAM. %1 : DiskElement
+REM PARAM. %2 : param. pour retour par référence
+REM
+:Exists
+	SETLOCAL
+
+    SET __DISK_ELEMENT__=%~1
+
+		@REM ECHO.
+		@REM ECHO ====== FUNC : Exists - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+    @REM ECHO.
+		@REM ECHO __DISK_ELEMENT__='%__DISK_ELEMENT__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    IF EXIST "%1" (
+      SET __EXISTS__=%TRUE%
+
+    ) ELSE (
+      SET __EXISTS__=%FALSE%
+    )
+
+
+		
+	(ENDLOCAL
+    SET %2=%__EXISTS__%
+	)
+GOTO :EOF
+
+
+REM ======= Fonction chargee de renvoyer si le DiskElement %1 n'existe pas  =======
+REM         Renvoi %TRUE% si n'existe pas, sinon %FALSE%.
+REM
+REM PARAM. %1 : DiskElement
+REM PARAM. %2 : param. pour retour par référence
+REM
+:DoesntExist
+	SETLOCAL
+
+    SET __DISK_ELEMENT__=%~1
+
+		@REM ECHO.
+		@REM ECHO ====== FUNC : DoesntExist - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+    @REM ECHO.
+		@REM ECHO __DISK_ELEMENT__='%__DISK_ELEMENT__%'
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    IF NOT EXIST "%1" (
+      SET __EXISTS__=%TRUE%
+
+    ) ELSE (
+      SET __EXISTS__=%FALSE%
+    )
+
+
+		
+	(ENDLOCAL
+    SET %2=%__EXISTS__%
 	)
 GOTO :EOF
