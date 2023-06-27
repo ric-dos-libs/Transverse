@@ -1,7 +1,6 @@
 @ECHO OFF
 
 
-@REM SET _$$$CURRENT_NAMESPACE$$$_=Testing.Application.UseCases
 SET _$$$_CURRENT_SCRIPT_PATH_$$$_=%~dp0
 
 
