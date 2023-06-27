@@ -9,11 +9,12 @@ SET de_CURRENT_SCRIPT_PATH_de=%~dp0
 
 
 
-
 REM -----------------------------------------------------------------
 REM Recup. de constantes
-SET TRANSVERSE_INFRA_COMMON_PATH=%de_CURRENT_SCRIPT_PATH_de%_Common
+SET TRANSVERSE_INFRA_COMMON_PATH=%de_CURRENT_SCRIPT_PATH_de%../_Common
 CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
+
+CALL "%TRANSVERSE_COMMON_CONSTANTS_SCRIPT%"
 
 
 
@@ -426,7 +427,6 @@ REM
     )
 
 
-		
 	(ENDLOCAL
     SET %2=%__EXISTS__%
 	)
@@ -453,15 +453,14 @@ REM
 		@REM ECHO. & ECHO.
 
     IF NOT EXIST "%1" (
-      SET __EXISTS__=%TRUE%
+      SET __NOT_EXISTS__=%TRUE%
 
     ) ELSE (
-      SET __EXISTS__=%FALSE%
+      SET __NOT_EXISTS__=%FALSE%
     )
-
 
 		
 	(ENDLOCAL
-    SET %2=%__EXISTS__%
+    SET %2=%__NOT_EXISTS__%
 	)
 GOTO :EOF

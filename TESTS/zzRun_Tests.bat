@@ -1,5 +1,7 @@
 @ECHO OFF
 
+REM ----- DOIT être appelé par _MainRun_Tests.bat -----
+
 SET __TESTING_LIB_ADAPTER__=%~1
 
 
@@ -33,8 +35,10 @@ REM --------------------- Choix de l'adaptateur entre nos TESTS/ ---------------
 REM                       et une librairie d'outils de Testing
 SET TESTING_TOOL=%__TESTING_LIB_ADAPTER__%
 
+
 REM ***** ATTENTION %TESTING_TOOL% doit être un Scripts précisé en amont et existant ! *****
 CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%TESTING_TOOL%"
+CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%MESSAGES_DISPLAYER%"
 
 
 

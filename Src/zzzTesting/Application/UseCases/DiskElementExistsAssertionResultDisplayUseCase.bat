@@ -1,37 +1,22 @@
 @ECHO OFF
 
 
-@REM SET _$$$CURRENT_NAMESPACE$$$_=Testing.Application.UseCases
 SET _$$$_CURRENT_SCRIPT_PATH_$$$_=%~dp0
 
-
-SET TESTING_APPLICATION_COMMON_PATH=%_$$$_CURRENT_SCRIPT_PATH_$$$_%../_Common
-
-REM Recup. de
-REM TESTING_DOMAIN_COMMON_ENUMS_PATH
-CALL "%TESTING_APPLICATION_COMMON_PATH%/_Pathes.bat"
-
-REM Recup. de TESTING_ASSERTION_RESULT_SUCCESS_ID et TESTING_ASSERTION_RESULT_FAILURE_ID
-CALL "%TESTING_DOMAIN_COMMON_ENUMS_PATH%/AssertionResult.bat"
 
 
 
 
 REM ===========================================================================	
-Rem %1 : retour par référence de __ASSERTION_RESULT_ID__
+Rem %1 : retour par référence de l'assertion result ID (du Domain) mais converti pour 
+Rem      le monde extérieur à la couche Application.
 Rem %2 : DiskElement
 
-Rem Récup. du résultat de l'assertion.
-SET __EXISTS__=
-CALL "%TESTING_DISK_ELEMENTS_SERVICE_SCRIPT%" Exists %2 __EXISTS__
-IF "%__EXISTS__%." EQU "1." (
-  SET __ASSERTION_RESULT_ID__=%TESTING_ASSERTION_RESULT_SUCCESS_ID%
-) ELSE  (
-  SET __ASSERTION_RESULT_ID__=%TESTING_ASSERTION_RESULT_FAILURE_ID%
-)
-@REM ECHO __ASSERTION_RESULT_ID__='!__ASSERTION_RESULT_ID__!'  for  DiskElement='%2'
+
+SET __CONVERTED_ASSERTION_RESULT_ID__=
+CALL "%TESTING_APPLICATION_DISK_ELEMENTS_SERVICE%" Exists %2 __CONVERTED_ASSERTION_RESULT_ID__
 
 
-SET %1=!__ASSERTION_RESULT_ID__!
+SET %1=!__CONVERTED_ASSERTION_RESULT_ID__!
 
 GOTO :EOF

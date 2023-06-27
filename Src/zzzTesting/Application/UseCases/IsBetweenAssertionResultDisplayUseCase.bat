@@ -15,7 +15,8 @@ CALL "%TESTING_APPLICATION_COMMON_PATH%/_Pathes.bat"
 
 
 REM ===========================================================================	
-Rem %1 : retour par référence de __ASSERTION_RESULT_ID__
+Rem %1 : retour par référence de l'assertion result ID (du Domain) mais converti pour 
+Rem      le monde extérieur à la couche Application.
 Rem %2 et [%3, %4[ : valeurs à comparer (%2: obtenu ; [%3, %4[: plage des valeurs autorisées)
 
 Rem Récup. du résultat de l'assertion.

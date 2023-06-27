@@ -6,10 +6,14 @@ SET _CURRENT_SCRIPT_NAME_EXT_=%~nx0
 
 SET __CURRENT_SCRIPT_PATH__=%~dp0
 
+SET TRANSVERSE_INFRA_COMMON_PATH=%__CURRENT_SCRIPT_PATH__%
 
 
-REM -----------------------------------------------------------------
 
+REM Recup. de constantes
+CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
+
+CALL "%TRANSVERSE_COMMON_CONSTANTS_SCRIPT%"
 
 
 
@@ -49,20 +53,25 @@ REM
 				
 		SET __DISK_ELEMENT__=%~1
 
-		REM ECHO.
-		REM ECHO ====== FUNC : CheckDiskElementExists - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
-		REM ECHO.
-		REM ECHO __DISK_ELEMENT__='%__DISK_ELEMENT__%'
-		REM ECHO.
-		REM ECHO.
-		REM PAUSE
-		REM ECHO. & ECHO.
+		@REM ECHO.
+		@REM ECHO ====== FUNC : CheckDiskElementExists - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+		@REM ECHO __DISK_ELEMENT__='%__DISK_ELEMENT__%'
+		@REM ECHO.
+		@REM ECHO.
+		@REM PAUSE
+		@REM ECHO. & ECHO.
 
-		IF NOT EXIST "%__DISK_ELEMENT__%" (
+    SET __RESPONSE__=
+    CALL "%TRANSVERSE_INFRA_SERVICES_DISK_ELEMENTS_SERVICE_SCRIPT%" Exists "%__DISK_ELEMENT__%" __RESPONSE__
+    @REM ECHO __RESPONSE__=%__RESPONSE__%
+
+		IF "%__RESPONSE__%" NEQ "%TRUE%" (
       ECHO.
       CALL "%TRANSVERSE_INFRA_ERRORS_HANDLER%" RaiseFatalError "DiskElement '%__DISK_ELEMENT__%' inexistant !"
 		)
-		
+
+
 	(ENDLOCAL
 	)
 GOTO :EOF
@@ -89,7 +98,9 @@ REM
 		REM PAUSE
 		REM ECHO. & ECHO.
 
-		IF EXIST "%__DISK_ELEMENT__%" (
+    SET __RESPONSE__=
+    CALL "%TRANSVERSE_INFRA_SERVICES_DISK_ELEMENTS_SERVICE_SCRIPT%" DoesntExist "%__DISK_ELEMENT__%" __RESPONSE__
+		IF "%__RESPONSE__%" NEQ "%TRUE% (
       ECHO.
       CALL "%TRANSVERSE_INFRA_ERRORS_HANDLER%" RaiseFatalError "DiskElement '%__DISK_ELEMENT__%' inexistant !"
 		)

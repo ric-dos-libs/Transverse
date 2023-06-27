@@ -13,6 +13,5 @@ CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
 
 
 
-
 REM ---------------------------------------------------------------
 CALL "%TRANSVERSE_INFRA_DI_PATH%/_DependenciesInjection.bat" %1

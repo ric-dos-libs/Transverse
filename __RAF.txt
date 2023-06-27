@@ -15,9 +15,11 @@
   .contenant une fonction IsNegativeInt pour savoir si le param. reçu est un entier négatif
   .contenant une fonction IsZero        pour savoir si le param. reçu est un entier valant zéro
   .contenant une fonction IsNDigitsPositiveInt pour savoir si le param. reçu est un entier positif à N digits
+  .IsGreaterThan
+  .IsGreaterOrEqualTo  
   +Ecrire leurs TU. 
 
-- Ajouter au _TestingAdapter.bat, le traitement d'Assertions du type ci-dessus :
+- Ajouter au _TestingLibAdapter.bat et la lib. Testing, le traitement d'Assertions du type ci-dessus :
    IsInt ... à ... IsNDigitsPositiveInt (et MAJ de la Testing Lib--->(cf. D:\__LIBS\Testing\zzDOS\_RAF.txt))
 
 - dans DateTimeTests.bat, ajouter les TU pour la fonction GetTime de ./Src/Transverse.Infra/DateTime.bat
@@ -34,9 +36,8 @@
 
 
 ================= PRIO 04 =======================
-- Ecrire les TU de .\Src\Transverse.Infra\DiskElements\DiskElements.bat
-  (s'inspirer GRANDEMENT de ceux écrits pour .\Src\Transverse.Domain\DiskElements.bat )
-  Ecrire ces TU avant que ces FUNCTIONS de DiskElements.bat soient utilisées !
+- Ecrire les TU de .\Src\Transverse.Infra\Services\DiskElementsService.bat
+  Ecrire de préférence, ces TU avant que ces FUNCTIONS de DiskElements.bat soient utilisées !
 
 
 ================= PRIO 07 =======================

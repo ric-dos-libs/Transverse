@@ -1,5 +1,7 @@
 @ECHO OFF
 
+REM ----- DOIT être appelé par zzRun_Tests.bat -----
+
 SET $_$CURRENT_SCRIPT_PATH$_$=%~dp0
 
 SET TRANSVERSE_TESTS_DOMAIN_PATH=%$_$CURRENT_SCRIPT_PATH$_$%

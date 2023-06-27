@@ -3,16 +3,12 @@ REM ---------------- SCRIPT DE DECOUPLAGE/ADAPTATION POUR LIER LES 2 MONDES : --
 REM   à savoir : ma présente Architecture Transverse partie TESTS/,
 REM              ET   une librairie d'outils pour Testing.
 REM
-REM  >>> Rem.:La var d'env. MESSAGES_DISPLAYER, doit avoir été précisée en amont.
-REM       (Ce Displayer devra posséder une function WriteMessage(message, nbFoisAffiche))
-REM
+
 
 
 SET __tla__CURRENT_SCRIPT_PATH__tla__=%~dp0
 
 SET TRANSVERSE_TESTS_PATH=%__tla__CURRENT_SCRIPT_PATH__tla__%
-SET TRANSVERSE_PATH=%TRANSVERSE_TESTS_PATH%../Src
-
 
 
 
@@ -39,29 +35,15 @@ SET TESTING_LIB_UI_CONTROLLERS_ENUMS_LANG_SCRIPT=%TESTING_UI_CONTROLLERS_ENUMS_L
 
 
 
-REM --------- Lib. Transverse partie TESTS : récup. de vars d'env. la concernant ----------
-SET TRANSVERSE_TESTS_INFRA_PATH=%TRANSVERSE_TESTS_PATH%/Transverse.Infra
-SET TRANSVERSE_TESTS_INFRA_COMMON_PATH=%TRANSVERSE_TESTS_INFRA_PATH%/_Common
-CALL "%TRANSVERSE_TESTS_INFRA_COMMON_PATH%/_Pathes.bat"
-
-
-
-
-REM ------ Init. de la librairie Transverse  ------
-CALL "%TRANSVERSE_PATH%/_Init.bat"
-
 REM ------ Init. de la librairie de Testing ------
 CALL "%TESTING_LIB_PATH%/_Init.bat"
 
 
-REM ***** ATTENTION %MESSAGES_DISPLAYER% doit être un Script précisé en amont et existant ! *****
-CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%MESSAGES_DISPLAYER%"
 
 
 
 
-
-REM ============================= Pour les Id de Langue ==========================================
+REM ============================= Choix de l'Id de la Langue ==========================================
 Rem Recup. de TESTING_UI_CONTROLLERS_ENUMS__LANG_US_ID, etc...
 CALL "%TESTING_LIB_UI_CONTROLLERS_ENUMS_LANG_SCRIPT%"
 

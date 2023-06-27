@@ -48,6 +48,13 @@ REM.: afin que la lib. Testing ait le minimum de points de contact avec la lib. 
          Même si en réalité, pour une lib. donnée, pour l'instant on a affecté 
          le même à toutes ses couches (cf. _Init.bat à la racine de la lib.).
 
+   On rappelle au passage, que c'est de la responsabilité des couches points d'entrée (UI et/ou API),
+   de CHOISIR -(parmi les implémentations dispos ici et là (Infra, Common, UI)-, 
+   les implémentations(scripts) concrètes qu'attendent (ici sous forme de var d'env. globales)
+   certaines autres couches (c'est ma façon ici de simuler une injection dépendance).
+   Aussi, la couche Infra., pourra éventuellement dans certains cas, choisir pour elle-même en interne,
+   les implémentations qu'elle souhaite "s'injecter".         
+
 
 
 ============= Concernant le répertoire SRC/ =====================================================================
@@ -119,3 +126,10 @@ REM.: afin que la lib. Testing ait le minimum de points de contact avec la lib. 
            - un appel à TESTS/Transverse._Common/_Pathes.bat et à SRC/Transverse.Infra/_Common/_Pathes.bat
            - et sous forme de vars d'env., des chemins pointant dans la couche TESTS/Transverse.Infra elle-même.
 
+
+=======================================================================================================
+ATTENTION : il est aussi POSSIBLE que les couches API et/ou UI aient directement besoin de s'adresser 
+            à la couche Infra. (dépendance unidirectionnele bien sûr).
+            Mais je n'ai pas systématisé ce point, en n'effectuant pas d'emblée,
+            un appel à Xxx.Infra/_Common/_Pathes.bat depuis
+            Xxx.UI/_Common/_Pathes.bat et/ou Xxx.API/_Common/_Pathes.bat
