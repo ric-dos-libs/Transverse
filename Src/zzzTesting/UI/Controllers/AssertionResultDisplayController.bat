@@ -62,7 +62,6 @@ REM Conversion de l'id du résultat d'assertion, en label, ceci suivant la langu
 SET __APPLICATION_ASSERTION_RESULT_MESSAGE_LABEL__=
 CALL "%TESTING_UI_COMMON_MESSAGES_PATH%/_MessagesLabelProvider.bat" GetAssertionResultMessageLabel %2 "!__APPLICATION_ASSERTION_RESULT_ID__!" __APPLICATION_ASSERTION_RESULT_MESSAGE_LABEL__
 
-
 REM "Rapport"-Affichage du résultat de l'assertion.
 CALL "%TESTING_UI_VIEWS_PATH%/AssertionResultView.bat" %1AssertionResult "!__APPLICATION_ASSERTION_RESULT_ID__!" "!__APPLICATION_ASSERTION_RESULT_MESSAGE_LABEL__!" %3 %4 %5
 
