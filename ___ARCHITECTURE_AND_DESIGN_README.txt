@@ -42,8 +42,13 @@
   aussi bien pour faire du Testing que pour faire tout autre chose.
   Je livre donc comme un tout, mais dans lequel j'essaie toutefois de maintenir le strict 
   minimum de dépendances, et en respctant bien celles-ci AUSSI à l'intérieur de chaque archi. même,
-  c-à-d dépendance entre couches 
-     (_Common<-Domain<-Application<-(Infra,UI,API) et Application->_Common, et (Infra,UI,API)->_Common)
+  c-à-d que les dépendances autorisées SONT :
+     ( 
+       _Common<-(Domain, Application, Infra, UI, API)
+       Domain<-Application<-(UI,API,Infra) 
+       et même Domain<-Infra(pour implém. IRepositories du domaine ET mappages enregs/Entités)
+     )
+
   Transverse pourra donc servir dans son intégralité livrée, comme "librairie" de base, 
   pour toute autre archi. future.
 
@@ -163,3 +168,7 @@ ATTENTION : il est aussi POSSIBLE que les couches API et/ou UI aient directement
             Mais je n'ai pas systématisé ce point, en n'effectuant pas d'emblée,
             un appel à Xxx.Infra/_Common/_Pathes.bat depuis
             Xxx.UI/_Common/_Pathes.bat et/ou Xxx.API/_Common/_Pathes.bat
+
+            >>De même la couche Infra. peut avoir besoin d'un accès direct à la couche Domaine 
+             (pour mappage entre type/format des enregistrements persistés, et type des Entités du Domaine),
+             ici, je ne l'ai pas systématisé, mais voilà, c'est autorisé.
