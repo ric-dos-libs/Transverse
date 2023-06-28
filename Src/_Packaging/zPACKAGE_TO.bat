@@ -16,7 +16,7 @@ REM  On peut également, dans le même but, préciser un autre sous-dossier
 REM  à adjoindre au Zip : SUBFOLDER2_TO_PACKAGE_NAME.
 REM
 REM Seront après zippage, éliminés du Zip, les éléments suivants :
-REM  *.lnk, _?Package_MyLib_To*.bat
+REM  *.lnk, *Package_MyLib_To*.bat
 
 
 
