@@ -44,7 +44,11 @@ IF %1. EQU GetDate. (
 ) ELSE IF %1. EQU GetTime. (
 	CALL :GetTime %2 %3 %4 %5
 
+) ELSE IF %1. EQU Delay. (
+	CALL :Delay %2
+
 )
+
 
 
 GOTO :EOF	
@@ -371,5 +375,31 @@ REM
 		
 	(ENDLOCAL
 		SET %1=%__RESULTAT__%
+	)
+GOTO :EOF
+
+
+
+REM ======= Effectue une temporisation de %1 seconde(s)  =======
+REM
+REM PARAM. %1 : nb. secondes.
+REM
+:Delay
+	SETLOCAL
+
+    SET __NB_SECONDS__=%~1
+				
+		@REM ECHO.
+		@REM ECHO ====== FUNC : Delay - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+    @REM ECHO __NB_SECONDS__='%__NB_SECONDS__%'
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    IF DEFINED __NB_SECONDS__ (
+      ping -n %__NB_SECONDS__% 127.0.0.1 >nul 
+    )
+		
+	(ENDLOCAL
 	)
 GOTO :EOF
