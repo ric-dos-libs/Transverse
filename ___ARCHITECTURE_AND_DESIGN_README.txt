@@ -1,3 +1,18 @@
+  
+  REM.: si je dois créer une autre librairie/architecture, alors se baser sur la structure de la présente, 
+       SAUF que :
+        - Ne reprendre (et adapter) du dossier _Packaging/, que les sources : *Package_MyLib_To*.bat
+        - Sinon, garder la même arborescence qu'ici, (sauf le dossier zzzTesting/ spécifique à la présente lib.)
+          et bien sûr : renommer le préfixe "Transverse" en "NomDeMaLib" pour le nom des dossiers.
+
+        J'ai créé un exemple de cela avec une lib. bidon (zzzzLibBidonPourDemoDeploiements) 
+        en guise de démo. de déploiement, mais aussi en guise de code client de la lib. 
+        Transverse que j'ai alors préalablement DÉPLOYÉE.
+
+
+
+  ==========================================================================================
+
   Tout d'abord concernant la sous-architecture zzTesting
     (de par ses couches _Common, Domain, Application, Infra, etc...) ,
   elle doit obéir aux mêmes règles que l'Architecture Transverse.*,
