@@ -1,13 +1,28 @@
   
-  REM.: si je dois créer une autre librairie/architecture, alors se baser sur la structure de la présente, 
-       SAUF que :
-        - Ne reprendre (et adapter) du dossier _Packaging/, que les sources : *Package_MyLib_To*.bat
-        - Sinon, garder la même arborescence qu'ici, (sauf le dossier zzzTesting/ spécifique à la présente lib.)
-          et bien sûr : renommer le préfixe "Transverse" en "NomDeMaLib" pour le nom des dossiers.
+  REM.: si je dois créer une autre librairie/architecture, alors :
+         se baser sur la structure de la présente, 
+         SAUF que :
+          - Ne reprendre (et adapter) du dossier _Packaging/, que les sources : *Package_MyLib_To*.bat
+          - Sinon, garder la même arborescence qu'ici, (sauf le dossier zzzTesting/ spécifique à la présente lib.)
+            et bien sûr : renommer le préfixe "Transverse" en "NomDeMaLib", pour le nom des dossiers.
 
         J'ai créé un exemple de cela avec une lib. bidon (zzzzLibBidonPourDemoDeploiements) 
-        en guise de démo. de déploiement, mais aussi en guise de code client de la lib. 
-        Transverse que j'ai alors préalablement DÉPLOYÉE.
+        en guise de démo. de déploiement, mais aussi en guise de code client(SayHello.bat), 
+        de la lib. Transverse que j'ai alors bien entendu, préalablement DÉPLOYÉE.
+
+        Rem.: pour DÉPLOYER une lib., SEULS les bat __Package_MyLib_To_DEV.bat et __Package_MyLib_To_PROD.bat
+              seront A LANCER. Les 2 s'appuient sur leur _Package_MyLib_To.bat, qui lui-même s'appuie,
+              sur un Packager qui DOIT préalablement être déployé
+               (à savoir celui de ma lib. Transverse déployée, 
+                 c-à-d respectivement les utilitaires généraux qu'elle offre : 
+                   PACKAGE_TO_DEV.bat et PACKAGE_TO_PROD.bat, 
+                   (qui eux-mêmes s'appuient sur zPACKAGE_TO.bat).
+               ).
+               On l'aura compris : pour déployer la librairie Transverse elle-même, nulle autre lib. n'a besoin 
+               d'être déployée au prélable. La librairie Transverse(déployée) sera la BASE sur laquelle pourront
+               venir se servir toutes les futures librairies tiers.
+               Rem.: la librairie Transverse ne dépendra en effet JAMAIS d'une autre lib. !!
+
 
 
 
