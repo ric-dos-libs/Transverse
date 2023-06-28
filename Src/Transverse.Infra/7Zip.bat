@@ -1,8 +1,8 @@
 @ECHO OFF
 
-SET ZIPPER_PATH=C:\Program Files\7-Zip
-SET ZIPPER=%ZIPPER_PATH%/7z.exe
-SET ZIP_EXTENSION=7z
+SET __ZIPPER_PATH__=C:\Program Files\7-Zip
+SET __ZIPPER__=%__ZIPPER_PATH__%/7z.exe
+SET __ZIP_EXTENSION__=7z
 
 
 REM -----------------------------------------------------------------
@@ -78,15 +78,15 @@ REM
 
     CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__DISK_ELEMENT_To_ADD__%"
 
-    SET __ZIP_FILE__=%__ZIP_FILE__%.%ZIP_EXTENSION%
-    CALL "%ZIPPER%" a "%__ZIP_FILE__%" "%__DISK_ELEMENT_To_ADD__%"
+    SET __ZIP_FILE__=%__ZIP_FILE__%.%__ZIP_EXTENSION__%
+    CALL "%__ZIPPER__%" a "%__ZIP_FILE__%" "%__DISK_ELEMENT_To_ADD__%"
 
 	(ENDLOCAL
 	)
 GOTO :EOF
 
 
-REM ======= Fonction chargee de dezipper le fichier compresse de chemin+nom %1 =======
+REM ======= Fonction chargee de de__ZIPPER__ le fichier compresse de chemin+nom %1 =======
 REM         vers le repertoire %2.
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
 REM         Si le repertoire %2 n'existe pas, alors il est cree.
@@ -114,14 +114,14 @@ REM
       MD "%__TARGET_FOLDER__%"
     )
 
-    SET __ZIP_FILE__=%__ZIP_FILE__%.%ZIP_EXTENSION%
+    SET __ZIP_FILE__=%__ZIP_FILE__%.%__ZIP_EXTENSION__%
 
     CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__TARGET_FOLDER__%"
     CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
 
     PUSHD "%CD%"
       CD /D "%__TARGET_FOLDER__%"
-      CALL "%ZIPPER%" x "%__ZIP_FILE__%"
+      CALL "%__ZIPPER__%" x "%__ZIP_FILE__%"
     POPD
 
 	(ENDLOCAL
@@ -151,13 +151,13 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    SET __ZIP_FILE__=%__ZIP_FILE__%.%ZIP_EXTENSION%
+    SET __ZIP_FILE__=%__ZIP_FILE__%.%__ZIP_EXTENSION__%
 
     IF "%__TO_BE_REMOVED__%." NEQ "." (
 
       CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
     
-      CALL "%ZIPPER%" d -r "%__ZIP_FILE__%" "%__TO_BE_REMOVED__%"
+      CALL "%__ZIPPER__%" d -r "%__ZIP_FILE__%" "%__TO_BE_REMOVED__%"
     )
 
 	(ENDLOCAL
