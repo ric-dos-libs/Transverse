@@ -41,12 +41,12 @@
   Après tout, l'idée du mot "TRANSVERSE" est d'offrir un complet d'outils transverses,
   aussi bien pour faire du Testing que pour faire tout autre chose.
   Je livre donc comme un tout, mais dans lequel j'essaie toutefois de maintenir le strict 
-  minimum de dépendances, et en respctant bien celles-ci AUSSI à l'intérieur de chaque archi. même,
-  c-à-d que les dépendances autorisées SONT :
+  minimum de dépendances, et en respectant bien celles-ci AUSSI à l'intérieur de chaque archi. même,
+  c-à-d que les dépendances autorisées y SONT :
      ( 
        _Common<-(Domain, Application, Infra, UI, API)
        Domain<-Application<-(UI,API,Infra) 
-       et même Domain<-Infra(pour implém. IRepositories du domaine ET mappages enregs/Entités)
+       et même :  Domain<-Infra(pour implém. IRepositories du domaine ET mappages enregs/Entités)
      )
 
   Transverse pourra donc servir dans son intégralité livrée, comme "librairie" de base, 
