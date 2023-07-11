@@ -531,7 +531,7 @@ REM
 REM PARAM. %1 : chaine
 REM PARAM. %2 : sous-chaine de terminaison
 REM PARAM. %3 : %TRUE% si l'on veut un resultat avec la terminaison %2
-REM             %FALSE% si l'on veut ne veut pas un resultat avec la terminaison %2
+REM             %FALSE% si l'on ne veut pas un resultat avec la terminaison %2
 REM PARAM. %4 : resultat retourne par reference
 REM
 REM RETURNS : par référence, le PARAM %4.
