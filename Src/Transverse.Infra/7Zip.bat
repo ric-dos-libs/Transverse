@@ -135,32 +135,39 @@ GOTO :EOF
 
 
 REM ======= Fonction chargee de Dézipper dans le repertoire %3,
-REM         l'arboresence interne %2 du fichier compresse de chemin+nom %1 =========
-REM         .
+REM         - ou bien l'arborescence interne %2 du fichier compresse de chemin+nom %1, si %2 désigne un chemin interne au zip
+REM            ATTENTION dans ce cas %2 ne doit pas représenter la racine du Zip 
+REM                      (c-à-d qu'une valeur :   "" ou "/" ou "\" ou "." ou "./" ou ".\", etc... ne donnera rien de traitable ici !!) 
+REM           Rem. : ce qui sera dézippé dans %3, sera tout le CONTENU de %2 ! (toute profondeur).
+REM
+REM         - ou bien le fichier %2 du fichier compresse de chemin+nom %1, si %2 désigne un fichier (avec chemin ou non) interne au zip
+REM
+REM        
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
 REM         Si le repertoire %3 n'existe pas, alors il est cree.
 REM 
 REM PARAM. %1 : chemin+nom du fichier compresse (avec ou sans extension, elle sera ajoutée(%__ZIP_EXTENSION__%) si absente)
-REM PARAM. %2 : arboresence (dans le fichier zip) que l'on veut extraire.
+REM PARAM. %2 : arborescence ou fichier -(dans le fichier zip)- que l'on veut extraire.
 REM PARAM. %3 : repertoire vers lequel dezipper. Val. par defaut : "." (repertoire courant)
 REM
 :PartialUnZip
 	SETLOCAL
 
     SET __ZIP_FILE__=%~1
-    SET __ZIP_ARBO__=%~2
+    SET __ZIP_CONTENT_TO_UNZIP__=%~2
     SET __TARGET_FOLDER__=%~3
 				
 		@REM ECHO.
 		@REM ECHO ====== FUNC : PartialUnZip - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
 		@REM ECHO.
     @REM ECHO __ZIP_FILE__='%__ZIP_FILE__%'
-    @REM ECHO __ZIP_ARBO__='%__ZIP_ARBO__%'
+    @REM ECHO __ZIP_CONTENT_TO_UNZIP__='%__ZIP_CONTENT_TO_UNZIP__%'
     @REM ECHO __TARGET_FOLDER__='%__TARGET_FOLDER__%'
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
     CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_FILE__"
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_CONTENT_TO_UNZIP__"
 
     IF "%__TARGET_FOLDER__%." EQU "." SET __TARGET_FOLDER__=.
 
@@ -175,7 +182,7 @@ REM
     CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
 
 
-    CALL "%__ZIPPER__%" x -y "%__ZIP_FILE__%" "%__ZIP_ARBO__%" -o"%__TARGET_FOLDER__%"
+    CALL "%__ZIPPER__%" x -y "%__ZIP_FILE__%" "%__ZIP_CONTENT_TO_UNZIP__%" -o"%__TARGET_FOLDER__%"
 
 	(ENDLOCAL
 	)

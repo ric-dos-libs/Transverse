@@ -1,8 +1,6 @@
 ================= EN COURS =======================
-.Ecrire les TU pour "7Zip.bat PartialUnZip"
-
-.Ecriture de "NugetsService.bat UnPackArboContentInto" + ajout exetension nupkg si non précisée.
-.Ecrire les TU pour "NugetsService.bat UnPackArboContentInto"
+.Ecriture de "NugetsService.bat UnPack...." avec ajout extension nupkg si non précisée.
+.Ecrire les TU de cela
 
 
 
