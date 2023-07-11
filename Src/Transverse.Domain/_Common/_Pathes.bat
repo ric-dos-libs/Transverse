@@ -24,4 +24,5 @@ CALL "%TRANSVERSE_COMMON_PATH%/_Pathes.bat"
 REM -------------------- Chemins (et scripts) dans Transverse.Domain --------------------------------------
 
 SET TRANSVERSE_DOMAIN_DISK_ELEMENTS_PATH=%TRANSVERSE_DOMAIN_PATH%/DiskElements
+SET TRANSVERSE_DOMAIN_DISK_ELEMENTS_DISKELEMENTS_SCRIPT=%TRANSVERSE_DOMAIN_DISK_ELEMENTS_PATH%/DiskElements.bat
 
