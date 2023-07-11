@@ -1,5 +1,4 @@
 ================= EN COURS =======================
-.MAJ de 7Zip.bat PartialUnZip et UnZipIt + commentaires, avec cette notion d'attribution ou non d'une extension en fonction qu'elle existe déjà ou pas.
 .Ecrire les TU pour "7Zip.bat PartialUnZip"
 
 .Ecriture de "NugetsService.bat UnPackArboContentInto" + ajout exetension nupkg si non précisée.

@@ -17,7 +17,7 @@ SET _CURRENT_SCRIPT_PATH_=%~dp0
 
 REM -----------------------------------------------------------------
 REM Recup. de 
-REM  TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT et TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT
+REM  TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT et TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT, et autres...
 SET TRANSVERSE_INFRA_COMMON_PATH=%_CURRENT_SCRIPT_PATH_%_Common
 CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
 
@@ -32,6 +32,9 @@ IF %1. EQU AddToZip. (
 	
 ) ELSE IF %1. EQU UnZipIt. (
 	CALL :UnZipIt %2 %3
+
+) ELSE IF %1. EQU PartialUnZip. (
+	CALL :PartialUnZip %2 %3 %4
  
 ) ELSE IF %1. EQU RemoveAllOccurencesFromZip. (
 	CALL :RemoveAllOccurencesFromZip %2 %3
@@ -57,7 +60,7 @@ REM         en y ajoutant le DiskElement %2.
 REM         Si %1 non renseigne => message de fatal error puis fermeture fenetre.
 REM         Si %2 n'existe pas => message de fatal error puis fermeture fenetre.
 REM 
-REM PARAM. %1 : chemin+nom du fichier compresse (SANS extension) !!!!! <<<<
+REM PARAM. %1 : chemin+nom du fichier compresse (avec ou sans extension, elle sera ajoutée(%__ZIP_EXTENSION__%) si absente)
 REM PARAM. %2 : DiskElement a ajouter dans le fichier compresse 
 REM
 :AddToZip
@@ -78,7 +81,9 @@ REM
 
     CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__DISK_ELEMENT_To_ADD__%"
 
-    SET __ZIP_FILE__=%__ZIP_FILE__%.%__ZIP_EXTENSION__%
+    REM AJOUT DE L'EXTENSION %__ZIP_EXTENSION__% si besoin.
+    CALL "%TRANSVERSE_DOMAIN_DISK_ELEMENTS_DISKELEMENTS_SCRIPT%" AddExtensionToDiskElementIfHasNoExtensionAtAll "%__ZIP_FILE__%" "%__ZIP_EXTENSION__%" __ZIP_FILE__
+
     CALL "%__ZIPPER__%" a "%__ZIP_FILE__%" "%__DISK_ELEMENT_To_ADD__%"
 
 	(ENDLOCAL
@@ -86,12 +91,12 @@ REM
 GOTO :EOF
 
 
-REM ======= Fonction chargee de de__ZIPPER__ le fichier compresse de chemin+nom %1 =======
+REM ======= Fonction chargee de Dézipper le fichier compresse de chemin+nom %1 =======
 REM         vers le repertoire %2.
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
 REM         Si le repertoire %2 n'existe pas, alors il est cree.
 REM 
-REM PARAM. %1 : chemin+nom du fichier compresse (SANS extension) !!!!! <<<<
+REM PARAM. %1 : chemin+nom du fichier compresse (avec ou sans extension, elle sera ajoutée(%__ZIP_EXTENSION__%) si absente)
 REM PARAM. %2 : repertoire vers lequel dezipper. Val. par defaut : "." (repertoire courant)
 REM
 :UnZipIt
@@ -108,21 +113,69 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_FILE__"    
+
     IF "%__TARGET_FOLDER__%." EQU "." SET __TARGET_FOLDER__=.
 
     IF NOT EXIST "%__TARGET_FOLDER__%" (
       MD "%__TARGET_FOLDER__%"
     )
 
-    SET __ZIP_FILE__=%__ZIP_FILE__%.%__ZIP_EXTENSION__%
+    REM AJOUT DE L'EXTENSION %__ZIP_EXTENSION__% si besoin.
+    CALL "%TRANSVERSE_DOMAIN_DISK_ELEMENTS_DISKELEMENTS_SCRIPT%" AddExtensionToDiskElementIfHasNoExtensionAtAll "%__ZIP_FILE__%" "%__ZIP_EXTENSION__%" __ZIP_FILE__
 
     CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__TARGET_FOLDER__%"
     CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
 
-    PUSHD "%CD%"
-      CD /D "%__TARGET_FOLDER__%"
-      CALL "%__ZIPPER__%" x "%__ZIP_FILE__%"
-    POPD
+    CALL "%__ZIPPER__%" x "%__ZIP_FILE__%" -o"%__TARGET_FOLDER__%"
+
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+REM ======= Fonction chargee de Dézipper dans le repertoire %3,
+REM         l'arboresence interne %2 du fichier compresse de chemin+nom %1 =========
+REM         .
+REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
+REM         Si le repertoire %3 n'existe pas, alors il est cree.
+REM 
+REM PARAM. %1 : chemin+nom du fichier compresse (avec ou sans extension, elle sera ajoutée(%__ZIP_EXTENSION__%) si absente)
+REM PARAM. %2 : arboresence (dans le fichier zip) que l'on veut extraire.
+REM PARAM. %3 : repertoire vers lequel dezipper. Val. par defaut : "." (repertoire courant)
+REM
+:PartialUnZip
+	SETLOCAL
+
+    SET __ZIP_FILE__=%~1
+    SET __ZIP_ARBO__=%~2
+    SET __TARGET_FOLDER__=%~3
+				
+		@REM ECHO.
+		@REM ECHO ====== FUNC : PartialUnZip - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+    @REM ECHO __ZIP_FILE__='%__ZIP_FILE__%'
+    @REM ECHO __ZIP_ARBO__='%__ZIP_ARBO__%'
+    @REM ECHO __TARGET_FOLDER__='%__TARGET_FOLDER__%'
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_FILE__"
+
+    IF "%__TARGET_FOLDER__%." EQU "." SET __TARGET_FOLDER__=.
+
+    IF NOT EXIST "%__TARGET_FOLDER__%" (
+      MD "%__TARGET_FOLDER__%"
+    )
+
+    REM AJOUT DE L'EXTENSION %__ZIP_EXTENSION__% si besoin.
+    CALL "%TRANSVERSE_DOMAIN_DISK_ELEMENTS_DISKELEMENTS_SCRIPT%" AddExtensionToDiskElementIfHasNoExtensionAtAll "%__ZIP_FILE__%" "%__ZIP_EXTENSION__%" __ZIP_FILE__
+
+    CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__TARGET_FOLDER__%"
+    CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__ZIP_FILE__%"
+
+
+    CALL "%__ZIPPER__%" x -y "%__ZIP_FILE__%" "%__ZIP_ARBO__%" -o"%__TARGET_FOLDER__%"
 
 	(ENDLOCAL
 	)
@@ -134,7 +187,7 @@ REM ======= Fonction chargee de retirer du fichier compresse de chemin+nom %1, =
 REM         tous les DiskElements vérifiant :  %2 (par exe. %2 = "*.lnk")
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
 REM 
-REM PARAM. %1 : chemin+nom du fichier compresse (SANS extension) !!!!! <<<<
+REM PARAM. %1 : chemin+nom du fichier compresse (avec ou sans extension, elle sera ajoutée(%__ZIP_EXTENSION__%) si absente)
 REM PARAM. %2 : ce qu'il faudra retirer du fihier compresse. (Ex: "*.txt")
 REM
 :RemoveAllOccurencesFromZip
@@ -151,7 +204,10 @@ REM
 		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    SET __ZIP_FILE__=%__ZIP_FILE__%.%__ZIP_EXTENSION__%
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_FILE__"
+
+    REM AJOUT DE L'EXTENSION %__ZIP_EXTENSION__% si besoin.
+    CALL "%TRANSVERSE_DOMAIN_DISK_ELEMENTS_DISKELEMENTS_SCRIPT%" AddExtensionToDiskElementIfHasNoExtensionAtAll "%__ZIP_FILE__%" "%__ZIP_EXTENSION__%" __ZIP_FILE__
 
     IF "%__TO_BE_REMOVED__%." NEQ "." (
 
