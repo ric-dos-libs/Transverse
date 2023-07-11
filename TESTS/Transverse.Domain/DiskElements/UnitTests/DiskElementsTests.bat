@@ -41,7 +41,10 @@ SETLOCAL ENABLEDELAYEDEXPANSION
   
   REM ==============================================================================================================
     
-  CALL :GetDiskElementExtension_Run_TESTS
+  @REM CALL :GetDiskElementExtension_Run_TESTS
+  CALL :AddExtensionToDiskElementIfHasNoExtensionAtAll_Run_TESTS
+
+  
 
 
 (ENDLOCAL
@@ -149,6 +152,107 @@ REM
 
     SET __RESULT__=
     CALL "%TRANSVERSE_UNDER_TEST%" GetDiskElementExtension "%__DISK_ELEMENT_FULLNAME__%" __RESULT__
+    @REM ECHO __RESULT__=%__RESULT__%
+
+    CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
+
+  (ENDLOCAL
+  )
+
+GOTO :EOF
+
+
+REM====================================================================================================================
+
+
+
+REM====================================================================================================================
+REM ======= Lancement de tous les Tests pour la fonction AddExtensionToDiskElementIfHasNoExtensionAtAll =======
+REM
+:AddExtensionToDiskElementIfHasNoExtensionAtAll_Run_TESTS
+  SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage ""	
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "   ****** TEST de AddExtensionToDiskElementIfHasNoExtensionAtAll ******"
+
+    CALL :AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasNoExtension_ShouldReturnWithThePassedExtension
+    CALL :AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasExtension_ShouldReturnTheOriginal
+		
+  (ENDLOCAL
+  )
+GOTO :EOF
+
+
+REM ======= AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasNoExtension_ShouldReturnWithThePassedExtension =======
+:AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasNoExtension_ShouldReturnWithThePassedExtension
+  SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasNoExtension_ShouldReturnWithThePassedExtension -"
+
+    SET EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE=txt
+    SET DISK_ELEMENT_FULLNAME=c:/aaa\toto
+    SET EXPECTED_RESULT=%DISK_ELEMENT_FULLNAME%.%EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE%
+    CALL :AddExtensionToDiskElementIfHasNoExtensionAtAll_Run_Test "%EXPECTED_RESULT%" "%DISK_ELEMENT_FULLNAME%" "%EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE%"
+
+    @REM CALL "%MESSAGES_DISPLAYER%" WriteMessage ""
+
+    SET EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE=txt
+    SET DISK_ELEMENT_FULLNAME=c:/aaa\toto.
+    SET EXPECTED_RESULT=%DISK_ELEMENT_FULLNAME%%EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE%
+    CALL :AddExtensionToDiskElementIfHasNoExtensionAtAll_Run_Test "%EXPECTED_RESULT%" "%DISK_ELEMENT_FULLNAME%" "%EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE%"
+
+  (ENDLOCAL
+  )
+GOTO :EOF
+
+REM ======= AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasExtension_ShouldReturnTheOriginal =======
+:AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasExtension_ShouldReturnTheOriginal
+  SETLOCAL
+        
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- AddExtensionToDiskElementIfHasNoExtensionAtAll_WhenHasExtension_ShouldReturnTheOriginal -"
+
+    SET EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE=txt
+    SET DISK_ELEMENT_FULLNAME=c:/aaa\toto.xls
+    SET EXPECTED_RESULT=%DISK_ELEMENT_FULLNAME%
+    CALL :AddExtensionToDiskElementIfHasNoExtensionAtAll_Run_Test "%EXPECTED_RESULT%" "%DISK_ELEMENT_FULLNAME%" "%EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE%"
+
+  (ENDLOCAL
+  )
+GOTO :EOF
+
+
+
+REM ======= Test de la fonction AddExtensionToDiskElementIfHasNoExtensionAtAll =======
+REM 		
+REM PARAM. %1 : resultat attendu
+REM PARAM. %2 : fullname de l'element disque
+REM PARAM. %3 : extension à ajouter si %2  n'a pas d'extension
+REM
+REM
+:AddExtensionToDiskElementIfHasNoExtensionAtAll_Run_Test
+  SETLOCAL
+				
+    SET __EXPECTED_RESULT__=%~1
+    SET __DISK_ELEMENT_FULLNAME__=%~2
+    SET __EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE__=%~3
+
+    @REM ECHO.
+    @REM ECHO ====== FUNC : AddExtensionToDiskElementIfHasNoExtensionAtAll_Run_Test ======
+    @REM ECHO.
+    @REM ECHO __EXPECTED_RESULT__='%__EXPECTED_RESULT__%'
+    @REM ECHO __DISK_ELEMENT_FULLNAME__='%__DISK_ELEMENT_FULLNAME__%'
+    @REM ECHO __EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE__='%__EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE__%'
+    @REM ECHO.
+    @REM ECHO.
+    @REM PAUSE
+    @REM ECHO. & ECHO.
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage " Avec DISK_ELEMENT_FULLNAME='%__DISK_ELEMENT_FULLNAME__%' et EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE='%__EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE__%'"
+
+    SET __RESULT__=
+    CALL "%TRANSVERSE_UNDER_TEST%" AddExtensionToDiskElementIfHasNoExtensionAtAll "%__DISK_ELEMENT_FULLNAME__%" "%__EXTENSION_TO_ADD_IF_NOT_ALREADY_ONE__%" __RESULT__
     @REM ECHO __RESULT__=%__RESULT__%
 
     CALL "%TESTING_TOOL%" AssertAreEqual "%__RESULT__%" "%__EXPECTED_RESULT__%"
