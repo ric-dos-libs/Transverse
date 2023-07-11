@@ -55,7 +55,7 @@ REM ======================================= FUNCTIONS DEFINITION ===============
 REM =============================================================================================================================================
 	
 
-REM ======= Fonction chargee de creer et/ou completer un fichier compresse de chemin+nom %1 =======
+REM ======= Fonction chargee de creer et/ou completer un fichier compresse de chemin+nom(+ext) %1 =======
 REM         en y ajoutant le DiskElement %2.
 REM         Si %1 non renseigne => message de fatal error puis fermeture fenetre.
 REM         Si %2 n'existe pas => message de fatal error puis fermeture fenetre.
@@ -91,7 +91,7 @@ REM
 GOTO :EOF
 
 
-REM ======= Fonction chargee de Dézipper le fichier compresse de chemin+nom %1 =======
+REM ======= Fonction chargee de Dézipper le fichier compresse de chemin+nom(+ext) %1 =======
 REM         vers le repertoire %2.
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
 REM         Si le repertoire %2 n'existe pas, alors il est cree.
@@ -135,12 +135,12 @@ GOTO :EOF
 
 
 REM ======= Fonction chargee de Dézipper dans le repertoire %3,
-REM         - ou bien l'arborescence interne %2 du fichier compresse de chemin+nom %1, si %2 désigne un chemin interne au zip
+REM         - ou bien l'arborescence interne %2 du fichier compresse de chemin+nom(+ext) %1, si %2 désigne un chemin interne au zip
 REM            ATTENTION dans ce cas %2 ne doit pas représenter la racine du Zip 
 REM                      (c-à-d qu'une valeur :   "" ou "/" ou "\" ou "." ou "./" ou ".\", etc... ne donnera rien de traitable ici !!) 
 REM           Rem. : ce qui sera dézippé dans %3, sera tout le CONTENU de %2 ! (toute profondeur).
 REM
-REM         - ou bien le fichier %2 du fichier compresse de chemin+nom %1, si %2 désigne un fichier (avec chemin ou non) interne au zip
+REM         - ou bien le fichier %2 du fichier compresse de chemin+nom(+ext) %1, si %2 désigne un fichier (avec chemin ou non) interne au zip
 REM
 REM        
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
@@ -190,7 +190,7 @@ GOTO :EOF
 
 
 
-REM ======= Fonction chargee de retirer du fichier compresse de chemin+nom %1, =======
+REM ======= Fonction chargee de retirer du fichier compresse de chemin+nom(+ext) %1, =======
 REM         tous les DiskElements vérifiant :  %2 (par exe. %2 = "*.lnk")
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
 REM 
