@@ -10,37 +10,48 @@ SET de_CURRENT_SCRIPT_PATH_de=%~dp0
 
 
 REM -----------------------------------------------------------------
-REM Recup. de constantes
-SET TRANSVERSE_INFRA_COMMON_PATH=%de_CURRENT_SCRIPT_PATH_de%../_Common
+SET TRANSVERSE_INFRA_PATH=%de_CURRENT_SCRIPT_PATH_de%..
+SET TRANSVERSE_INFRA_COMMON_PATH=%TRANSVERSE_INFRA_PATH%/_Common
 CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
 
+REM Recup. de constantes
 CALL "%TRANSVERSE_COMMON_CONSTANTS_SCRIPT%"
+
+REM Pour le MessagesDisplayer
+SET TRANSVERSE_UI_PATH=%TRANSVERSE_INFRA_PATH%/../Transverse.UI
+SET TRANSVERSE_UI_COMMON_PATH=%TRANSVERSE_UI_PATH%/_Common
+CALL "%TRANSVERSE_UI_COMMON_PATH%/_Pathes.bat"
+
+
 
 
 
 
 
 REM ==================== FUNCTION CALL ====================================	
-IF %1. EQU EmptyFolder. (
-	CALL :EmptyFolder %2 %3
-	
-) ELSE IF %1. EQU DeleteFolder. (
+IF %1. EQU DeleteFolder. (
+  REM Tests ok
 	CALL :DeleteFolder %2 %3
 	
 ) ELSE IF %1. EQU CopyFolder. (
+  REM Tests ok  
 	CALL :CopyFolder %2 %3
+	
+) ELSE IF %1. EQU Exists. (
+  REM Tests ok  
+	CALL :Exists %2 %3
+
+) ELSE IF %1. EQU DoesntExist. (
+  REM Tests ok  
+	CALL :DoesntExist %2 %3
+
+) ELSE IF %1. EQU EmptyFolder. (
+	CALL :EmptyFolder %2 %3
 	
 ) ELSE IF %1. EQU DeleteFile. (
 	CALL :DeleteFile %2 %3 %4
 
-) ELSE IF %1. EQU Exists. (
-	CALL :Exists %2 %3
-
-) ELSE IF %1. EQU DoesntExist. (
-	CALL :DoesntExist %2 %3
-
-) 
-
+)
 
 @REM ELSE IF %1. EQU DeleteFolderIfNotThisOne. (
 @REM 	CALL :DeleteFolderIfNotThisOne %2 %3 %4
@@ -69,7 +80,8 @@ REM ============================================================================
 REM ======= ATTENTION : fonction chargee d'effacer totalement le dossier %1  =======
 REM 		
 REM PARAM. %1 : chemin+nom du dossier
-REM PARAM. %2 (facultatif) : le passer <> 1, si l'on ne souhaite pas une pause avec message d'avertissement, avant suppression. (Val. par défaut : 1)
+REM PARAM. %2 (facultatif) : le passer <> %TRUE%, si l'on ne souhaite pas une pause avec message d'avertissement, 
+REM                          avant suppression. (Val. par défaut : %TRUE%)
 REM
 :DeleteFolder
 	SETLOCAL
@@ -78,44 +90,60 @@ REM
 		SET __PROMPT_BEFORE_DELETE__=%~2
 		
 		
+		SET __PROMPT_BEFORE_DELETE_DEFAULT_VALUE__=%TRUE%
 		
-		SET __PROMPT_BEFORE_DELETE_ON__=1
-		
-		IF "!__PROMPT_BEFORE_DELETE__!." EQU "."  (
-			SET __PROMPT_BEFORE_DELETE__=!__PROMPT_BEFORE_DELETE_ON__!
+		IF "%__PROMPT_BEFORE_DELETE__%." EQU "."  (
+			SET __PROMPT_BEFORE_DELETE__=%__PROMPT_BEFORE_DELETE_DEFAULT_VALUE__%
 		)
 
 		
-		ECHO.
-		ECHO ====== FUNC : DeleteFolder - (%CURRENT_NAMESPACE%) ======
-		ECHO.
-		ECHO '__FOLDER__'='%__FOLDER__%'
-		ECHO '__PROMPT_BEFORE_DELETE__'='%__PROMPT_BEFORE_DELETE__%'
-		ECHO. & ECHO.
-		REM PAUSE
+		@REM ECHO.
+		@REM ECHO ====== FUNC : DeleteFolder - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======    
+		@REM ECHO.
+		@REM ECHO __FOLDER__='%__FOLDER__%'
+		@REM ECHO __PROMPT_BEFORE_DELETE__='%__PROMPT_BEFORE_DELETE__%'
+		@REM ECHO. & ECHO.
+		@REM PAUSE
+
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__FOLDER__"
+
+    SET NB_SECONDS_BEFORE_DELETE=3
+    SET NB_SECONDS_MESSAGE_TO_SAY_NOT_DELETED=4
+		IF EXIST "%__FOLDER__%" (
 		
-		IF EXIST "!__FOLDER__!" (
-		
-			IF "!__PROMPT_BEFORE_DELETE__!" EQU "!__PROMPT_BEFORE_DELETE_ON__!" (
-				ECHO.
-				ECHO ATTENTION, 
-				ECHO le dossier suivant existe et va etre efface :
-				ECHO  "!__FOLDER__!"
-				ECHO.
+			IF "%__PROMPT_BEFORE_DELETE__%" EQU "%TRUE%" (
+				CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "ATTENTION,"
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "le dossier suivant existe et va etre efface :"
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "'%__FOLDER__%'"
+				CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
 				PAUSE
 				
 			) ELSE (
-				ECHO. & ECHO.
-				ECHO SUPPRESSION DU DOSSIER :
-				ECHO "!__FOLDER__!"
-				ECHO. & ECHO.
-				
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "SUPPRESSION DU DOSSIER dans %NB_SECONDS_BEFORE_DELETE% sec. :"
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "'%__FOLDER__%'"
+				CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+				CALL "%TRANSVERSE_INFRA_DATE_TIME_SCRIPT%" Delay "%NB_SECONDS_BEFORE_DELETE%"
 			)
 			
-			RD /S /Q "!__FOLDER__!"	
+			RD /S /Q "%__FOLDER__%"
 
-		)		
+      IF EXIST "%__FOLDER__%" (
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "La SUPPRESSION du DOSSIER suivant n'a pas eu lieu :"
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "  '%__FOLDER__%'"
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""
+        CALL "%TRANSVERSE_INFRA_DATE_TIME_SCRIPT%" Delay "%NB_SECONDS_MESSAGE_TO_SAY_NOT_DELETED%"
+      )
 
+		)	ELSE (
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "" 2
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "La SUPPRESSION du DOSSIER suivant n'a pas eu lieu car il est inexistant :"
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage "  '%__FOLDER__%'"
+        CALL "%TRANSVERSE_UI_MESSAGES_MESSAGES_DISPLAYER_SCRIPT%" WriteMessage ""      
+    )	
 		
 	(ENDLOCAL
 	)
@@ -201,11 +229,14 @@ GOTO :EOF
 
 
 
-REM Fonction chargee de copier la totalite du dossier %1 dans le dossier %2.
-REM (%2 sera cree si inexistant).
-REM  Rem.1 : si des fichiers de meme nom mais plus recents existent deja dans %2, <<<<<
-REM          alors ils ne seront pas ecrases.
-REM  Rem.2 : ici, la demande de copie d'un lien symbolique, donnera lieu a la copie  -(sous-dossiers eventuellement inclus compris)-  de ce qui est pointed par ce lien.
+REM Fonction chargee de copier la totalité du contenu du dossier %1 dans le dossier %2.
+REM    (%2 sera créé si inexistant).
+REM
+REM  ATTENTION : si des fichiers de même nom existent déja dans %2 :
+REM              alors ils ne seront écrasés QUE s'ils sont moins récents que ceux respectifs de la source. <<<<<<<<<<<<<<<
+REM
+REM  Rem. : ici, la demande de copie d'un lien symbolique, donnera lieu a la copie  -(sous-dossiers eventuellement inclus compris)-  
+REM          de ce qui est pointé par ce lien.
 REM
 REM PARAM. %1 : chemin+nom du DOSSIER source.
 REM PARAM. %2 : chemin+nom du DOSSIER desti.
@@ -217,20 +248,22 @@ REM
 		SET __DESTI_FOLDER__=%~2
 
 		
-		ECHO.
-		ECHO ====== FUNC : CopyFolder - (%CURRENT_NAMESPACE%) ======
-		ECHO.
-		ECHO '__SOURCE_FOLDER__'='%__SOURCE_FOLDER__%'
-		ECHO '__DESTI_FOLDER__'='%__DESTI_FOLDER__%'
-		ECHO.
-		REM PAUSE
-		ECHO. & ECHO.		
+		@REM ECHO.
+		@REM ECHO ====== FUNC : CopyFolder - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+		@REM ECHO __SOURCE_FOLDER__='%__SOURCE_FOLDER__%'
+		@REM ECHO __DESTI_FOLDER__='%__DESTI_FOLDER__%'
+		@REM ECHO.
+		@REM REM PAUSE
+		@REM ECHO. & ECHO.
+
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__SOURCE_FOLDER__"
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__DESTI_FOLDER__"
+
+    CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__SOURCE_FOLDER__%"
 		
-		IF EXIST "!__SOURCE_FOLDER__!"   (
-			IF NOT EXIST "!__DESTI_FOLDER__!"  MKDIR "!__DESTI_FOLDER__!"
-			XCOPY /D /Y /E/S   "!__SOURCE_FOLDER__!"  "!__DESTI_FOLDER__!"
-		)
-		
+    IF NOT EXIST "%__DESTI_FOLDER__%"  MD "%__DESTI_FOLDER__%"
+    XCOPY /D /Y /E/S   "%__SOURCE_FOLDER__%"  "%__DESTI_FOLDER__%"
 		
 	(ENDLOCAL
 	)
@@ -464,3 +497,4 @@ REM
     SET %2=%__NOT_EXISTS__%
 	)
 GOTO :EOF
+
