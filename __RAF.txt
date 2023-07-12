@@ -15,6 +15,12 @@
 
   + TU bien sûr
 
+. Ajouter à DiskElementsService.bat + TU :
+  . CreateEmptyFile   (COPY NUL "MonFichierSeralorsVide.txt")
+  . IsEmptyFile (cf. DIVERS.TXT)
+  . GetFileContent (cf. DIVERS.TXT)
+
+
 
 ================= PRIO 02 =======================
 
