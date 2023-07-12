@@ -36,14 +36,13 @@
 
 ================= PRIO 03 =======================
 
-
 . Mettre à jour DateTimeTests.bat de sorte à exploiter les nouvelles assertions (IsInt, ... IsNDigitsPositiveInt, ...)
   dispos dans la Testing Lib(cf. PRIO 02).
 
+. Ecrire les TU pour EmptyFolder et DeleteFile de .\Src\Transverse.Infra\Services\DiskElementsService.bat
+
 
 ================= PRIO 04 =======================
-- Ecrire les TU de .\Src\Transverse.Infra\Services\DiskElementsService.bat
-  Ecrire de préférence, ces TU avant que ces FUNCTIONS de DiskElements.bat soient utilisées !
 
 
 ================= PRIO 07 =======================
