@@ -47,6 +47,8 @@
        _Common<-(Domain, Application, Infra, UI, API)
        Domain<-Application<-(UI,API,Infra) 
        et même :  Domain<-Infra(pour implém. IRepositories du domaine ET mappages enregs/Entités)
+
+       AUSSI on pourra éventuellement avoir : Infra<-(UI,API) mais pas l'inverse.
      )
 
   Transverse pourra donc servir dans son intégralité livrée, comme "librairie" de base, 
