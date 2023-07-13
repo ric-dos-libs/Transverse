@@ -36,7 +36,7 @@ REM PARAM. %2 : suffixe du nom de la var. d'environnement.
 REM PARAM. %3 : retour par référence, de la valeur de la dite var d'environnement.
 REM  
 :GetVarValue
-SETLOCAL 
+SETLOCAL ENABLEDELAYEDEXPANSION
   SET __VAR_PREFIX__=%~1
   SET __VAR_SUFFIX__=%~2
 
