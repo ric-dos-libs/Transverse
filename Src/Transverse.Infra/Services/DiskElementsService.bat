@@ -17,10 +17,6 @@ CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
 REM Recup. de constantes
 CALL "%TRANSVERSE_COMMON_CONSTANTS_SCRIPT%"
 
-REM Pour le MessagesDisplayer
-SET TRANSVERSE_UI_PATH=%TRANSVERSE_INFRA_PATH%/../Transverse.UI
-SET TRANSVERSE_UI_COMMON_PATH=%TRANSVERSE_UI_PATH%/_Common
-CALL "%TRANSVERSE_UI_COMMON_PATH%/_Pathes.bat"
 
 
 
@@ -33,9 +29,9 @@ IF %1. EQU DeleteFolder. (
   REM Tests ok
 	CALL :DeleteFolder %2 %3
 	
-) ELSE IF %1. EQU CopyFolder. (
+) ELSE IF %1. EQU CopyFileOrFolderContentToFolder. (
   REM Tests ok  
-	CALL :CopyFolder %2 %3
+	CALL :CopyFileOrFolderContentToFolder %2 %3
 	
 ) ELSE IF %1. EQU Exists. (
   REM Tests ok  
@@ -231,6 +227,8 @@ GOTO :EOF
 
 REM Fonction chargee de copier la totalité du contenu du dossier %1 dans le dossier %2.
 REM    (%2 sera créé si inexistant).
+REM Si %1 est en fait un fichier (avec ou sans chemin), l'opération de copie FONCTIONNE QUAND MÊME. <<<<<<<<<
+REM   le fichier est alors simplement copié dans %2.
 REM
 REM  ATTENTION : si des fichiers de même nom existent déja dans %2 :
 REM              alors ils ne seront écrasés QUE s'ils sont moins récents que ceux respectifs de la source. <<<<<<<<<<<<<<<
@@ -238,32 +236,36 @@ REM
 REM  Rem. : ici, la demande de copie d'un lien symbolique, donnera lieu a la copie  -(sous-dossiers eventuellement inclus compris)-  
 REM          de ce qui est pointé par ce lien.
 REM
-REM PARAM. %1 : chemin+nom du DOSSIER source.
+REM PARAM. %1 : chemin+nom du DiskElement source.
 REM PARAM. %2 : chemin+nom du DOSSIER desti.
 REM
-:CopyFolder
+:CopyFileOrFolderContentToFolder
 	SETLOCAL
 				
-		SET __SOURCE_FOLDER__=%~1
+		SET __SOURCE_DISK_ELEMENT__=%~1
 		SET __DESTI_FOLDER__=%~2
 
 		
 		@REM ECHO.
-		@REM ECHO ====== FUNC : CopyFolder - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO ====== FUNC : CopyFileOrFolderContentToFolder - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
 		@REM ECHO.
-		@REM ECHO __SOURCE_FOLDER__='%__SOURCE_FOLDER__%'
+		@REM ECHO __SOURCE_DISK_ELEMENT__='%__SOURCE_DISK_ELEMENT__%'
 		@REM ECHO __DESTI_FOLDER__='%__DESTI_FOLDER__%'
 		@REM ECHO.
-		@REM REM PAUSE
+		@REM PAUSE
 		@REM ECHO. & ECHO.
 
-    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__SOURCE_FOLDER__"
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__SOURCE_DISK_ELEMENT__"
     CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__DESTI_FOLDER__"
 
-    CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__SOURCE_FOLDER__%"
+    CALL "%TRANSVERSE_INFRA_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckDiskElementExists "%__SOURCE_DISK_ELEMENT__%"
+
+    Rem Transformation des "/" en "\", pour les cas où __SOURCE_DISK_ELEMENT__ est un fichier et non un dossier. (La copie ne se ferait pas sinon !! Eh oui c'est comme ça).
+    CALL "%TRANSVERSE_COMMON_STRING_SCRIPT%" SlashToBackSlash "%__SOURCE_DISK_ELEMENT__%" __SOURCE_DISK_ELEMENT__
+    @REM ECHO __SOURCE_DISK_ELEMENT__='%__SOURCE_DISK_ELEMENT__%'
 		
     IF NOT EXIST "%__DESTI_FOLDER__%"  MD "%__DESTI_FOLDER__%"
-    XCOPY /D /Y /E/S   "%__SOURCE_FOLDER__%"  "%__DESTI_FOLDER__%"
+    XCOPY /D /Y /E/S   "%__SOURCE_DISK_ELEMENT__%"  "%__DESTI_FOLDER__%"
 		
 	(ENDLOCAL
 	)

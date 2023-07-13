@@ -22,6 +22,10 @@ SET TRANSVERSE_INFRA_COMMON_PATH=%_CURRENT_SCRIPT_PATH_%_Common
 CALL "%TRANSVERSE_INFRA_COMMON_PATH%/_Pathes.bat"
 
 
+REM Recup. de constantes
+CALL "%TRANSVERSE_COMMON_CONSTANTS_SCRIPT%"
+
+
 
 
 
@@ -35,6 +39,9 @@ IF %1. EQU AddToZip. (
 
 ) ELSE IF %1. EQU PartialUnZip. (
 	CALL :PartialUnZip %2 %3 %4
+
+) ELSE IF %1. EQU PartialUnZipContent. (
+	CALL :PartialUnZipContent %2 %3 %4
  
 ) ELSE IF %1. EQU RemoveAllOccurencesFromZip. (
 	CALL :RemoveAllOccurencesFromZip %2 %3
@@ -145,6 +152,7 @@ REM           Rem. : c'est bien le fichier %2 AVEC son chemin ! qui sera alors d
 REM        
 REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
 REM         Si le repertoire %3 n'existe pas, alors il est cree.
+REM
 REM 
 REM PARAM. %1 : chemin+nom du fichier compresse (avec ou sans extension, elle sera ajoutée(%__ZIP_EXTENSION__%) si absente)
 REM PARAM. %2 : arborescence ou fichier -(dans le fichier zip)- que l'on veut extraire.
@@ -183,6 +191,60 @@ REM
 
 
     CALL "%__ZIPPER__%" x -y "%__ZIP_FILE__%" "%__ZIP_CONTENT_TO_UNZIP__%" -o"%__TARGET_FOLDER__%"
+
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+
+REM ======= Fonction chargee de Dézipper dans le repertoire %3 :
+REM         - ou bien uniquement le CONTENU de l'arborescence interne %2 du fichier compresse de chemin+nom(+ext) %1, si %2 désigne un chemin interne au zip
+REM            ATTENTION dans ce cas %2 ne doit pas représenter la racine du Zip 
+REM                      (c-à-d qu'une valeur :   "" ou "/" ou "\" ou "." ou "./" ou ".\", etc... ne donnera rien de traitable ici !!) 
+REM           Rem. : c'est bien LE CONTENU de l'arborescence %2, donc SANS son chemin ! qui sera dézippée dans %3.
+REM
+REM         - ou bien le fichier %2 du fichier compresse de chemin+nom(+ext) %1, si %2 désigne un fichier (avec chemin ou non) interne au zip
+REM           Rem. : c'est bien LE FICHIER %2 lui-même SANS son chemin ! qui sera alors dézippé dans %3.
+REM        
+REM         Si le fichier %1 n'existe pas => message de fatal error puis fermeture fenetre.
+REM         Si le repertoire %3 n'existe pas, alors il est cree.
+REM
+REM 
+REM PARAM. %1 : chemin+nom du fichier compresse (avec ou sans extension, elle sera ajoutée(%__ZIP_EXTENSION__%) si absente)
+REM PARAM. %2 : arborescence ou fichier -(dans le fichier zip)- que l'on veut extraire.
+REM PARAM. %3 : repertoire vers lequel dezipper. Val. par defaut : "." (repertoire courant)
+REM
+:PartialUnZipContent
+	SETLOCAL
+
+    SET __ZIP_FILE__=%~1
+    SET __ZIP_CONTENT_TO_UNZIP__=%~2
+    SET __TARGET_FOLDER__=%~3
+				
+		@REM ECHO.
+		@REM ECHO ====== FUNC : PartialUnZipContent - '%_CURRENT_SCRIPT_NAME_EXT_%' - [ %CURRENT_NAMESPACE% ] ======
+		@REM ECHO.
+    @REM ECHO __ZIP_FILE__='%__ZIP_FILE__%'
+    @REM ECHO __ZIP_CONTENT_TO_UNZIP__='%__ZIP_CONTENT_TO_UNZIP__%'
+    @REM ECHO __TARGET_FOLDER__='%__TARGET_FOLDER__%'
+		@REM PAUSE
+		@REM ECHO. & ECHO.
+
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_FILE__"
+    CALL "%TRANSVERSE_COMMON_CHECK_FATAL_ERRORS_SCRIPT%" CheckVarExists "__ZIP_CONTENT_TO_UNZIP__"
+
+    SET __TIME__=
+    CALL "%TRANSVERSE_INFRA_DATE_TIME_SCRIPT%" GetTime __TIME__ "h" "m" "s"
+    SET __TEMP_TARGET_FOLDER__=%TEMP%/__PartialUnZipContent/%__TIME__%
+    @REM ECHO __TEMP_TARGET_FOLDER__='%__TEMP_TARGET_FOLDER__%'
+    CALL :PartialUnZip "%__ZIP_FILE__%" "%__ZIP_CONTENT_TO_UNZIP__%" "%__TEMP_TARGET_FOLDER__%"
+
+    SET __EXTRACTED_DISK_ELEMENT__=%__TEMP_TARGET_FOLDER__%/%__ZIP_CONTENT_TO_UNZIP__%
+    @REM ECHO __EXTRACTED_DISK_ELEMENT__='%__EXTRACTED_DISK_ELEMENT__%'
+
+    CALL "%TRANSVERSE_INFRA_SERVICES_DISK_ELEMENTS_SERVICE_SCRIPT%" CopyFileOrFolderContentToFolder "%__EXTRACTED_DISK_ELEMENT__%" "%__TARGET_FOLDER__%"
+    CALL "%TRANSVERSE_INFRA_SERVICES_DISK_ELEMENTS_SERVICE_SCRIPT%" DeleteFolder "%__TEMP_TARGET_FOLDER__%" "%FALSE%"
 
 	(ENDLOCAL
 	)

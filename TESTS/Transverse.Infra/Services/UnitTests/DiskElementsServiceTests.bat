@@ -60,7 +60,7 @@ REM
 :_Run_TESTS
 	SETLOCAL
 
-    CALL :CopyFolder_Run_TESTS
+    CALL :CopyFileOrFolderContentToFolder_Run_TESTS
     CALL :DeleteFolder_Run_TESTS
     CALL :Exists_Run_TESTS
     CALL :DoesntExist_Run_TESTS
@@ -71,31 +71,32 @@ GOTO :EOF
 
 
 REM====================================================================================================================
-REM ======= Lancement de tous les Tests pour la fonction CopyFolder =======
+REM ======= Lancement de tous les Tests pour la fonction CopyFileOrFolderContentToFolder =======
 REM
-:CopyFolder_Run_TESTS
+:CopyFileOrFolderContentToFolder_Run_TESTS
 	SETLOCAL
 				
     CALL "%MESSAGES_DISPLAYER%" WriteMessage ""	3        
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "   ****** TEST de CopyFolder ******"
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "   ****** TEST de CopyFileOrFolderContentToFolder ******"
 
-    CALL :CopyFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder
-    CALL :CopyFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder
+    CALL :CopyFileOrFolderContentToFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder
+    CALL :CopyFileOrFolderContentToFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder
+    CALL :CopyFileOrFolderContentToFolder_WhenSourceIsAFile_ShouldCopyThisFileToDestiFolder
 
 	(ENDLOCAL
 	)
 GOTO :EOF
 
 
-REM ======= CopyFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder =======
-:CopyFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder
+REM ======= CopyFileOrFolderContentToFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder =======
+:CopyFileOrFolderContentToFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder
 	SETLOCAL
 
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- CopyFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder -"
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- CopyFileOrFolderContentToFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFolder -"
 
 
-    SET __TEST__ROOT_PATH__=%TEMP%/_DOS_Tests_CopyFolder
+    SET __TEST__ROOT_PATH__=%TEMP%/_DOS_Tests_CopyFileOrFolderContentToFolder
     IF EXIST "%__TEST__ROOT_PATH__%" RD /S /Q "%__TEST__ROOT_PATH__%"
 
 
@@ -136,7 +137,7 @@ REM ======= CopyFolder_WhenDestiFolderExists_ShouldCopySourceFolderIntoDestiFold
 
 
     REM ================= Copy ===============
-    CALL "%TRANSVERSE_UNDER_TEST%" CopyFolder "%__SRC_FOLDER__%" "%__DEST_FOLDER__%"
+    CALL "%TRANSVERSE_UNDER_TEST%" CopyFileOrFolderContentToFolder "%__SRC_FOLDER__%" "%__DEST_FOLDER__%"
 
 
     REM ================ ASSERTS =============
@@ -156,15 +157,15 @@ GOTO :EOF
 
 
 
-REM ======= CopyFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder =======
-:CopyFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder
+REM ======= CopyFileOrFolderContentToFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder =======
+:CopyFileOrFolderContentToFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder
 	SETLOCAL
 
     CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
-    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- CopyFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder -"
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- CopyFileOrFolderContentToFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFolderIntoThisDestiFolder -"
 
 
-    SET __TEST__ROOT_PATH__=%TEMP%/_DOS_Tests_CopyFolder
+    SET __TEST__ROOT_PATH__=%TEMP%/_DOS_Tests_CopyFileOrFolderContentToFolder
     IF EXIST "%__TEST__ROOT_PATH__%" RD /S /Q "%__TEST__ROOT_PATH__%"
 
 
@@ -204,7 +205,7 @@ REM ======= CopyFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFol
 
 
     REM ================= Copy ===============
-    CALL "%TRANSVERSE_UNDER_TEST%" CopyFolder "%__SRC_FOLDER__%" "%__DEST_FOLDER__%"
+    CALL "%TRANSVERSE_UNDER_TEST%" CopyFileOrFolderContentToFolder "%__SRC_FOLDER__%" "%__DEST_FOLDER__%"
 
 
     REM ================ ASSERTS =============
@@ -221,6 +222,50 @@ REM ======= CopyFolder_WhenDestiFolderDoesntExist_ShouldCreateItAndCopySourceFol
 	(ENDLOCAL
 	)
 GOTO :EOF
+
+
+REM ======= CopyFileOrFolderContentToFolder_WhenSourceIsAFile_ShouldCopyThisFileToDestiFolder =======
+:CopyFileOrFolderContentToFolder_WhenSourceIsAFile_ShouldCopyThisFileToDestiFolder
+	SETLOCAL
+
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
+    CALL "%MESSAGES_DISPLAYER%" WriteMessage "- CopyFileOrFolderContentToFolder_WhenSourceIsAFile_ShouldCopyThisFileToDestiFolder -"
+
+
+    SET __TEST__ROOT_PATH__=%TEMP%/_DOS_Tests_CopyFileOrFolderContentToFolder
+    IF EXIST "%__TEST__ROOT_PATH__%" RD /S /Q "%__TEST__ROOT_PATH__%"
+    MD "%__TEST__ROOT_PATH__%"
+
+
+    REM ================= Create source file ===============
+    SET __SRC_FILE_NAME_EXT__=source.txt
+    SET __SRC_FILE_PATH__=%__TEST__ROOT_PATH__%/SubFolder
+    MD "%__SRC_FILE_PATH__%"
+    SET __SRC_FILE__=%__SRC_FILE_PATH__%/%__SRC_FILE_NAME_EXT__%
+    COPY NUL "%__SRC_FILE__%"
+
+    REM ================= Define desti folder ===============
+    SET __DEST_FOLDER__=%__TEST__ROOT_PATH__%/DestiFolder
+    
+
+    REM ================= Copy ===============
+    CALL "%TRANSVERSE_UNDER_TEST%" CopyFileOrFolderContentToFolder "%__SRC_FILE__%" "%__DEST_FOLDER__%"
+
+
+    REM ================ ASSERTS =============
+    CALL "%TESTING_TOOL%" AssertDiskElementExists "%__DEST_FOLDER__%/%__SRC_FILE_NAME_EXT__%"
+
+
+    REM ============================ Clean Tests Folder ================================================
+    RD /S/Q "%__TEST__ROOT_PATH__%"
+
+
+	(ENDLOCAL
+	)
+GOTO :EOF
+
+
+
 
 
 
