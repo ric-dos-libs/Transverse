@@ -6,7 +6,7 @@ REM sont optionnelles.
 REM 
 REM  >Pour le contenu de FOLDER_TO_PACKAGE_PATH,
 REM    seront seulement zippés : les dossiers %LIB_NAME%.*,
-REM                            ainsi que le fichier _Init.bat présent à la racine de FOLDER_TO_PACKAGE_PATH.
+REM                            ainsi que les fichiers _Init.bat et __CALL.bat, présents à la racine de FOLDER_TO_PACKAGE_PATH.
 REM
 REM Il est comme évoqué, également possible de préciser un SUBFOLDER_TO_PACKAGE_NAME :
 REM  qui est juste un sous-dossier supplémentaire de FOLDER_TO_PACKAGE_PATH, 
@@ -138,7 +138,8 @@ REM ---------------------- CREATION DU PACKAGE -------------------------
 CALL "%MESSAGES_DISPLAYER%" WriteMessage "" 2
 
 CALL "%ZIPPER%" AddToZip "%PACKAGE_FILE%" "%FOLDER_TO_PACKAGE_PATH%/%LIB_NAME%.*" 
-CALL "%ZIPPER%" AddToZip "%PACKAGE_FILE%" "%FOLDER_TO_PACKAGE_PATH%/_Init.bat" 
+CALL "%ZIPPER%" AddToZip "%PACKAGE_FILE%" "%FOLDER_TO_PACKAGE_PATH%/_Init.bat"
+CALL "%ZIPPER%" AddToZip "%PACKAGE_FILE%" "%FOLDER_TO_PACKAGE_PATH%/__CALL.bat"
 
 IF DEFINED SUBFOLDER_TO_PACKAGE_NAME (
   CALL "%ZIPPER%" AddToZip "%PACKAGE_FILE%" "%SUBFOLDER_TO_PACKAGE_PATH%" 
