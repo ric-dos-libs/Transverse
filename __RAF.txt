@@ -1,8 +1,4 @@
 ================= EN COURS =======================
-.Ecriture de "NugetsService.bat UnPack...." avec ajout extension nupkg si non précisée.
-.Ecrire les TU de cela
-
-
 
 
 ================= PRIO 00 =======================
