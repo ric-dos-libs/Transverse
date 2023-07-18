@@ -3,6 +3,12 @@
 
 ================= PRIO 00 =======================
 
+.Ajouter à 7Zip.bat : une fonctionnalité permettant d'ajouter au Zip, une arbo. ou un fichier, 
+                      dans l'une de ses arborescences intérieures.
+                      +TU
+.Ajouter à NugetServices.bat : une fonctionnalité permettant d'ajouter au Package, une arbo. ou un fichier, 
+                      dans son arborescence intérieure : lib/net[dotnetVersion]/
+                      +TU
 
 
 ================= PRIO 01 =======================
