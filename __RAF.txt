@@ -3,12 +3,27 @@
 
 ================= PRIO 00 =======================
 
+.Ajouter un Nugets.bat dans Domain/Nugets/.
+    . déplacer dedans, la constante "NUGETS_EXTENSION" qui était dans NugetsService.bat.
+    . y écrire une fonctionnalité permettant d'extraire le nom et la version d'un fichier Package, 
+      à partir de son chemin+nom+ext
+      (plus précisément à partir de son nom : [NomPackage].[VersionPackage])
+        1. Virer chemin
+        2. Virer suffixe ".nupkg" si existe.
+        3. Couper en 2 le nom, au niveau du 1er point à gauche. <<
+       +TU
+
 .Ajouter à 7Zip.bat : une fonctionnalité permettant d'ajouter au Zip, une arbo. ou un fichier, 
                       dans l'une de ses arborescences intérieures.
                       +TU
-.Ajouter à NugetServices.bat : une fonctionnalité permettant d'ajouter au Package, une arbo. ou un fichier, 
-                      dans son arborescence intérieure : lib/net[dotnetVersion]/
-                      +TU
+.Ajouter à NugetsService.bat : 
+    .une fonctionnalité permettant d'ajouter au Package, une arbo. ou un fichier, 
+     dans son arborescence intérieure : lib/net[dotnetVersion]/
+     +TU
+     
+    .une fonctionnalité permettant d'unpacker un Package, dans l'arbo %USERPROFILE%/.nugets/packages/[PackageName]/PackageVersion]/,
+     comme est capable de le faire Visual Studio en fait !
+     +TU
 
 
 ================= PRIO 01 =======================
