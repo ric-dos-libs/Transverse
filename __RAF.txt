@@ -5,7 +5,7 @@
 
 .Ajouter un Nugets.bat dans Domain/Nugets/.
     . déplacer dedans, la constante "NUGETS_EXTENSION" qui était dans NugetsService.bat.
-    . y écrire une fonctionnalité permettant d'extraire le nom et la version d'un fichier Package, 
+    . y écrire une fonctionnalité permettant d'extraire le nom et la version d'un fichier Package Nuget, 
       à partir de son chemin+nom+ext
       (plus précisément à partir de son nom : [NomPackage].[VersionPackage])
         1. Virer chemin
@@ -54,7 +54,34 @@
 - Ajouter au _TestingLibAdapter.bat et la lib. Testing, le traitement d'Assertions du type ci-dessus :
    IsInt ... à ... IsNDigitsPositiveInt (et MAJ de la Testing Lib--->(cf. D:\__LIBS\Testing\zzDOS\_RAF.txt))
 
+- Ajouter dans couche Infra, DiskElementsService.bat, ajout d'une fonctionnalité de lecture d'une ligne ou 
+  toutes les lignes d'un fichier. + TU
+
+- Ajouter dans couche Infra, un RegistryService.bat pour avoir des fonctionnalités de gestion de la base de registre + TU :
+
+   ATTENTION : il faudra bien mettre des "\" et non des "/" dans les chemins !!
+    .AddSubKey "KeyPath" "SubKey" :  REG ADD "KeyPath\SubKey" /f  (pour le constater visuellement, il faudra redémarrer regedit)
+       "SubKey" : pourra être de la forme "A\B\C\D" si l'on veut.
+    .DelSubKey "KeyPath" "SubKeyName" :  REG DELETE "KeyPath\SubKey" /f  (pour le constater visuellement, il faudra redémarrer regedit)
+       "SubKey" : pourra être de la forme "A\B\C\D" si l'on veut.
+
+    .AddData "KeyFullPath" "DataName", "DataValue" "DataType" : REG ADD "KeyFullPath" /v "DataName" /d "DataValue" /t "DataType" /f
+                                                               (avec DataType par défaut : REG_SZ (chaîne))
+    .DelData "KeyFullPath" "DataName": REG DELETE "KeyFullPath" /v "DataName" /f
+    .GetDataValue "KeyFullPath" "DataName" : REG QUERY "KeyFullPath" /v "DataName" > tempFile.txt
+                                             dans ce tempFileTxt, on trouvera alors une structure de ce type :
+                                              1ère ligne : pas intéressante
+                                              2ème ligne : DataName DataType DataValue
+                                          
+
+- Dans .\Src\Transverse.Infra\Services\DiskElementsService.bat : 
+  . Ecrire les TU pour EmptyFolder et DeleteFile.
+  . Ecrire/Finaliser la fonctionnalité de création d'un Lien Symbolique + TU.
+
+
 - dans DateTimeTests.bat, ajouter les TU pour la fonction GetTime de ./Src/Transverse.Infra/DateTime.bat
+
+
 
 
 ================= PRIO 03 =======================
@@ -62,7 +89,6 @@
 . Mettre à jour DateTimeTests.bat de sorte à exploiter les nouvelles assertions (IsInt, ... IsNDigitsPositiveInt, ...)
   dispos dans la Testing Lib(cf. PRIO 02).
 
-. Ecrire les TU pour EmptyFolder et DeleteFile de .\Src\Transverse.Infra\Services\DiskElementsService.bat
 
 
 ================= PRIO 04 =======================
