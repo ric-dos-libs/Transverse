@@ -1,0 +1,11 @@
+Après Réflexion :
+
+  Je pense qu'une partie des bat (tous ceux ayant ayant trait à des manipulations de fichiers/dossiers),
+  ne devraient pas faire partie de Transverse.*/, mais être déplacés dans un Bounded Context SPÉCIFIQUE
+  à la gestion de DiskElements, par exemple dans : D:\__LIBS\DiskElements\zzDOS\, car le périmètre de la gestion de fichiers/dossiers,
+  comporte un ensemble de règles (/[LANGAGE]/DiskElements.Domain/) ou de cas d'utilisation (/[LANGAGE]/DiskElements.Domain/) réutilisables,
+  voire (/[LANGAGE]/DiskElements.Infra.Persitence/) pour la mise en oeuvre réelle/physique de ces use cases.
+
+  DONC A FAIRE !! 
+  après examen rapide : seront à déplacer, Transverse.Infra.Services/ et 7Zip.bat, et également le dossier _Packaging/ !!!
+  Rappel : la dépendance se fera forcément du nouveau Bounded Context /DiskElements/   vers  Transverse.*/ !!
