@@ -9,3 +9,7 @@ Après Réflexion :
   DONC A FAIRE !! 
   après examen rapide : seront à déplacer, Transverse.Infra.Services/ et 7Zip.bat, et également le dossier _Packaging/ !!!
   Rappel : la dépendance se fera forcément du nouveau Bounded Context /DiskElements/   vers  Transverse.*/ !!
+
+  Aussi, au passage, s'assurer qu'il n'y ait pas de dépendances directes entre 
+  (UI, API) et Infra, que les ÉVENTUELLES demandes de l'UI ou l'API, vis-à-vis de l'Infra.,
+  se fassent par l'INTERMÉDIAIRE de la couche Application !!

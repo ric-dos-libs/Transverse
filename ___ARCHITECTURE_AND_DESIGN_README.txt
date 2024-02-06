@@ -48,7 +48,8 @@
        Domain<-Application<-(UI,API,Infra) 
        et même :  Domain<-Infra(pour implém. IRepositories du domaine ET mappages enregs/Entités)
 
-       AUSSI on pourra éventuellement avoir : Infra<-(UI,API) mais pas l'inverse.
+       Je ne souhaite pas de relation DIRECTE entre Infra et (UI,API), 
+       DONC : passer par la couche Application pour parler à l'Infra.
      )
 
   Transverse pourra donc servir dans son intégralité livrée, comme "librairie" de base, 
